@@ -19,7 +19,10 @@ CREATE TABLE IF NOT EXISTS boards (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     workspace_id UUID REFERENCES workspaces(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    board_key VARCHAR(50) NOT NULL UNIQUE,
+    board_key VARCHAR(100) NOT NULL UNIQUE,
+    emoji VARCHAR(20) DEFAULT '📋',
+    is_custom BOOLEAN DEFAULT FALSE,
+    form_config JSONB DEFAULT '[]'::jsonb,
     description TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -43,22 +46,22 @@ CREATE TABLE IF NOT EXISTS cards (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     position DOUBLE PRECISION NOT NULL DEFAULT 0,
-    due_date DATE NOT NULL, -- Fecha de vencimiento de tarjeta obligatoria
+    due_date DATE, -- Opcional según configuración de tablero
     
-    -- Bloque obligatorio: Datos para transferir
-    transfer_titular VARCHAR(255) NOT NULL,
-    transfer_cuit VARCHAR(50) NOT NULL,
-    transfer_cbu VARCHAR(50) NOT NULL,
-    transfer_monto_ars NUMERIC(15,2) NOT NULL CHECK (transfer_monto_ars > 0),
-    transfer_fecha_desde DATE NOT NULL, -- Fecha reservada A
-    transfer_fecha_hasta DATE NOT NULL, -- Fecha reservada B
-    CHECK (transfer_fecha_hasta >= transfer_fecha_desde),
+    -- Bloque Datos para transferir (Opcional según configuración del tablero)
+    transfer_titular VARCHAR(255),
+    transfer_cuit VARCHAR(50),
+    transfer_cbu VARCHAR(50),
+    transfer_monto_ars NUMERIC(15,2),
+    transfer_fecha_desde DATE,
+    transfer_fecha_hasta DATE,
+    transfer_dias_reservados INT,
 
     -- Estado de Pago (Pendiente / Pagado)
     is_paid BOOLEAN NOT NULL DEFAULT FALSE,
 
     is_closed BOOLEAN DEFAULT FALSE,
-    custom_data JSONB DEFAULT '{}'::jsonb, -- Metadatos adicionales (Centro de costo, PM, factura)
+    custom_data JSONB DEFAULT '{}'::jsonb, -- Metadatos adicionales
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

@@ -2009,7 +2009,8 @@ CREATE TABLE card_attachments (
     // Temp form configuration being edited in settings modal
     let editingBoardConfig = null;
 
-    function loadData() {
+    async function loadData() {
+      // 1. Carga inicial rápida desde caché local
       const stored = localStorage.getItem('celltrex_app_v8') || localStorage.getItem('celltrex_app_v7');
       if (stored) {
         try {
@@ -2021,8 +2022,31 @@ CREATE TABLE card_attachments (
         boards = JSON.parse(JSON.stringify(INITIAL_DATA));
         saveData();
       }
+      ensureDataIntegrity();
 
-      // Ensure formConfig, attachments array and isPaid exist
+      // 2. Sincronización transparente con API backend / PostgreSQL
+      try {
+        const res = await fetch('/api/boards');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            boards = json.data;
+            ensureDataIntegrity();
+            saveData();
+            if (currentBoardId !== 'dashboard') {
+              renderBoard(currentBoardId);
+            } else {
+              renderDashboard();
+            }
+            populateBoardNavSelectors();
+          }
+        }
+      } catch (err) {
+        console.log('Operando en modo local (sin backend PostgreSQL activo):', err.message);
+      }
+    }
+
+    function ensureDataIntegrity() {
       boards.forEach(b => {
         if (!b.formConfig || b.formConfig.length === 0) {
           b.formConfig = JSON.parse(JSON.stringify(INITIAL_FORM_CONFIGS[b.key] || []));

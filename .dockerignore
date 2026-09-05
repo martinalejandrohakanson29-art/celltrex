@@ -1,0 +1,12 @@
+﻿node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.git
+.gitignore
+5PJmcY2U - compras.json
+f67R1byj - viaticos.json
+L8c75Dt8 - anticipos-de-obra.json
+RRuLglNU - hoteles-cochera-y-deposito.json
+.env
+.env.*
