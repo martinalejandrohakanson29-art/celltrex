@@ -1,0 +1,38 @@
+﻿version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: celltrex_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: celltrex_kanban
+      POSTGRES_USER: celltrex_user
+      POSTGRES_PASSWORD: \
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    ports:
+      - 5432:5432
+    networks:
+      - celltrex_network
+
+  web:
+    image: nginx:alpine
+    container_name: celltrex_web
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    depends_on:
+      - postgres
+    networks:
+      - celltrex_network
+
+volumes:
+  pgdata:
+
+networks:
+  celltrex_network:
+    driver: bridge
