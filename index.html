@@ -2833,36 +2833,43 @@ CREATE TABLE card_attachments (
       return dateStr;
     }
 
-    function generatePaymentTranches(fechaDesde, fechaHasta, totalMonto, existingTranches = []) {
-      if (!fechaDesde || !fechaHasta) return [];
+    function generatePaymentTranches(fechaDesde, fechaHasta, totalMonto, existingTranches = [], isIndefinite = false, nightsCount = 0) {
+      if (!fechaDesde) return [];
       const dStart = new Date(fechaDesde + 'T00:00:00');
-      const dEnd = new Date(fechaHasta + 'T00:00:00');
-      if (isNaN(dStart.getTime()) || isNaN(dEnd.getTime())) return [];
+      if (isNaN(dStart.getTime())) return [];
 
-      const diffDays = Math.round((dEnd - dStart) / (1000 * 60 * 60 * 24)) + 1;
-      if (diffDays <= 0) return [];
+      let totalNights = 1;
+      if (isIndefinite || !fechaHasta) {
+        if (nightsCount > 0) {
+          totalNights = nightsCount;
+        } else if (existingTranches && existingTranches.length > 0) {
+          totalNights = existingTranches.length;
+        } else {
+          totalNights = 1;
+        }
+      } else {
+        const dEnd = new Date(fechaHasta + 'T00:00:00');
+        if (isNaN(dEnd.getTime())) return [];
+        const diffDays = Math.round((dEnd - dStart) / (1000 * 60 * 60 * 24));
+        totalNights = Math.max(1, diffDays);
+      }
 
-      const totalDays = diffDays;
-      const numBlocks = Math.ceil(totalDays / 2);
       const tranches = [];
       let accumulatedAmount = 0;
-      const amountPerDay = totalDays > 0 ? (totalMonto / totalDays) : 0;
+      const amountPerNight = totalNights > 0 ? (totalMonto / totalNights) : 0;
 
-      for (let i = 0; i < numBlocks; i++) {
-        const startDayOffset = i * 2;
-        const nights = Math.min(2, totalDays - startDayOffset);
-
-        const blockStart = new Date(dStart.getTime() + startDayOffset * 86400000);
-        const blockEnd = new Date(dStart.getTime() + (startDayOffset + nights - 1) * 86400000);
+      for (let i = 0; i < totalNights; i++) {
+        const blockStart = new Date(dStart.getTime() + i * 86400000);
+        const blockEnd = new Date(dStart.getTime() + (i + 1) * 86400000);
 
         const fromStr = blockStart.toISOString().split('T')[0];
         const toStr = blockEnd.toISOString().split('T')[0];
 
         let blockMonto = 0;
-        if (i === numBlocks - 1) {
+        if (i === totalNights - 1) {
           blockMonto = Math.max(0, Math.round(totalMonto - accumulatedAmount));
         } else {
-          blockMonto = Math.round(amountPerDay * nights);
+          blockMonto = Math.round(amountPerNight);
           accumulatedAmount += blockMonto;
         }
 
@@ -2872,10 +2879,10 @@ CREATE TABLE card_attachments (
 
         tranches.push({
           id: i + 1,
-          title: `Tramo ${i + 1} (${nights} noche${nights > 1 ? 's' : ''})`,
+          title: `Noche ${i + 1} (${formatShortDate(fromStr)})`,
           fromDate: fromStr,
           toDate: toStr,
-          nights: nights,
+          nights: 1,
           amount: blockMonto,
           isPaid: isPaid,
           paidAt: paidAt
@@ -2933,16 +2940,29 @@ CREATE TABLE card_attachments (
           });
           c.labels = cleanCardLabels;
 
-          // Generación automática de tramos de pago de 2 noches para hospedajes / transferData
-          if (c.transferData && c.transferData.fecha_desde && c.transferData.fecha_hasta) {
-            if (!c.transferData.paymentTranches || c.transferData.paymentTranches.length === 0) {
+          // Migración o generación de tramos de 1 noche para transferData
+          if (c.transferData && c.transferData.fecha_desde) {
+            const hasOldMultiNightTranches = c.transferData.paymentTranches && c.transferData.paymentTranches.some(t => t.nights > 1);
+            if (!c.transferData.paymentTranches || c.transferData.paymentTranches.length === 0 || hasOldMultiNightTranches) {
+              const oldTranches = c.transferData.paymentTranches || [];
+              const wasAllPaid = c.isPaid;
               c.transferData.paymentTranches = generatePaymentTranches(
                 c.transferData.fecha_desde,
                 c.transferData.fecha_hasta,
-                c.transferData.monto_ars || 0
+                c.transferData.monto_ars || 0,
+                [],
+                !!c.transferData.is_indefinite,
+                c.transferData.dias_reservados || 1
               );
-              if (c.isPaid) {
+              if (wasAllPaid) {
                 c.transferData.paymentTranches.forEach(t => { t.isPaid = true; });
+              } else if (oldTranches.length > 0) {
+                c.transferData.paymentTranches.forEach((t, idx) => {
+                  const oldIdx = Math.floor(idx / 2);
+                  if (oldTranches[oldIdx] && oldTranches[oldIdx].isPaid) {
+                    t.isPaid = true;
+                  }
+                });
               }
             }
           }
@@ -3354,9 +3374,14 @@ CREATE TABLE card_attachments (
       let tagsHtml = '';
 
       if (card.transferData && card.transferData.monto_ars) {
-        tagsHtml += `<span class="tag-meta money">💵 $${esc(Number(card.transferData.monto_ars).toLocaleString('es-AR'))} ARS</span>`;
-        if (card.transferData.fecha_desde && card.transferData.fecha_hasta) {
+        tagsHtml += `<span class="tag-meta money">💵 ${esc(Number(card.transferData.monto_ars).toLocaleString('es-AR'))} ARS</span>`;
+        if (card.transferData.is_indefinite || !card.transferData.fecha_hasta) {
+          tagsHtml += `<span class="tag-meta date-range">📅 Desde: ${esc(card.transferData.fecha_desde || '')} (Indefinido)</span>`;
+        } else if (card.transferData.fecha_desde && card.transferData.fecha_hasta) {
           tagsHtml += `<span class="tag-meta date-range">📅 ${esc(card.transferData.fecha_desde)} al ${esc(card.transferData.fecha_hasta)}</span>`;
+        }
+        if (card.transferData.paymentTranches && card.transferData.paymentTranches.length > 0) {
+          tagsHtml += `<span class="tag-meta">🛏️ ${card.transferData.paymentTranches.length} noche${card.transferData.paymentTranches.length > 1 ? 's' : ''}</span>`;
         }
         if (card.transferData.vencimiento) {
           tagsHtml += `<span class="tag-meta due">⏳ Vence: ${esc(card.transferData.vencimiento)}</span>`;
@@ -3394,24 +3419,24 @@ CREATE TABLE card_attachments (
         if (paidCount === totalCount) {
           payBadgeClass = 'is-paid';
           payBadgeText = 'Pagado';
-          payBadgeTitle = `Todos los tramos pagados (${paidCount}/${totalCount})`;
+          payBadgeTitle = `Todas las noches pagadas (${paidCount}/${totalCount})`;
           isCardChecked = true;
         } else if (paidCount > 0) {
           payBadgeClass = 'is-partial';
           payBadgeText = `Parcial ${paidCount}/${totalCount}`;
-          payBadgeTitle = `Pagos parciales: ${paidCount} de ${totalCount} tramos pagados (${percent}%)`;
+          payBadgeTitle = `Pagos parciales: ${paidCount} de ${totalCount} noches pagadas (${percent}%)`;
           isCardChecked = false;
         } else {
           payBadgeClass = 'is-pending';
           payBadgeText = 'Pendiente';
-          payBadgeTitle = `Pendiente: 0 de ${totalCount} tramos pagados`;
+          payBadgeTitle = `Pendiente: 0 de ${totalCount} noches pagadas`;
           isCardChecked = false;
         }
 
         tranchesProgressHtml = `
           <div style="margin-top:6px; padding-top:6px; border-top:1px dashed #E2E8F0;">
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.67rem; color:var(--text-muted); font-weight:700; margin-bottom:3px;">
-              <span>Pagos: ${paidCount}/${totalCount} tramos (${percent}%)</span>
+              <span>Noches: ${paidCount}/${totalCount} pagadas (${percent}%)</span>
               ${nextUnpaid ? `<span style="color:#D97706;">⏰ Próx: ${formatShortDate(nextUnpaid.fromDate)}</span>` : '<span style="color:#16A34A;">✓ Al día</span>'}
             </div>
             <div style="background:#E2E8F0; border-radius:999px; height:5px; overflow:hidden; width:100%;">
@@ -3669,32 +3694,38 @@ CREATE TABLE card_attachments (
         const tranches = t.paymentTranches || [];
         const paidCount = tranches.filter(x => x.isPaid).length;
         const totalCount = tranches.length;
+        const isIndef = !!t.is_indefinite;
 
         let tranchesSectionHtml = '';
         if (tranches.length > 0) {
           const percent = Math.round((paidCount / totalCount) * 100);
           tranchesSectionHtml = `
             <div style="margin-top:12px; padding-top:10px; border-top:1px solid #86EFAC;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
                 <span style="font-size:0.8rem; font-weight:800; color:#14532D;">
-                  🏨 Desglose de Pagos cada 2 Noches (${paidCount}/${totalCount} pagados - ${percent}%):
+                  🏨 Desglose Noche por Noche (${paidCount}/${totalCount} pagadas - ${percent}%):
                 </span>
-                <span style="font-size:0.75rem; font-weight:700; color:${paidCount === totalCount ? '#15803D' : (paidCount > 0 ? '#0369A1' : '#C2410C')};">
-                  ${paidCount === totalCount ? '🟢 Todo Pagado' : (paidCount > 0 ? `🔵 Parcial (${paidCount}/${totalCount})` : '🟠 Pendiente')}
-                </span>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <button type="button" class="btn btn-outline" style="font-size:0.7rem; padding:3px 7px; background:#FFFFFF;" onclick="addOneNightToStay('${card.id}', '${board.id}')" title="Agregar 1 noche más a la estadía">
+                    ➕ Agregar Noche
+                  </button>
+                  <button type="button" class="btn btn-outline" style="font-size:0.7rem; padding:3px 7px; background:#FFFFFF; color:#DC2626; border-color:#FECACA;" onclick="removeLastNightFromStay('${card.id}', '${board.id}')" title="Quitar última noche (si la obra finalizó antes)">
+                    ➖ Acortar Noche
+                  </button>
+                </div>
               </div>
-              <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; flex-direction:column; gap:6px; max-height:240px; overflow-y:auto; padding-right:4px;">
                 ${tranches.map(tr => `
-                  <div class="tranche-item ${tr.isPaid ? 'is-paid' : ''}" style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:${tr.isPaid ? '#DCFCE7' : '#FFFFFF'}; border:1px solid ${tr.isPaid ? '#86EFAC' : '#E2E8F0'}; border-radius:6px;">
+                  <div class="tranche-item ${tr.isPaid ? 'is-paid' : ''}" style="display:flex; justify-content:space-between; align-items:center; padding:7px 10px; background:${tr.isPaid ? '#DCFCE7' : '#FFFFFF'}; border:1px solid ${tr.isPaid ? '#86EFAC' : '#CBD5E1'}; border-radius:6px;">
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="checkbox" ${tr.isPaid ? 'checked' : ''} onchange="toggleTranchePayment('${card.id}', '${board.id}', ${tr.id}, this.checked)" style="cursor:pointer; width:15px; height:15px; accent-color:#16A34A;" id="chk_tranche_${tr.id}" />
-                      <label for="chk_tranche_${tr.id}" style="cursor:pointer; font-size:0.8rem; font-weight:700; color:${tr.isPaid ? '#14532D' : '#334155'};">
+                      <label for="chk_tranche_${tr.id}" style="cursor:pointer; font-size:0.78rem; font-weight:700; color:${tr.isPaid ? '#14532D' : '#334155'};">
                         ${esc(tr.title)}: <strong>${esc(formatShortDate(tr.fromDate))}</strong> al <strong>${esc(formatShortDate(tr.toDate))}</strong>
                       </label>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.82rem; color:${tr.isPaid ? '#15803D' : '#1E293B'};">
-                        $${Number(tr.amount).toLocaleString('es-AR')}
+                      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.8rem; color:${tr.isPaid ? '#15803D' : '#1E293B'};">
+                        ${Number(tr.amount).toLocaleString('es-AR')}
                       </span>
                       <span class="card-pay-badge ${tr.isPaid ? 'is-paid' : 'is-pending'}" style="font-size:0.65rem; padding:1px 6px;">
                         ${tr.isPaid ? '✓ Pagado' : 'Pendiente'}
@@ -3707,15 +3738,60 @@ CREATE TABLE card_attachments (
           `;
         }
 
+        const dateRangeDisplay = isIndef 
+          ? `Desde: <strong>${esc(t.fecha_desde || '-')}</strong> <span style="color:#2563EB; font-weight:700;">(Indefinido / Abierta)</span>`
+          : `Desde: <strong>${esc(t.fecha_desde || '-')}</strong> al <strong>${esc(t.fecha_hasta || '-')}</strong> (${totalCount} noche${totalCount > 1 ? 's' : ''})`;
+
         transferHtml = `
           <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:8px; padding:12px; margin-top:8px;">
-            <div style="font-size:0.8rem; font-weight:800; color:#14532D; margin-bottom:8px;">🏦 Datos para Transferir:</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <div style="font-size:0.82rem; font-weight:800; color:#14532D;">🏦 Datos para Transferir:</div>
+              <button type="button" class="btn btn-outline" style="font-size:0.72rem; padding:3px 8px; background:#FFFFFF;" onclick="toggleEditStayPanel()" id="btnToggleEditStay">
+                ✏️ Editar Fechas / Estadía
+              </button>
+            </div>
+
+            <!-- Panel de edición rápida de estadía -->
+            <div id="panelEditStay" style="display:none; background:#FFFFFF; border:1px solid #94A3B8; border-radius:8px; padding:10px; margin-bottom:12px;">
+              <div style="font-size:0.75rem; font-weight:800; color:var(--primary); margin-bottom:8px;">
+                Modificar Fechas y Monto de Estadía:
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label" style="font-size:0.7rem;">Fecha Desde</label>
+                  <input type="date" id="edtStayDesde" class="form-input" value="${esc(t.fecha_desde || '')}" style="padding:4px 8px; font-size:0.78rem;" />
+                </div>
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label" style="font-size:0.7rem;">Fecha Hasta</label>
+                  <input type="date" id="edtStayHasta" class="form-input" value="${esc(t.fecha_hasta || '')}" ${isIndef ? 'disabled' : ''} style="padding:4px 8px; font-size:0.78rem;" />
+                  <label style="font-size:0.7rem; color:#475569; font-weight:700; display:flex; align-items:center; gap:5px; margin-top:4px; cursor:pointer;">
+                    <input type="checkbox" id="edtStayIndef" ${isIndef ? 'checked' : ''} onchange="document.getElementById('edtStayHasta').disabled = this.checked; if(this.checked) document.getElementById('edtStayHasta').value='';" style="accent-color:var(--primary);" />
+                    <span>Estadía Indefinida</span>
+                  </label>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label" style="font-size:0.7rem;">Monto Total ARS</label>
+                  <input type="number" id="edtStayMonto" class="form-input" value="${t.monto_ars || 0}" style="padding:4px 8px; font-size:0.78rem;" />
+                </div>
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label" style="font-size:0.7rem;">Vencimiento</label>
+                  <input type="date" id="edtStayVenc" class="form-input" value="${esc(t.vencimiento || '')}" style="padding:4px 8px; font-size:0.78rem;" />
+                </div>
+              </div>
+              <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
+                <button type="button" class="btn btn-outline" style="font-size:0.72rem; padding:4px 10px;" onclick="toggleEditStayPanel(false)">Cancelar</button>
+                <button type="button" class="btn btn-primary" style="font-size:0.72rem; padding:4px 12px;" onclick="saveEditedStay('${card.id}', '${board.id}')">💾 Guardar Cambios</button>
+              </div>
+            </div>
+
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.82rem;">
               <div><strong style="color:var(--text-muted);">Titular:</strong> ${esc(t.titular || '-')}</div>
               <div><strong style="color:var(--text-muted);">CUIT/CUIL:</strong> ${esc(t.cuit || '-')}</div>
               <div><strong style="color:var(--text-muted);">CBU/CVU/Alias:</strong> ${esc(t.cbu || '-')}</div>
-              <div><strong style="color:var(--text-muted);">Monto Total:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">$${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
-              <div><strong style="color:var(--text-muted);">Fechas Reservadas:</strong> ${esc(t.fecha_desde || '-')} al ${esc(t.fecha_hasta || '-')} (${t.dias_reservados || 0} días)</div>
+              <div><strong style="color:var(--text-muted);">Monto Total:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
+              <div style="grid-column:1 / -1;"><strong style="color:var(--text-muted);">Fechas Reservadas:</strong> ${dateRangeDisplay}</div>
               <div><strong style="color:var(--text-muted);">Vencimiento Tarjeta:</strong> <span style="color:#DC2626; font-weight:700;">${esc(t.vencimiento || '-')}</span></div>
             </div>
             ${tranchesSectionHtml}
@@ -3861,6 +3937,183 @@ CREATE TABLE card_attachments (
       renderBoard(detailCardContext.board.id);
       showToast('Archivo adjunto eliminado.');
     };
+
+    function toggleEditStayPanel(forceState = null) {
+      const panel = document.getElementById('panelEditStay');
+      if (!panel) return;
+      if (typeof forceState === 'boolean') {
+        panel.style.display = forceState ? 'block' : 'none';
+      } else {
+        panel.style.display = (panel.style.display === 'none' || !panel.style.display) ? 'block' : 'none';
+      }
+    }
+    window.toggleEditStayPanel = toggleEditStayPanel;
+
+    function saveEditedStay(cardId, boardId) {
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const card = board.cards.find(c => c.id === cardId);
+      if (!card || !card.transferData) return;
+
+      const fDesde = document.getElementById('edtStayDesde')?.value;
+      const fHasta = document.getElementById('edtStayHasta')?.value;
+      const isIndef = !!document.getElementById('edtStayIndef')?.checked;
+      const monto = parseFloat(document.getElementById('edtStayMonto')?.value) || 0;
+      const venc = document.getElementById('edtStayVenc')?.value;
+
+      if (!fDesde) {
+        showToast('Por favor ingresa la Fecha Desde.', 'error');
+        return;
+      }
+      if (!isIndef && !fHasta) {
+        showToast('Por favor ingresa la Fecha Hasta o marca como Indefinido.', 'error');
+        return;
+      }
+
+      const prevTranches = card.transferData.paymentTranches || [];
+      const newTranches = generatePaymentTranches(fDesde, fHasta, monto, prevTranches, isIndef, prevTranches.length || 1);
+
+      card.transferData.fecha_desde = fDesde;
+      card.transferData.fecha_hasta = isIndef ? '' : fHasta;
+      card.transferData.is_indefinite = isIndef;
+      card.transferData.monto_ars = monto;
+      if (venc) card.transferData.vencimiento = venc;
+      card.transferData.paymentTranches = newTranches;
+      card.transferData.dias_reservados = newTranches.length;
+
+      card.isPaid = newTranches.length > 0 && newTranches.every(t => t.isPaid);
+
+      saveData();
+      if (detailCardContext && detailCardContext.card.id === cardId) {
+        detailCardContext.card = card;
+        renderDetailContent();
+      }
+      renderBoard(boardId);
+      showToast(`Estadía actualizada (${newTranches.length} noche${newTranches.length > 1 ? 's' : ''}).`);
+    }
+    window.saveEditedStay = saveEditedStay;
+
+    function addOneNightToStay(cardId, boardId) {
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const card = board.cards.find(c => c.id === cardId);
+      if (!card || !card.transferData) return;
+
+      const t = card.transferData;
+      if (!t.paymentTranches) t.paymentTranches = [];
+
+      let nextFromDate = t.fecha_desde;
+      if (t.paymentTranches.length > 0) {
+        const lastTranche = t.paymentTranches[t.paymentTranches.length - 1];
+        nextFromDate = lastTranche.toDate;
+      }
+
+      if (!nextFromDate) {
+        nextFromDate = new Date().toISOString().split('T')[0];
+      }
+
+      const dStart = new Date(nextFromDate + 'T00:00:00');
+      const dEnd = new Date(dStart.getTime() + 86400000);
+      const toDateStr = dEnd.toISOString().split('T')[0];
+
+      const newId = t.paymentTranches.length + 1;
+      const totalCount = newId;
+
+      const currentPerNight = t.paymentTranches.length > 0 ? Math.round(t.monto_ars / t.paymentTranches.length) : (t.monto_ars || 0);
+      t.monto_ars = (t.monto_ars || 0) + currentPerNight;
+
+      t.paymentTranches.push({
+        id: newId,
+        title: `Noche ${newId} (${formatShortDate(nextFromDate)})`,
+        fromDate: nextFromDate,
+        toDate: toDateStr,
+        nights: 1,
+        amount: currentPerNight,
+        isPaid: false,
+        paidAt: null
+      });
+
+      const perNight = Math.round(t.monto_ars / totalCount);
+      let acc = 0;
+      t.paymentTranches.forEach((tr, idx) => {
+        if (idx === totalCount - 1) {
+          tr.amount = Math.max(0, Math.round(t.monto_ars - acc));
+        } else {
+          tr.amount = perNight;
+          acc += perNight;
+        }
+        tr.id = idx + 1;
+        tr.title = `Noche ${idx + 1} (${formatShortDate(tr.fromDate)})`;
+      });
+
+      t.dias_reservados = t.paymentTranches.length;
+      if (!t.is_indefinite) {
+        t.fecha_hasta = toDateStr;
+      }
+
+      card.isPaid = t.paymentTranches.every(tr => tr.isPaid);
+
+      saveData();
+      if (detailCardContext && detailCardContext.card.id === cardId) {
+        detailCardContext.card = card;
+        renderDetailContent();
+      }
+      renderBoard(boardId);
+      showToast(`Se agregó la Noche ${newId} a la estadía.`);
+    }
+    window.addOneNightToStay = addOneNightToStay;
+
+    function removeLastNightFromStay(cardId, boardId) {
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const card = board.cards.find(c => c.id === cardId);
+      if (!card || !card.transferData) return;
+
+      const t = card.transferData;
+      if (!t.paymentTranches || t.paymentTranches.length <= 1) {
+        showToast('La estadía debe tener al menos 1 noche. Si deseas cancelar todo, elimina o edita la tarjeta.', 'warning');
+        return;
+      }
+
+      const lastTranche = t.paymentTranches[t.paymentTranches.length - 1];
+      if (lastTranche.isPaid) {
+        const confirmDel = confirm(`La ${lastTranche.title} ya figura como PAGADA. ¿Seguro que deseas acortar la estadía y eliminar esta noche?`);
+        if (!confirmDel) return;
+      }
+
+      t.paymentTranches.pop();
+      const newTotalNights = t.paymentTranches.length;
+      t.dias_reservados = newTotalNights;
+
+      const newLast = t.paymentTranches[newTotalNights - 1];
+      if (!t.is_indefinite && newLast) {
+        t.fecha_hasta = newLast.toDate;
+      }
+
+      const perNight = Math.round(t.monto_ars / (newTotalNights + 1));
+      t.monto_ars = Math.max(0, t.monto_ars - perNight);
+      const newPerNight = newTotalNights > 0 ? Math.round(t.monto_ars / newTotalNights) : 0;
+      let acc = 0;
+      t.paymentTranches.forEach((tr, idx) => {
+        if (idx === newTotalNights - 1) {
+          tr.amount = Math.max(0, Math.round(t.monto_ars - acc));
+        } else {
+          tr.amount = newPerNight;
+          acc += newPerNight;
+        }
+      });
+
+      card.isPaid = t.paymentTranches.every(tr => tr.isPaid);
+
+      saveData();
+      if (detailCardContext && detailCardContext.card.id === cardId) {
+        detailCardContext.card = card;
+        renderDetailContent();
+      }
+      renderBoard(boardId);
+      showToast(`Se acortó la estadía (ahora son ${newTotalNights} noches).`);
+    }
+    window.removeLastNightFromStay = removeLastNightFromStay;
 
     function closeCardDetail() {
       document.getElementById('modalCardDetail').classList.remove('active');
@@ -4230,10 +4483,14 @@ CREATE TABLE card_attachments (
               <div class="form-group">
                 <label class="form-label">Fecha Reservada Hasta (B) ${f.required ? '<span class="required-star">*</span>' : ''}</label>
                 <input type="date" id="fldTransfFechaHasta" class="form-input" />
+                <label style="font-size:0.75rem; color:#475569; font-weight:700; display:flex; align-items:center; gap:6px; margin-top:5px; cursor:pointer;">
+                  <input type="checkbox" id="chkTransfIndefinido" style="accent-color:var(--primary);" />
+                  <span>Estadía / Trabajo Indefinido (fecha fin abierta)</span>
+                </label>
               </div>
             </div>
             <div id="lblDiasCalculados" style="font-size:0.75rem; color:#15803D; font-weight:700; display:none;">
-              📅 Duración: <span id="valDiasCalculados">0</span> día(s)
+              📅 Duración: <span id="valDiasCalculados">0</span> noche(s)
             </div>
             <div id="wrapPaymentTranchesPreview" style="margin-top:10px; display:none;"></div>
             <div class="form-group" style="margin-top:8px;">
@@ -4293,11 +4550,25 @@ CREATE TABLE card_attachments (
         inpSSit.oninput = (e) => renderSitiosChips(board, e.target.value);
       }
 
-      // Listeners para previsualización de tramos cada 2 noches
+      // Listeners para previsualización de tramos noche por noche
       const fldDesde = document.getElementById('fldTransfFechaDesde');
       const fldHasta = document.getElementById('fldTransfFechaHasta');
       const fldMonto = document.getElementById('fldTransfMonto');
-      if (fldDesde && fldHasta) {
+      const chkIndef = document.getElementById('chkTransfIndefinido');
+
+      if (chkIndef) {
+        chkIndef.onchange = () => {
+          if (fldHasta) {
+            fldHasta.disabled = chkIndef.checked;
+            if (chkIndef.checked) fldHasta.value = '';
+          }
+          calculateReservationDays();
+          updatePaymentTranchesPreview();
+          validateModalRules();
+        };
+      }
+
+      if (fldDesde) {
         [fldDesde, fldHasta, fldMonto].forEach(el => {
           if (el) {
             el.addEventListener('input', () => {
@@ -4771,31 +5042,42 @@ CREATE TABLE card_attachments (
     function calculateReservationDays() {
       const desdeVal = document.getElementById('fldTransfFechaDesde');
       const hastaVal = document.getElementById('fldTransfFechaHasta');
+      const chkIndef = document.getElementById('chkTransfIndefinido');
       const lbl = document.getElementById('lblDiasCalculados');
       const valSpan = document.getElementById('valDiasCalculados');
-      if (!desdeVal || !hastaVal || !lbl) return 0;
+      if (!desdeVal || !lbl) return 0;
 
-      if (desdeVal.value && hastaVal.value) {
+      if (chkIndef && chkIndef.checked) {
+        if (desdeVal.value) {
+          valSpan.innerText = 'Indefinido / Abierto (1 noche inicial)';
+          lbl.style.display = 'block';
+          lbl.style.color = '#2563EB';
+          return 1;
+        } else {
+          lbl.style.display = 'none';
+          return 0;
+        }
+      }
+
+      if (desdeVal.value && hastaVal && hastaVal.value) {
         const d1 = new Date(desdeVal.value + 'T00:00:00');
         const d2 = new Date(hastaVal.value + 'T00:00:00');
-        const diffDays = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
+        const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
 
-        if (diffDays > 0) {
-          valSpan.innerText = diffDays;
+        if (diffDays >= 0) {
+          const nights = Math.max(1, diffDays);
+          valSpan.innerText = nights;
           lbl.style.display = 'block';
           lbl.style.color = '#15803D';
-          updatePaymentTranchesPreview();
-          return diffDays;
+          return nights;
         } else {
           valSpan.innerText = 'Hasta debe ser >= Desde';
           lbl.style.display = 'block';
           lbl.style.color = '#DC2626';
-          updatePaymentTranchesPreview();
           return -1;
         }
       }
       lbl.style.display = 'none';
-      updatePaymentTranchesPreview();
       return 0;
     }
 
@@ -4805,14 +5087,16 @@ CREATE TABLE card_attachments (
       const desdeVal = document.getElementById('fldTransfFechaDesde')?.value;
       const hastaVal = document.getElementById('fldTransfFechaHasta')?.value;
       const montoVal = parseFloat(document.getElementById('fldTransfMonto')?.value) || 0;
+      const chkIndef = document.getElementById('chkTransfIndefinido');
+      const isIndef = !!(chkIndef && chkIndef.checked);
 
-      if (!desdeVal || !hastaVal) {
+      if (!desdeVal || (!hastaVal && !isIndef)) {
         wrap.style.display = 'none';
         wrap.innerHTML = '';
         return;
       }
 
-      const tranches = generatePaymentTranches(desdeVal, hastaVal, montoVal);
+      const tranches = generatePaymentTranches(desdeVal, hastaVal, montoVal, [], isIndef, 1);
       if (!tranches || tranches.length === 0) {
         wrap.style.display = 'none';
         wrap.innerHTML = '';
@@ -4824,13 +5108,13 @@ CREATE TABLE card_attachments (
         <div style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:8px; padding:10px; margin-top:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <span style="font-size:0.75rem; font-weight:800; color:var(--primary);">
-              🏨 Desglose de Pagos cada 2 Noches (${tranches.length} tramos):
+              🏨 Desglose de Pagos Noche por Noche (${tranches.length} noche${tranches.length > 1 ? 's' : ''}${isIndef ? ' - Indefinido' : ''}):
             </span>
             <span style="font-size:0.72rem; color:var(--text-muted); font-weight:600;">
-              Total: $${Number(montoVal).toLocaleString('es-AR')}
+              Total: ${Number(montoVal).toLocaleString('es-AR')}
             </span>
           </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; flex-direction:column; gap:6px; max-height:160px; overflow-y:auto;">
       `;
 
       tranches.forEach(t => {
@@ -4841,7 +5125,7 @@ CREATE TABLE card_attachments (
               <span style="color:#475569;">${esc(t.title)}: <strong>${esc(formatShortDate(t.fromDate))}</strong> al <strong>${esc(formatShortDate(t.toDate))}</strong></span>
             </div>
             <div style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#15803D;">
-              $${Number(t.amount).toLocaleString('es-AR')}
+              ${Number(t.amount).toLocaleString('es-AR')}
             </div>
           </div>
         `;
@@ -4850,7 +5134,7 @@ CREATE TABLE card_attachments (
       html += `
           </div>
           <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-style:italic;">
-            * Cada bloque de 2 noches podrá marcarse individualmente como Pagado o Pendiente en el detalle de la tarjeta.
+            * Cada noche se gestiona individualmente. Podrás agregar o acortar noches en cualquier momento si el trabajo se prolonga o termina antes.
           </div>
         </div>
       `;
@@ -4895,10 +5179,12 @@ CREATE TABLE card_attachments (
             const monto = parseFloat(document.getElementById('fldTransfMonto')?.value);
             const fDesde = document.getElementById('fldTransfFechaDesde')?.value;
             const fHasta = document.getElementById('fldTransfFechaHasta')?.value;
+            const isIndef = !!document.getElementById('chkTransfIndefinido')?.checked;
             const venc = document.getElementById('fldTransfVencimiento')?.value;
             const days = calculateReservationDays();
 
-            const ok = titular && cuit && cbu && !isNaN(monto) && monto > 0 && fDesde && fHasta && days > 0 && venc;
+            const datesOk = isIndef ? (!!fDesde && days > 0) : (!!fDesde && !!fHasta && days > 0);
+            const ok = titular && cuit && cbu && !isNaN(monto) && monto > 0 && datesOk && venc;
             if (!ok) allValid = false;
             addChecklistRow(checklistContainer, 'Datos para transferir completos (Titular, CUIT, CBU, Monto, Fechas, Vencimiento)', !!ok);
           } else if (f.type === 'checkbox_pm' && f.required) {
@@ -4958,11 +5244,12 @@ CREATE TABLE card_attachments (
       let transferData = null;
       const transfBox = document.getElementById('fldTransfTitular');
       if (transfBox) {
+        const isIndef = !!document.getElementById('chkTransfIndefinido')?.checked;
         const dias = calculateReservationDays();
         const fDesde = document.getElementById('fldTransfFechaDesde').value;
-        const fHasta = document.getElementById('fldTransfFechaHasta').value;
+        const fHasta = isIndef ? '' : (document.getElementById('fldTransfFechaHasta')?.value || '');
         const montoArs = parseFloat(document.getElementById('fldTransfMonto').value) || 0;
-        const paymentTranches = generatePaymentTranches(fDesde, fHasta, montoArs);
+        const paymentTranches = generatePaymentTranches(fDesde, fHasta, montoArs, [], isIndef, dias > 0 ? dias : 1);
 
         transferData = {
           titular: document.getElementById('fldTransfTitular').value.trim(),
@@ -4971,7 +5258,8 @@ CREATE TABLE card_attachments (
           monto_ars: montoArs,
           fecha_desde: fDesde,
           fecha_hasta: fHasta,
-          dias_reservados: dias > 0 ? dias : 1,
+          is_indefinite: isIndef,
+          dias_reservados: paymentTranches.length,
           vencimiento: document.getElementById('fldTransfVencimiento').value,
           paymentTranches: paymentTranches
         };
