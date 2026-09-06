@@ -36,6 +36,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Servir archivos estáticos
 app.use('/uploads', express.static(uploadDir));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(express.static(__dirname));
 
 // Healthcheck para Coolify
