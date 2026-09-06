@@ -1955,9 +1955,37 @@
       text-decoration: underline;
     }
 
+    /* Ocultar interfaz del sistema hasta que haya sesión validada */
+    body:not(.authenticated) header.app-header,
+    body:not(.authenticated) main.app-main,
+    body:not(.authenticated) aside.sidebar-drawer,
+    body:not(.authenticated) .modal {
+      display: none !important;
+    }
+
+    /* Si no está autenticado, la pantalla de login está siempre lista de fondo */
+    body:not(.authenticated) #celltrexLoginScreen {
+      display: flex !important;
+    }
+
+    /* Si ya está autenticado, ocultar la pantalla de login */
+    body.authenticated #celltrexLoginScreen {
+      display: none !important;
+    }
+
   </style>
 </head>
 <body>
+  <script>
+    (function() {
+      try {
+        var auth = localStorage.getItem('celltrex_session_user') || sessionStorage.getItem('celltrex_session_user');
+        if (auth && JSON.parse(auth)) {
+          document.body.classList.add('authenticated');
+        }
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- ==========================================
        CELLTREX PRELOADER (TELECOM SPLASH)
@@ -4249,13 +4277,21 @@ CREATE TABLE card_attachments (
       const loginScreen = document.getElementById('celltrexLoginScreen');
 
       if (user) {
+        document.body.classList.add('authenticated');
         if (badge) badge.style.display = 'flex';
         if (avatar) avatar.innerText = (user.name || 'US').substring(0, 2).toUpperCase();
         if (nameEl) nameEl.innerText = user.name || user.email || 'Operador';
-        if (loginScreen) loginScreen.classList.remove('active');
+        if (loginScreen) {
+          loginScreen.classList.remove('active');
+          loginScreen.style.display = 'none';
+        }
       } else {
+        document.body.classList.remove('authenticated');
         if (badge) badge.style.display = 'none';
-        if (loginScreen) loginScreen.classList.add('active');
+        if (loginScreen) {
+          loginScreen.classList.add('active');
+          loginScreen.style.display = 'flex';
+        }
       }
     }
 
@@ -4365,9 +4401,11 @@ CREATE TABLE card_attachments (
       if (confirm('¿Cerrar la sesión operativa actual?')) {
         clearAuthUser();
         sessionStorage.removeItem(AUTH_STORAGE_KEY);
+        document.body.classList.remove('authenticated');
         const loginScreen = document.getElementById('celltrexLoginScreen');
         if (loginScreen) {
           loginScreen.classList.add('active');
+          loginScreen.style.display = 'flex';
           const pwd = document.getElementById('loginPassword');
           if (pwd) pwd.value = '';
         }
