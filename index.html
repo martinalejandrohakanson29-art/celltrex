@@ -2342,7 +2342,10 @@
       </div>
     </div>
 
-    <div class="drawer-foot">
+    <div class="drawer-foot" style="display:flex; flex-direction:column; gap:8px;">
+      <button type="button" class="btn" id="btnOpenBenefitsModal" style="width:100%; justify-content:center; gap:8px; font-size:0.82rem; font-weight:700; background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color:#38BDF8; border:1px solid #334155; padding:9px 12px; border-radius:8px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+        <span>⭐</span> Beneficios vs. Trello
+      </button>
       <button class="btn btn-outline" style="width:100%; font-size:0.78rem;" id="btnResetData">
         🔄 Restablecer Datos de Demostración
       </button>
@@ -2370,6 +2373,11 @@
         <div class="hero-text">
           <h1>Panel de Control de Operaciones</h1>
           <p>Bienvenido al sistema unificado de tableros de Celltrex S.A. Administra compras, viáticos, anticipos y hospedajes con formularios configurables por tablero, adjuntos de archivos (PDF, Word, Excel, fotos) y exportación a Excel.</p>
+          <div style="margin-top:12px;">
+            <button type="button" class="btn btn-outline" id="btnOpenBenefitsHero" style="font-size:0.8rem; font-weight:700; border-color:#0284C7; color:#0284C7; background:#F0F9FF; gap:6px; cursor:pointer;">
+              ⭐ Ver Ventajas y Beneficios vs. Trello
+            </button>
+          </div>
         </div>
         <div class="hero-counters">
           <div class="hero-stat-card">
@@ -2666,6 +2674,96 @@
           🗑️ Eliminar Tarjeta
         </button>
         <button class="btn btn-outline" id="btnCloseDetailBottom">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Beneficios vs Trello -->
+  <div class="modal-overlay" id="modalBenefits">
+    <div class="modal-dialog" style="max-width: 820px;">
+      <div class="modal-header" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #FFFFFF; border-radius: 12px 12px 0 0; padding: 16px 22px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.5rem;">⭐</span>
+          <div>
+            <div class="modal-title" style="color:#FFFFFF; font-size:1.15rem; font-weight:800;">Beneficios de Nuestra Plataforma vs. Trello</div>
+            <div style="font-size:0.75rem; color:#94A3B8; font-weight:500;">Control total, cero costos de licencia y desarrollo a la medida de tu operación</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="btnCloseBenefits" style="color:#94A3B8;">&times;</button>
+      </div>
+      <div class="modal-body" style="font-size:0.85rem; line-height:1.5; padding:20px; max-height:75vh; overflow-y:auto;">
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <!-- Item 1 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">🔐</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Soberanía y Privacidad de Datos</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Tus datos en tu propio servidor:</strong> Alojado en infraestructura propia (PostgreSQL / Coolify), sin depender de Atlassian ni de nubes ajenas. La información sensible de costos, datos bancarios (CBU/CUIT) y clientes queda 100% protegida y bajo tu control.
+            </p>
+          </div>
+
+          <!-- Item 2 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">💰</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Cero Costos de Licenciamiento</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Sin tarifas mensuales en dólares por usuario:</strong> Trello cobra suscripciones recurrentes por cada miembro del equipo y por funciones premium. Aquí disfrutas de capacidad total sin pagar licencias adicionales.
+            </p>
+          </div>
+
+          <!-- Item 3 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">🚀</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Sin Límites de Tarjetas ni Tableros</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Capacidad ilimitada:</strong> Puedes crear todos los tableros, columnas, tarjetas, etiquetas y adjuntos que la operativa requiera, sin restricciones de espacio ni topes artificiales de uso.
+            </p>
+          </div>
+
+          <!-- Item 4 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">🏨</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Lógica de Negocio a Medida</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Desglose financiero y estadías:</strong> Control de hospedajes noche por noche con estados Pendiente/Pagado, fechas indefinidas o abiertas, y agregado/acortamiento de noches en tiempo real según el avance de obra.
+            </p>
+          </div>
+
+          <!-- Item 5 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">⚡</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Mayor Fluidez y Velocidad</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Respuesta instantánea:</strong> Sin demoras de red pesadas ni recargas lentas. La plataforma responde inmediatamente al crear, mover, buscar o filtrar tarjetas de trabajo.
+            </p>
+          </div>
+
+          <!-- Item 6 -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.25rem;">🛠️</span>
+              <span style="font-weight:800; color:#0F172A; font-size:0.92rem;">Mínimo Mantenimiento y Escalabilidad</span>
+            </div>
+            <p style="font-size:0.8rem; color:#475569; margin:0; line-height:1.45;">
+              <strong>Sin "Power-Ups" externos rotos:</strong> No dependes de complementos de terceros que dejen de funcionar. Y es 100% extensible para integrar reportes contables, exportación y automatizaciones a medida.
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer" style="background:#F8FAFC; border-top:1px solid #E2E8F0; padding:12px 20px; display:flex; justify-content:flex-end;">
+        <button class="btn btn-primary" id="btnCloseBenefitsBottom" style="font-size:0.85rem; padding:6px 20px;">Entendido</button>
       </div>
     </div>
   </div>
@@ -5569,9 +5667,28 @@ CREATE TABLE card_attachments (
       });
 
       const modalArch = document.getElementById('modalArch');
-      document.getElementById('btnOpenArchModal').onclick = () => modalArch.classList.add('active');
-      document.getElementById('btnCloseArch').onclick = () => modalArch.classList.remove('active');
-      document.getElementById('btnCloseArchBottom').onclick = () => modalArch.classList.remove('active');
+      const btnArch = document.getElementById('btnOpenArchModal');
+      if (btnArch) btnArch.onclick = () => modalArch.classList.add('active');
+      const btnCloseArch = document.getElementById('btnCloseArch');
+      if (btnCloseArch) btnCloseArch.onclick = () => modalArch.classList.remove('active');
+      const btnCloseArchBottom = document.getElementById('btnCloseArchBottom');
+      if (btnCloseArchBottom) btnCloseArchBottom.onclick = () => modalArch.classList.remove('active');
+
+      // Modal Beneficios vs Trello
+      const modalBenefits = document.getElementById('modalBenefits');
+      const openBenefits = () => {
+        if (modalBenefits) modalBenefits.classList.add('active');
+        closeDrawer();
+      };
+      const btnOpenBenefitsModal = document.getElementById('btnOpenBenefitsModal');
+      if (btnOpenBenefitsModal) btnOpenBenefitsModal.onclick = openBenefits;
+      const btnOpenBenefitsHero = document.getElementById('btnOpenBenefitsHero');
+      if (btnOpenBenefitsHero) btnOpenBenefitsHero.onclick = openBenefits;
+
+      const btnCloseBenefits = document.getElementById('btnCloseBenefits');
+      if (btnCloseBenefits) btnCloseBenefits.onclick = () => modalBenefits.classList.remove('active');
+      const btnCloseBenefitsBottom = document.getElementById('btnCloseBenefitsBottom');
+      if (btnCloseBenefitsBottom) btnCloseBenefitsBottom.onclick = () => modalBenefits.classList.remove('active');
 
       document.getElementById('btnResetData').onclick = () => {
         if (confirm('¿Restablecer las tarjetas y tableros a los datos originales de Celltrex?')) {
