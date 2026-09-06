@@ -117,6 +117,7 @@ app.get('/api/boards', async (req, res) => {
           fecha_desde: c.transfer_fecha_desde ? c.transfer_fecha_desde.toISOString().split('T')[0] : '',
           fecha_hasta: c.transfer_fecha_hasta ? c.transfer_fecha_hasta.toISOString().split('T')[0] : '',
           dias_reservados: c.transfer_dias_reservados,
+          is_indefinite: !!(c.transfer_is_indefinite || (c.custom_data && c.custom_data.is_indefinite)),
           vencimiento: c.due_date ? c.due_date.toISOString().split('T')[0] : '',
           paymentTranches: (c.custom_data && c.custom_data.paymentTranches) ? c.custom_data.paymentTranches : null
         },
@@ -218,9 +219,9 @@ app.post('/api/cards', async (req, res) => {
       INSERT INTO cards (
         list_id, title, description, is_paid,
         transfer_titular, transfer_cuit, transfer_cbu, transfer_monto_ars,
-        transfer_fecha_desde, transfer_fecha_hasta, transfer_dias_reservados,
+        transfer_fecha_desde, transfer_fecha_hasta, transfer_dias_reservados, transfer_is_indefinite,
         due_date, custom_data
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *
     `, [
       listId,
       title,
@@ -233,9 +234,11 @@ app.post('/api/cards', async (req, res) => {
       t.fecha_desde || null,
       t.fecha_hasta || null,
       t.dias_reservados ? parseInt(t.dias_reservados, 10) : null,
+      !!t.is_indefinite,
       t.vencimiento || null,
       JSON.stringify({
         ...(customFields || {}),
+        is_indefinite: !!t.is_indefinite,
         paymentTranches: t.paymentTranches || []
       })
     ]);
@@ -272,7 +275,7 @@ app.put('/api/cards/:id', async (req, res) => {
   if (!db.isConnected) return res.json({ success: true });
 
   const { id } = req.params;
-  const { listId, position, isPaid, title, desc, paymentTranches } = req.body;
+  const { listId, position, isPaid, title, desc, paymentTranches, transferData } = req.body;
 
   try {
     const updates = [];
@@ -302,6 +305,38 @@ app.put('/api/cards/:id', async (req, res) => {
     if (paymentTranches !== undefined) {
       updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
       values.push(JSON.stringify(paymentTranches));
+    }
+    if (transferData !== undefined) {
+      if (transferData.fecha_desde !== undefined) {
+        updates.push(`transfer_fecha_desde = $${idx++}`);
+        values.push(transferData.fecha_desde || null);
+      }
+      if (transferData.fecha_hasta !== undefined) {
+        updates.push(`transfer_fecha_hasta = $${idx++}`);
+        values.push(transferData.fecha_hasta || null);
+      }
+      if (transferData.monto_ars !== undefined) {
+        updates.push(`transfer_monto_ars = $${idx++}`);
+        values.push(transferData.monto_ars ? Number(transferData.monto_ars) : null);
+      }
+      if (transferData.dias_reservados !== undefined) {
+        updates.push(`transfer_dias_reservados = $${idx++}`);
+        values.push(transferData.dias_reservados ? parseInt(transferData.dias_reservados, 10) : null);
+      }
+      if (transferData.is_indefinite !== undefined) {
+        updates.push(`transfer_is_indefinite = $${idx++}`);
+        values.push(!!transferData.is_indefinite);
+        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{is_indefinite}', $${idx++}::jsonb)`);
+        values.push(JSON.stringify(!!transferData.is_indefinite));
+      }
+      if (transferData.vencimiento !== undefined) {
+        updates.push(`due_date = $${idx++}`);
+        values.push(transferData.vencimiento || null);
+      }
+      if (transferData.paymentTranches !== undefined) {
+        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
+        values.push(JSON.stringify(transferData.paymentTranches));
+      }
     }
 
     if (updates.length > 0) {

@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS cards (
     transfer_fecha_desde DATE,
     transfer_fecha_hasta DATE,
     transfer_dias_reservados INT,
+    transfer_is_indefinite BOOLEAN DEFAULT FALSE,
 
     -- Estado de Pago (Pendiente / Pagado)
     is_paid BOOLEAN NOT NULL DEFAULT FALSE,
