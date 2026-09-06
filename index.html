@@ -1955,15 +1955,17 @@
       text-decoration: underline;
     }
 
-    /* Ocultar interfaz del sistema hasta que haya sesión validada */
-    body:not(.authenticated) header.app-header,
-    body:not(.authenticated) main.app-main,
-    body:not(.authenticated) aside.sidebar-drawer,
-    body:not(.authenticated) .modal {
+    /* Ocultar contenedor completo de la aplicación hasta que haya sesión validada */
+    #appContainer {
       display: none !important;
     }
+    body.authenticated #appContainer {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-    /* Si no está autenticado, la pantalla de login está siempre lista de fondo */
+    /* Si no está autenticado, la pantalla de login está siempre activa de fondo */
     body:not(.authenticated) #celltrexLoginScreen {
       display: flex !important;
     }
@@ -2117,9 +2119,10 @@
     </div>
   </div>
 
-
-  <!-- App Header -->
-  <header class="app-header">
+  <!-- Main Application Wrapper (shown only when authenticated) -->
+  <div id="appContainer">
+    <!-- App Header -->
+    <header class="app-header">
     <div class="header-content">
       <div class="header-left">
         <button class="btn-hamburger" id="btnToggleDrawer" title="Menú de tableros">
@@ -2293,6 +2296,7 @@
     </div>
 
   </main>
+  </div> <!-- /#appContainer -->
 
   <!-- Toast Notification -->
   <div class="toast-msg" id="toastNotification">
@@ -4333,10 +4337,10 @@ CREATE TABLE card_attachments (
         } else {
           clearTimeout(safetyTimer);
           setTimeout(() => {
+            if (onComplete) onComplete();
             preloader.classList.add('hidden');
             setTimeout(() => {
               preloader.style.display = 'none';
-              if (onComplete) onComplete();
             }, 600);
           }, 200);
         }
