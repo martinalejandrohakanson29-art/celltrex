@@ -2278,7 +2278,7 @@
           <input type="text" id="searchInput" class="search-input" placeholder="Buscar tarjetas..." />
         </div>
 
-        <button class="btn btn-outline" id="btnOpenArchModal">
+        <button class="btn btn-outline" id="btnOpenArchModal" style="display:none;">
           ⚙️ VPS & Postgres
         </button>
 
@@ -2398,7 +2398,8 @@
         <div class="board-top-actions">
           <button class="btn btn-outline" id="btnReturnDashboard">← Inicio</button>
           
-          ${board.isCustom ? `<button class="btn btn-outline" onclick="deleteBoard('${board.id}')" style="border-color:#FECACA; background:#FEF2F2; color:#DC2626; font-weight:700;" title="Eliminar este tablero personalizado">🗑️ Eliminar Tablero</button>` : ''}
+          <button class="btn btn-outline" id="btnDeleteCustomBoard" style="display:none; border-color:#FECACA; background:#FEF2F2; color:#DC2626; font-weight:700;" title="Eliminar este tablero personalizado">🗑️ Eliminar Tablero</button>
+
           <!-- BOTÓN CONFIGURAR CAMPOS DEL MODAL -->
           <button class="btn btn-config" id="btnOpenConfigFields" title="Personalizar qué campos se solicitan en el modal de este tablero">
             ⚙️ Configurar Campos
@@ -2408,8 +2409,6 @@
           <button class="btn btn-excel" id="btnExportBoardExcel" title="Descargar todas las tarjetas de este tablero en formato Excel">
             📊 Exportar a Excel
           </button>
-
-          <button class="btn btn-accent" id="btnNewCardBoardHead">+ Nueva Tarjeta</button>
         </div>
       </div>
 
@@ -3261,6 +3260,16 @@ CREATE TABLE card_attachments (
 
       document.getElementById('lblCurrentBoardName').innerText = board.name;
       document.getElementById('lblCurrentBoardTotal').innerText = `${board.cards.length} tarjetas`;
+
+      const btnDelCustom = document.getElementById('btnDeleteCustomBoard');
+      if (btnDelCustom) {
+        if (board.isCustom) {
+          btnDelCustom.style.display = 'inline-flex';
+          btnDelCustom.onclick = () => deleteBoard(board.id);
+        } else {
+          btnDelCustom.style.display = 'none';
+        }
+      }
 
       const container = document.getElementById('kanbanContainer');
       container.innerHTML = '';
@@ -5243,9 +5252,9 @@ CREATE TABLE card_attachments (
       document.getElementById('btnResetDefaultFields').onclick = handleResetDefaultFields;
       document.getElementById('btnAddCustomField').onclick = handleAddCustomField;
 
-      // New Card modal
       document.getElementById('btnOpenNewCard').onclick = () => triggerNewCard();
-      document.getElementById('btnNewCardBoardHead').onclick = () => triggerNewCard();
+      const btnNewCardHead = document.getElementById('btnNewCardBoardHead');
+      if (btnNewCardHead) btnNewCardHead.onclick = () => triggerNewCard();
       document.getElementById('btnCloseNewCard').onclick = closeNewCard;
       document.getElementById('btnCancelNewCard').onclick = closeNewCard;
       document.getElementById('btnSubmitNewCard').onclick = createCardFromModal;
