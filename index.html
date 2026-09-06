@@ -1989,6 +1989,25 @@
       </div>
     </div>
   </div>
+  <script>
+    (function() {
+      var bar = document.getElementById('preloaderBarFill');
+      var pct = document.getElementById('preloaderPercent');
+      var msg = document.getElementById('preloaderStatusMsg');
+      if (bar) bar.style.width = '20%';
+      if (pct) pct.innerText = '20%';
+      setTimeout(function() {
+        if (bar) bar.style.width = '45%';
+        if (pct) pct.innerText = '45%';
+        if (msg) msg.innerText = 'Sincronizando nodos de telecomunicaciones...';
+      }, 250);
+      setTimeout(function() {
+        if (bar) bar.style.width = '75%';
+        if (pct) pct.innerText = '75%';
+        if (msg) msg.innerText = 'Conectando con base de datos PostgreSQL...';
+      }, 650);
+    })();
+  </script>
 
   <!-- ==========================================
        CELLTREX LOGIN SCREEN
@@ -4190,6 +4209,170 @@ CREATE TABLE card_attachments (
     function esc(s) {
       if (s === null || s === undefined) return '';
       return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+
+    // ==========================================
+    // AUTHENTICATION & PRELOADER CONTROLLER
+    // ==========================================
+    const AUTH_STORAGE_KEY = 'celltrex_session_user';
+    const VALID_ACCOUNTS = [
+      { email: 'admin@celltrex.com.ar', pass: 'celltrex2026', name: 'Administrador', role: 'Administrador' },
+      { email: 'admin', pass: 'celltrex2026', name: 'Administrador', role: 'Administrador' },
+      { email: 'operaciones@celltrex.com.ar', pass: 'celltrex2026', name: 'Operaciones', role: 'Coordinador' },
+      { email: 'compras@celltrex.com.ar', pass: 'celltrex2026', name: 'Compras', role: 'Gestor' }
+    ];
+
+    function getAuthUser() {
+      try {
+        const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e) {
+        return null;
+      }
+    }
+
+    function setAuthUser(user) {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+      updateAuthUI(user);
+    }
+
+    function clearAuthUser() {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      updateAuthUI(null);
+    }
+
+    function updateAuthUI(user) {
+      const badge = document.getElementById('userProfileBadge');
+      const avatar = document.getElementById('userAvatarText');
+      const nameEl = document.getElementById('userDisplayName');
+      const loginScreen = document.getElementById('celltrexLoginScreen');
+
+      if (user) {
+        if (badge) badge.style.display = 'flex';
+        if (avatar) avatar.innerText = (user.name || 'US').substring(0, 2).toUpperCase();
+        if (nameEl) nameEl.innerText = user.name || user.email || 'Operador';
+        if (loginScreen) loginScreen.classList.remove('active');
+      } else {
+        if (badge) badge.style.display = 'none';
+        if (loginScreen) loginScreen.classList.add('active');
+      }
+    }
+
+    function runPreloader(onComplete) {
+      const preloader = document.getElementById('celltrexPreloader');
+      const bar = document.getElementById('preloaderBarFill');
+      const percentText = document.getElementById('preloaderPercent');
+      const statusMsg = document.getElementById('preloaderStatusMsg');
+
+      if (!preloader) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      // Safety timeout: never get stuck under any circumstance
+      const safetyTimer = setTimeout(() => {
+        if (preloader && preloader.style.display !== 'none') {
+          preloader.classList.add('hidden');
+          setTimeout(() => { preloader.style.display = 'none'; if (onComplete) onComplete(); }, 500);
+        }
+      }, 3500);
+
+      const steps = [
+        { pct: 25, msg: 'Calibrando enlace de microondas...', delay: 200 },
+        { pct: 55, msg: 'Sincronizando nodos de telecomunicaciones...', delay: 350 },
+        { pct: 85, msg: 'Conectando con base de datos PostgreSQL...', delay: 350 },
+        { pct: 100, msg: 'Sistemas operativos en línea.', delay: 250 }
+      ];
+
+      let currentStep = 0;
+      function advance() {
+        if (currentStep < steps.length) {
+          const s = steps[currentStep];
+          if (bar) bar.style.width = s.pct + '%';
+          if (percentText) percentText.innerText = s.pct + '%';
+          if (statusMsg) statusMsg.innerText = s.msg;
+          currentStep++;
+          setTimeout(advance, s.delay);
+        } else {
+          clearTimeout(safetyTimer);
+          setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => {
+              preloader.style.display = 'none';
+              if (onComplete) onComplete();
+            }, 600);
+          }, 200);
+        }
+      }
+      setTimeout(advance, 80);
+    }
+
+    function handleLoginSubmit() {
+      const emailInput = document.getElementById('loginEmail');
+      const passInput = document.getElementById('loginPassword');
+      const rememberInput = document.getElementById('loginRemember');
+      const errBox = document.getElementById('loginErrorBox');
+      const errText = document.getElementById('loginErrorText');
+      const btnSubmit = document.getElementById('btnLoginSubmit');
+
+      const email = emailInput.value.trim().toLowerCase();
+      const pass = passInput.value.trim();
+
+      if (errBox) errBox.style.display = 'none';
+
+      const matched = VALID_ACCOUNTS.find(a => 
+        (a.email.toLowerCase() === email && a.pass === pass)
+      );
+
+      const isValid = matched || (email.length >= 3 && pass === 'celltrex2026') || (email.endsWith('@celltrex.com.ar') && pass.length >= 4);
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<span>Verificando credenciales...</span>';
+      }
+
+      setTimeout(() => {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = '<span>Ingresar al Sistema</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+        }
+
+        if (isValid) {
+          const userObj = matched || {
+            email: email,
+            name: email.includes('@') ? email.split('@')[0].toUpperCase() : email.toUpperCase(),
+            role: 'Operador Celltrex'
+          };
+
+          if (rememberInput && rememberInput.checked) {
+            setAuthUser(userObj);
+          } else {
+            sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userObj));
+            updateAuthUI(userObj);
+          }
+
+          showToast('👋 ¡Bienvenido, ' + userObj.name + '! Enlace operativo establecido.');
+        } else {
+          if (errText) errText.innerText = 'Usuario o contraseña incorrectos. Prueba con admin@celltrex.com.ar / celltrex2026';
+          if (errBox) errBox.style.display = 'flex';
+          passInput.focus();
+        }
+      }, 400);
+    }
+
+    function handleLogout() {
+      if (confirm('¿Cerrar la sesión operativa actual?')) {
+        clearAuthUser();
+        sessionStorage.removeItem(AUTH_STORAGE_KEY);
+        const loginScreen = document.getElementById('celltrexLoginScreen');
+        if (loginScreen) {
+          loginScreen.classList.add('active');
+          const pwd = document.getElementById('loginPassword');
+          if (pwd) pwd.value = '';
+        }
+        showToast('Sesión cerrada correctamente.');
+      }
     }
 
     // Init
