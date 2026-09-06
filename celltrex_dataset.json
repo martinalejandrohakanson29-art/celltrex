@@ -88,29 +88,14 @@
         "color": "yellow"
       },
       {
-        "id": "65c621e09e660c020c574a8a",
-        "name": "DEPOSITO",
-        "color": "sky"
-      },
-      {
         "id": "637255c1c37b8e00bbe2ee63",
         "name": "LUCIANO MARTINEZ",
         "color": "sky_dark"
       },
       {
-        "id": "63768a0df67b4b0336625f7c",
-        "name": "DEPOSITO",
-        "color": "lime_dark"
-      },
-      {
         "id": "663cddc56bea5dc9ac4555d5",
         "name": "ASIGNACION HERRAMIENTAS",
         "color": "blue"
-      },
-      {
-        "id": "679c0c25fb51325e8f394791",
-        "name": "Deposito Buenos Aires",
-        "color": "blue_dark"
       },
       {
         "id": "63b5a422cbff56001d9727f8",
@@ -148,11 +133,6 @@
         "color": "blue_dark"
       },
       {
-        "id": "688bcb05bbf41e743d6873d8",
-        "name": "ADS ESTUDIOS MEDICOS",
-        "color": "orange"
-      },
-      {
         "id": "639cdd8e6fcb7e028725bf74",
         "name": "PROTIND SRL",
         "color": "yellow"
@@ -183,23 +163,8 @@
         "color": "yellow_light"
       },
       {
-        "id": "649460cadd67739ab74eee86",
-        "name": "CLC CÓRDOBA",
-        "color": "blue_dark"
-      },
-      {
         "id": "668fda6fabbaa41662e0d438",
         "name": "Mario Cáceres",
-        "color": "sky_dark"
-      },
-      {
-        "id": "6520468a2b0d153b0b0acc27",
-        "name": "Stock Deposito a asignar",
-        "color": "purple_dark"
-      },
-      {
-        "id": "6380360e1e3a24054f0cffa9",
-        "name": "PISO 2 (DEPOSITO)",
         "color": "sky_dark"
       },
       {
@@ -216,11 +181,6 @@
         "id": "66c5e4870ba4ace9bc1f357e",
         "name": "Lucas Kremer",
         "color": "green_dark"
-      },
-      {
-        "id": "6877b7f103cfab2121ec3e19",
-        "name": "SF01001 CENTRAL OFFICE",
-        "color": "purple_dark"
       },
       {
         "id": "66423127f61f6e62fc3a22c1",
@@ -243,11 +203,6 @@
         "color": "yellow"
       },
       {
-        "id": "66e19f1dcc0d0a0c23422fbf",
-        "name": "CAC CÓRDOBA PEATONAL",
-        "color": "blue_dark"
-      },
-      {
         "id": "679a29c4e3ff95c23a7e3bfc",
         "name": "GUADA",
         "color": "pink_dark"
@@ -263,24 +218,9 @@
         "color": "red_dark"
       },
       {
-        "id": "66423088af2bf8f131038cfd",
-        "name": "Oasis Cordillerano Village",
-        "color": "red_light"
-      },
-      {
-        "id": "65d8ade11afc103ea801a7da",
-        "name": "Life Apart Mendoza",
-        "color": "yellow"
-      },
-      {
         "id": "639750c22bcc150023c16959",
         "name": "ISOLA LUCRECIA",
         "color": "yellow"
-      },
-      {
-        "id": "6385fb084ac7f301172bd996",
-        "name": "CAC GODOY CRUZ",
-        "color": "red"
       },
       {
         "id": "66e85360328933e3807cbbfc",
@@ -293,29 +233,9 @@
         "color": "yellow"
       },
       {
-        "id": "664231dce678eb67141049b1",
-        "name": "JC005 SAN JUAN TASA",
-        "color": "red_dark"
-      },
-      {
-        "id": "6894f727dc315c674219c5b9",
-        "name": "A09-S116 Bañado de los Pantanos",
-        "color": "red_dark"
-      },
-      {
         "id": "67041cc7e6577bd6b49bed5f",
         "name": "TELEFONICA HUAWEI",
         "color": "blue_dark"
-      },
-      {
-        "id": "6793a9f149237c438dcfbf6e",
-        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
-        "color": "red_dark"
-      },
-      {
-        "id": "664231fb08c94ccead84f10c",
-        "name": "JC341",
-        "color": "red_dark"
       }
     ],
     "cards": [
@@ -331,7 +251,8 @@
           }
         ],
         "due": "2026-09-03T12:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7b4e1abddc46ac9f3a8492",
@@ -345,7 +266,8 @@
           }
         ],
         "due": "2026-09-06T16:19:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7b4e1c5f50b197f419f6b8",
@@ -359,7 +281,8 @@
           }
         ],
         "due": "2026-09-06T16:19:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7df7ea7db4e8550780297f",
@@ -373,7 +296,8 @@
           }
         ],
         "due": "2026-09-13T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7df8e164ad5895494b4ad1",
@@ -387,7 +311,8 @@
           }
         ],
         "due": "2026-08-26T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8744401e60b2c76c4ab159",
@@ -401,7 +326,8 @@
           }
         ],
         "due": "2026-08-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a888944aadabe1774b50f3f",
@@ -415,7 +341,8 @@
           }
         ],
         "due": "2026-08-24T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c655d27eb93e440e66002",
@@ -429,7 +356,8 @@
           }
         ],
         "due": "2026-08-24T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c925b0f98d4326fbbd736",
@@ -443,7 +371,8 @@
           }
         ],
         "due": "2026-09-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c925da55405dcaf9c6055",
@@ -457,7 +386,8 @@
           }
         ],
         "due": "2026-09-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c9261b45955326ca49e24",
@@ -471,7 +401,8 @@
           }
         ],
         "due": "2026-09-23T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c9324c6c58fb654d07e5c",
@@ -485,7 +416,8 @@
           }
         ],
         "due": "2026-09-23T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f1f2392c94833f2c52575",
@@ -499,7 +431,8 @@
           }
         ],
         "due": "2026-09-09T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96d71079e07c463016bbdc",
@@ -508,7 +441,8 @@
         "idList": "5e2898ac0299704bb5c2d6a3",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96ebb3ba14110b68078e28",
@@ -522,7 +456,8 @@
           }
         ],
         "due": "2026-09-14T15:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a97168fad3757b3955d3dc7",
@@ -536,7 +471,8 @@
           }
         ],
         "due": "2026-09-01T15:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a971936ee987e6a3c98c80a",
@@ -554,7 +490,8 @@
           }
         ],
         "due": "2026-09-01T15:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9819fb2cc7e4fe9dc0408d",
@@ -568,7 +505,8 @@
           }
         ],
         "due": "2026-09-02T12:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a997f89ddc157e075493cb9",
@@ -582,7 +520,8 @@
           }
         ],
         "due": "2026-09-03T12:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a99a602a48fba150859bf76",
@@ -596,7 +535,8 @@
           }
         ],
         "due": "2026-09-04T12:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9a035b798fc23d2e546bd8",
@@ -605,7 +545,8 @@
         "idList": "5e2898ac0299704bb5c2d6a3",
         "labels": [],
         "due": "2026-09-04T01:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9adb64630a72d52ec9574c",
@@ -614,7 +555,8 @@
         "idList": "5e2898ac0299704bb5c2d6a3",
         "labels": [],
         "due": "2026-09-04T14:54:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9b0f1050b9bbecd80316c9",
@@ -628,7 +570,8 @@
           }
         ],
         "due": "2026-09-30T18:37:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9b182abad2d97910f21848",
@@ -642,7 +585,8 @@
           }
         ],
         "due": "2026-09-17T18:37:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95bf2d7eaaacb8795957d1",
@@ -660,7 +604,8 @@
           }
         ],
         "due": "2026-08-31T17:52:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8ee3fa9b95cf70596f50ef",
@@ -674,49 +619,56 @@
           }
         ],
         "due": "2026-08-26T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a1f1765543b72e6df589308",
         "name": "ADS- Estudios médicos",
         "desc": "Nombre y Apellido:Hernan santillan\n\nDNI:37238508\n\n‌\n\nDESCONTAR?? O ES PROPIO????",
         "idList": "6425ae140110d1f29356321f",
-        "labels": [
+        "labels": [],
+        "due": "2026-06-02T17:49:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "ADS ESTUDIOS MEDICOS",
             "color": "orange"
           }
-        ],
-        "due": "2026-06-02T17:49:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a5e3e6ecf3fa67802e1892f",
         "name": "ADS Estudios Médicos",
         "desc": "",
         "idList": "6425ae140110d1f29356321f",
-        "labels": [
+        "labels": [],
+        "due": "2026-07-20T15:27:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "ADS ESTUDIOS MEDICOS",
             "color": "orange"
           }
-        ],
-        "due": "2026-07-20T15:27:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a43c231db008b0b981b59a6",
         "name": "ADS Estudios Médico",
         "desc": "",
         "idList": "6425ae140110d1f29356321f",
-        "labels": [
+        "labels": [],
+        "due": "2026-06-30T13:18:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "ADS ESTUDIOS MEDICOS",
             "color": "orange"
           }
-        ],
-        "due": "2026-06-30T13:18:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a3d607b10bbbf8f2b2cd193",
@@ -734,7 +686,8 @@
           }
         ],
         "due": "2026-06-25T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3bebd70af7738d36782887",
@@ -752,7 +705,8 @@
           }
         ],
         "due": "2026-06-24T14:38:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a1dd0e7c8fcc23d7ad884c8",
@@ -761,7 +715,8 @@
         "idList": "6425ae140110d1f29356321f",
         "labels": [],
         "due": "2026-06-01T14:53:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69d65340f7c9d43f4d915f28",
@@ -769,10 +724,6 @@
         "desc": "Contratista: ESPADA DARIO\n\nOscar raul diaz\nDni 18400172 torrero.\nAgustin islas barraza\nDni 40169694 torrero.",
         "idList": "6425ae140110d1f29356321f",
         "labels": [
-          {
-            "name": "ADS ESTUDIOS MEDICOS",
-            "color": "orange"
-          },
           {
             "name": "SPADA DARIO",
             "color": "green"
@@ -787,7 +738,14 @@
           }
         ],
         "due": "2026-04-08T12:58:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ADS ESTUDIOS MEDICOS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a0b0a327d743df4d6929459",
@@ -809,7 +767,8 @@
           }
         ],
         "due": "2026-05-18T12:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a070e2b7642b5ff3013a76a",
@@ -831,7 +790,8 @@
           }
         ],
         "due": "2026-05-15T12:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69e64a41578578720451b1b8",
@@ -839,10 +799,6 @@
         "desc": "CREADAS 3 NC\n\n‌\n\nEsto se debe descontar al contratista Jorge Cabrera!!\n\nMatías Rubén Hansen 29406191\n\nIan taiel Hansen 47637291\n\n‌\n\nCREADAS 3 NC",
         "idList": "6425ae140110d1f29356321f",
         "labels": [
-          {
-            "name": "ADS ESTUDIOS MEDICOS",
-            "color": "orange"
-          },
           {
             "name": "JORGE CABRERA - TORREKENS",
             "color": "yellow"
@@ -861,7 +817,14 @@
           }
         ],
         "due": "2026-04-21T15:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ADS ESTUDIOS MEDICOS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a3d3ff2fdbd07987073a40b",
@@ -869,10 +832,6 @@
         "desc": "Ambos son nuestros\n\n‌\n\nJORGE DAVID LUJAN descontar a SPADA $180.000 + iva = $217.800 FAC A 38910",
         "idList": "6425ae140110d1f29356321f",
         "labels": [
-          {
-            "name": "ADS ESTUDIOS MEDICOS",
-            "color": "orange"
-          },
           {
             "name": "SPADA DARIO",
             "color": "green"
@@ -883,7 +842,14 @@
           }
         ],
         "due": "2026-06-25T14:50:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ADS ESTUDIOS MEDICOS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a3d458d4a37640854d8642a",
@@ -897,7 +863,8 @@
           }
         ],
         "due": "2026-07-23T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3d2747559f4ee9a5621281",
@@ -911,7 +878,8 @@
           }
         ],
         "due": "2026-07-09T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a26e9b27f7db46991cb8443",
@@ -925,7 +893,8 @@
           }
         ],
         "due": "2026-06-08T13:29:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a202c506d415049939f8d3a",
@@ -939,7 +908,8 @@
           }
         ],
         "due": "2026-07-01T13:08:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a202a1c9bc443e8bad44700",
@@ -953,7 +923,8 @@
           }
         ],
         "due": "2026-07-01T13:08:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a0c512a6a1336483356b3f2",
@@ -967,7 +938,8 @@
           }
         ],
         "due": "2026-06-02T12:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69f34d3e0e2941839ab1117d",
@@ -989,7 +961,8 @@
           }
         ],
         "due": "2026-05-15T12:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69f0c784dc42e3465ba16dea",
@@ -1000,14 +973,17 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "A11-S389\tTucumán CENTRO 5",
-            "color": "red"
           }
         ],
         "due": "2026-05-12T14:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A11-S389\tTucumán CENTRO 5",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69ef697a869af1baced6362a",
@@ -1016,16 +992,19 @@
         "idList": "5e2898ac0299704bb5c2d6a6",
         "labels": [
           {
-            "name": "A03-M003 Movistar XC003",
-            "color": "orange_light"
-          },
-          {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
           }
         ],
         "due": "2026-05-01T13:48:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-M003 Movistar XC003",
+            "color": "orange_light"
+          }
+        ]
       },
       {
         "id": "69e238a7573a3fc792aeb320",
@@ -1036,14 +1015,17 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "A03-S278  Córdoba Minetti",
-            "color": "orange_dark"
           }
         ],
         "due": "2026-05-01T14:56:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S278  Córdoba Minetti",
+            "color": "orange_dark"
+          }
+        ]
       },
       {
         "id": "69de81105c8af13ad13e2e25",
@@ -1057,7 +1039,8 @@
           }
         ],
         "due": "2026-04-14T13:33:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69dd168a117eb224081060ff",
@@ -1071,7 +1054,8 @@
           }
         ],
         "due": "2026-04-28T16:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69d3eac04a83270040a0521a",
@@ -1082,14 +1066,17 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "A03-M182 (XW009) Villa Carlos Paz Playa de Oro:",
-            "color": "red_dark"
           }
         ],
         "due": "2026-04-14T17:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-M182 (XW009) Villa Carlos Paz Playa de Oro:",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "69d3e9ac23567570e81f8203",
@@ -1100,14 +1087,17 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "A02-S006\tCRUZ ALTA CENTRAL",
-            "color": "red_light"
           }
         ],
         "due": "2026-04-16T17:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A02-S006\tCRUZ ALTA CENTRAL",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "69cd10a03110e5734f4aa2a1",
@@ -1121,7 +1111,8 @@
           }
         ],
         "due": "2026-04-15T12:34:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "691f207dda65492697e94202",
@@ -1135,7 +1126,8 @@
           }
         ],
         "due": "2025-12-19T14:07:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "68bae0e56e4cd2f899caa270",
@@ -1149,7 +1141,8 @@
           }
         ],
         "due": "2025-09-23T13:17:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3d4590386299ec6a17387f",
@@ -1163,7 +1156,8 @@
           }
         ],
         "due": "2026-07-19T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3d4592f6b4a86db638a59e",
@@ -1177,7 +1171,8 @@
           }
         ],
         "due": "2026-07-19T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a510c9daeb64c55e4651081",
@@ -1191,7 +1186,8 @@
           }
         ],
         "due": "2026-08-12T14:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a4e96fa5d8df319ede765ff",
@@ -1202,14 +1198,17 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           }
         ],
         "due": "2026-07-18T18:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "6a3ebcda439fda89813759a2",
@@ -1223,7 +1222,8 @@
           }
         ],
         "due": "2026-06-25T12:25:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3d4c38e5081cc31d0e5f28",
@@ -1237,7 +1237,8 @@
           }
         ],
         "due": "2026-07-19T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a3d4594b0560cfc6d0d887c",
@@ -1251,7 +1252,8 @@
           }
         ],
         "due": "2026-07-19T12:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a6caa6ada33e776d640f1ec",
@@ -1265,7 +1267,8 @@
           }
         ],
         "due": "2026-07-31T14:04:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a6cabcee75c49bc14030825",
@@ -1279,7 +1282,8 @@
           }
         ],
         "due": "2026-07-31T14:04:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7dea61ece6dca06bd79006",
@@ -1293,7 +1297,8 @@
           }
         ],
         "due": "2026-08-14T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a871be14e7de7808e8c3c65",
@@ -1307,7 +1312,8 @@
           }
         ],
         "due": "2026-09-20T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "67a35725db1547e4c721c7eb",
@@ -1331,7 +1337,8 @@
           "MONTO Final a PAGAR": "290.037",
           "MONTO COTIZADO": "290.037",
           "FECHA de Solicitud": "2025-02-05T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "673ddda4e592acfe79e468a8",
@@ -1363,7 +1370,8 @@
           "MONTO COTIZADO": "106200",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-11-22T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "673dd538063f1f8c755fb201",
@@ -1371,10 +1379,6 @@
         "desc": "Pago de 1 noche para 2 personas. $48.000\n\n![image.png](https://trello.com/1/cards/673dd538063f1f8c755fb201/attachments/673dd57034b4a1376ab72c20/download/image.png)\n\n[hotelsolano@hotmail.com](mailto:hotelsolano@hotmail.com \"‌\")",
         "idList": "5e2898ac0299704bb5c2d6a5",
         "labels": [
-          {
-            "name": "Hotel Solano",
-            "color": "yellow"
-          },
           {
             "name": "GUERRERO ARGENIS",
             "color": "green"
@@ -1391,7 +1395,14 @@
           "MONTO Final a PAGAR": "48.000",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2024-11-20T12:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Hotel Solano",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "6a95b04cb118ae87fc921160",
@@ -1400,7 +1411,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-31T16:49:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95a31949958354fa193b4b",
@@ -1414,7 +1426,8 @@
           }
         ],
         "due": "2026-08-31T13:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9586ec838e5d62e435b44d",
@@ -1423,7 +1436,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-31T13:44:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9584d5ba3c409fb4ff8ade",
@@ -1432,7 +1446,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-31T13:44:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a91a78d09bbfe0c0f9cc64f",
@@ -1446,7 +1461,8 @@
           }
         ],
         "due": "2026-08-28T15:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9196214e8bb6ce47065b53",
@@ -1460,7 +1476,8 @@
           }
         ],
         "due": "2026-08-28T14:07:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a906fb331ab7d1d56bd026a",
@@ -1469,7 +1486,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-27T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f1d04f306ceebfa9aa608",
@@ -1478,21 +1496,24 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-26T16:41:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f1cef61da6c76e5bf5433",
         "name": "estudio drive",
         "desc": "nuevo de drive test\n\njulio villaba",
         "idList": "5e2898ac0299704bb5c2d6a8",
-        "labels": [
+        "labels": [],
+        "due": "2026-08-28T14:21:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "ADS ESTUDIOS MEDICOS",
             "color": "orange"
           }
-        ],
-        "due": "2026-08-28T14:21:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a8f163dd5bf3004605b8b7a",
@@ -1501,7 +1522,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-26T16:37:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c6fa26668e5f3d0d682b8",
@@ -1510,7 +1532,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-24T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c6cf435203170adddacc7",
@@ -1519,7 +1542,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-24T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8868ddae0a03bc6f606927",
@@ -1537,7 +1561,8 @@
           }
         ],
         "due": "2026-08-21T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8730c4d1aca5e09143db3b",
@@ -1546,7 +1571,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a872d22a821f807a71d1b27",
@@ -1555,7 +1581,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a871b0a4e496a2ed03c42a7",
@@ -1564,7 +1591,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-20T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a87013234666a53620bce56",
@@ -1578,7 +1606,8 @@
           }
         ],
         "due": "2026-08-20T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a85dd4c71c462c34281b4b4",
@@ -1592,7 +1621,8 @@
           }
         ],
         "due": "2026-08-19T16:38:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a85dbfcdcccc6660b4551e0",
@@ -1600,10 +1630,6 @@
         "desc": "transferir",
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [
-          {
-            "name": "ADS ESTUDIOS MEDICOS",
-            "color": "orange"
-          },
           {
             "name": "FRANCO LOPEZ",
             "color": "black_light"
@@ -1614,21 +1640,30 @@
           }
         ],
         "due": "2026-08-31T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ADS ESTUDIOS MEDICOS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a85dbe994b37db31dea0411",
         "name": "turno lucas torres",
         "desc": "",
         "idList": "5e2898ac0299704bb5c2d6a8",
-        "labels": [
+        "labels": [],
+        "due": "2026-08-20T13:14:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "ADS ESTUDIOS MEDICOS",
             "color": "orange"
           }
-        ],
-        "due": "2026-08-20T13:14:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a85dbe3045ef4f9b59daa70",
@@ -1637,16 +1672,19 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [
           {
-            "name": "ADS ESTUDIOS MEDICOS",
-            "color": "orange"
-          },
-          {
             "name": "Juan Alberto Orue",
             "color": "purple"
           }
         ],
         "due": "2026-09-01T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ADS ESTUDIOS MEDICOS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a85a845880775ce9282e474",
@@ -1655,7 +1693,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-19T12:48:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a85a7aa28509d61af15cf96",
@@ -1664,7 +1703,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-19T12:48:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a84aeab2378526941e9644b",
@@ -1673,7 +1713,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-18T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7f3a653aba3d5836b80919",
@@ -1687,7 +1728,8 @@
           }
         ],
         "due": "2026-08-18T12:25:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7e6f14952c54e117bca2d5",
@@ -1696,7 +1738,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-13T20:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7e6eeb125d7568ec14e2e1",
@@ -1705,7 +1748,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-14T20:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7df9cdd60680ba6a63ffbc",
@@ -1719,7 +1763,8 @@
           }
         ],
         "due": "2026-08-14T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7ddde56bb6c33b1f0ae6af",
@@ -1733,7 +1778,8 @@
           }
         ],
         "due": "2026-08-14T15:09:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7b6442650786a2e7a17624",
@@ -1747,7 +1793,8 @@
           }
         ],
         "due": "2026-08-11T13:13:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7b4b9b02955ccd34a2502e",
@@ -1761,7 +1808,8 @@
           }
         ],
         "due": "2026-08-11T16:19:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7a437b6fb0cba7e1914df0",
@@ -1775,7 +1823,8 @@
           }
         ],
         "due": "2026-08-11T21:32:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7a35ef0ca99857c3b3a297",
@@ -1784,7 +1833,8 @@
         "idList": "5e2898ac0299704bb5c2d6a8",
         "labels": [],
         "due": "2026-08-11T20:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7a1665afbd738889dc132b",
@@ -1802,7 +1852,8 @@
           }
         ],
         "due": "2026-08-11T12:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a79e3953c6079cf0c8e24de",
@@ -1813,7 +1864,8 @@
         "due": "2026-08-11T13:45:00.000Z",
         "customFields": {
           "MONTO Final a PAGAR": "65000"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67588f98df885baa3727b9f8",
@@ -1828,10 +1880,6 @@
           {
             "name": "WORLDSEEG",
             "color": "yellow"
-          },
-          {
-            "name": "GUSTAVO EZEQUIEL MENDOZA",
-            "color": "yellow_light"
           }
         ],
         "due": "2024-12-10T13:04:00.000Z",
@@ -1844,7 +1892,14 @@
           "MONTO COTIZADO": "185900.00",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-12-10T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "GUSTAVO EZEQUIEL MENDOZA",
+            "color": "yellow_light"
+          }
+        ]
       },
       {
         "id": "672bc28f3c0653d4d12c1ad5",
@@ -1852,10 +1907,6 @@
         "desc": "Se realiza la compra de herramienta para el sitio A11-S690 B° los andes Tucumán.",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "A11-S690 Tucumán Barrio Los Andes",
-            "color": "red_dark"
-          },
           {
             "name": "HUINCA RENANCO NORTE S.R.L",
             "color": "blue_dark"
@@ -1876,7 +1927,14 @@
           "MONTO COTIZADO": "62809.92",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2024-11-06T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A11-S690 Tucumán Barrio Los Andes",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "671bba2713c080c9abddcc82",
@@ -1884,10 +1942,6 @@
         "desc": "Se realiza la compra de cinta métrica de 8mm y 10mm para Néstor.",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
@@ -1908,7 +1962,14 @@
           "MONTO COTIZADO": "47523.24",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-10-22T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "671bb9720648ffb0eaba50e3",
@@ -1916,10 +1977,6 @@
         "desc": "",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
@@ -1940,7 +1997,14 @@
           "MONTO COTIZADO": "8307.52",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-10-24T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "671926776fb0dc9d7520e1ca",
@@ -1966,7 +2030,8 @@
           "MONTO Final a PAGAR": "266200.00",
           "MONTO COTIZADO": "220000.00",
           "FECHA de Solicitud": "2024-10-23T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "670d58f6ce788ae76986735b",
@@ -1994,7 +2059,8 @@
           "MONTO COTIZADO": "100026.18",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-10-10T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6707efcea5ffc1df3aa3a377",
@@ -2022,7 +2088,8 @@
           "MONTO COTIZADO": "36200",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-10-10T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66faeae882adcc26e7fd27ad",
@@ -2030,10 +2097,6 @@
         "desc": "Se realiza compra de herramiento para el relevamiento de Huawei Telefonica.\n\nSe le asigna la siguiente herramienta a Maximiliano Cardozo y a Oscar Bordon",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
@@ -2062,7 +2125,14 @@
           "MONTO COTIZADO": "42001.66",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-09-30T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66fae6bd88d6de602423187f",
@@ -2070,10 +2140,6 @@
         "desc": "Se realiza compra de herramiento para el relevamiento de Huawei Telefonica.\n\nSe le asigna la siguiente herramienta a Maximiliano Cardozo y a Oscar Bordon.",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "RICHETTA Y CIA S.A",
             "color": "blue_dark"
@@ -2103,7 +2169,14 @@
           "MONTO COTIZADO": "75310.80",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-09-30T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66e450768625b1f78e1a4567",
@@ -2118,10 +2191,6 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           }
         ],
         "due": "2024-09-25T16:00:00.000Z",
@@ -2135,7 +2204,14 @@
           "MONTO COTIZADO": "12361.78",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-09-12T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66e447ab9cb33aeef1f48cb8",
@@ -2143,10 +2219,6 @@
         "desc": "Se realiza compra de herramienta para stock de deposito, luego procederemos con su asignacion.\n\nSe le se asigana 1 inclinometro a Amicar Adell.\n\nOBSERVACIONES:\n\nQueda un inclinometro en stock solicitado por Nestor Brito.",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "ASIGNACION HERRAMIENTAS",
             "color": "blue"
@@ -2171,7 +2243,14 @@
           "MONTO COTIZADO": "61809.95",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-09-13T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66e4447598e003e12be0e4d1",
@@ -2179,14 +2258,6 @@
         "desc": "Se realiza compra de herramienta para stock de deposito, luego procederemos con su asignacion.",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
-          {
-            "name": "ARGENCORDOBA",
-            "color": "yellow"
-          },
           {
             "name": "ASIGNACION HERRAMIENTAS",
             "color": "blue"
@@ -2203,7 +2274,19 @@
           "MONTO COTIZADO": "81447.96",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-09-13T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          },
+          {
+            "id": "st_c",
+            "name": "ARGENCORDOBA",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "66e335aafa43b72efa93e9db",
@@ -2211,10 +2294,6 @@
         "desc": "",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "RICHETTA Y CIA S.A",
             "color": "blue_dark"
@@ -2235,7 +2314,14 @@
           "MONTO COTIZADO": "33714.00",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-07T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66e333975781dc4f0b6106f1",
@@ -2250,10 +2336,6 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           }
         ],
         "due": "2024-09-18T18:04:00.000Z",
@@ -2268,7 +2350,14 @@
           "MONTO COTIZADO": "30128.15",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-29T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66e3063befadc0f7aa662e08",
@@ -2276,10 +2365,6 @@
         "desc": "",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
@@ -2301,7 +2386,14 @@
           "MONTO COTIZADO": "13845.71",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-27T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66df114c99836d784109d81e",
@@ -2309,10 +2401,6 @@
         "desc": "SE REALIZA COMPRAS DE MATERIALES PARA DEPOSITO",
         "idList": "651c5c099672945329f4c979",
         "labels": [
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
-          },
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
@@ -2334,7 +2422,14 @@
           "MONTO COTIZADO": "30008.70",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-07-29T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66df0fb63b611ae59f0eb1fd",
@@ -2349,10 +2444,6 @@
           {
             "name": "BULONERA ALFA",
             "color": "blue_dark"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           }
         ],
         "due": "2024-09-24T15:00:00.000Z",
@@ -2367,7 +2458,14 @@
           "MONTO COTIZADO": "78962.96",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-06T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "66df0d02ae89a4523913c0a0",
@@ -2400,7 +2498,8 @@
           "MONTO COTIZADO": "287908.89",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-23T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66bb47d38e55c859ecd95e52",
@@ -2436,7 +2535,8 @@
           "MONTO Final a PAGAR": "52546.37",
           "MONTO COTIZADO": "43248.03",
           "PM Solicitante": "Brito Nestor"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66b609273aebce898bfab779",
@@ -2468,7 +2568,8 @@
           "MONTO COTIZADO": "255868.84",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-09T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66b4bf32100d5a3f0445e3ce",
@@ -2501,7 +2602,8 @@
           "MONTO COTIZADO": "94215.42",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-01T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66b239d353ccb05320f74517",
@@ -2534,7 +2636,8 @@
           "MONTO COTIZADO": "66117.65",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-08-01T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66ad58f2f052423cd053d67b",
@@ -2567,7 +2670,8 @@
           "MONTO COTIZADO": "509485.10",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-07-30T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "66a29d98c94986076b5b6f27",
@@ -2578,10 +2682,6 @@
           {
             "name": "SUDESTES GASES",
             "color": "yellow"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           },
           {
             "name": "ASIGNACION HERRAMIENTAS",
@@ -2600,7 +2700,14 @@
           "MONTO COTIZADO": "113542.14",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-07-24T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "669fb240cf336d11c06966d7",
@@ -2611,10 +2718,6 @@
           {
             "name": "PINTURERIA REX S.A",
             "color": "yellow"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           },
           {
             "name": "ASIGNACION HERRAMIENTAS",
@@ -2633,7 +2736,14 @@
           "MONTO COTIZADO": "573199.23",
           "PM Solicitante": "Brito Nestor",
           "FECHA de Solicitud": "2024-07-22T12:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "68b1e3c61d3b20a225d82e6a",
@@ -2647,7 +2757,8 @@
           }
         ],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a01e923e6af923a23cb8623",
@@ -2681,63 +2792,70 @@
           "TAREA": "EXPANSIÓN LTE",
           "MONTO ADELANTO DE OBRA $": "38000",
           "MODO": "TRANSFERENCIA"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6894f5a59ddc316edda579b8",
         "name": "A09-S116 Bañado de los Pantanos",
         "desc": "Se requieren los siguientes materiales para el sitio en referencia.\n\nA09-S116 Bañado de los Pantanos\n[https://maps.app.goo.gl/ZM1yWL9AP4AbPaux9](https://maps.app.goo.gl/ZM1yWL9AP4AbPaux9 \"smartCard-inline\")",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A09-S116 Bañado de los Pantanos",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "Proyecto": "OBRA CIVILES",
           "FECHA de Necesidad de Material": "2025-08-11T15:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-08-07T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A09-S116 Bañado de los Pantanos",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "687668fd1c4a8079a3bccfaf",
         "name": "CLC - EXTENSIÓN RAMPA",
         "desc": "",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "CLC CÓRDOBA",
-            "color": "blue_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "Proyecto": "OBRA CIVILES",
           "FECHA de Necesidad de Material": "2025-07-17T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-07-15T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CLC CÓRDOBA",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "6875296f014cb9be75c2efa2",
         "name": "A35-D035 Villa Mercedes Centro",
         "desc": "Se requiere la compra de un juego soporte doble para el sitio en referencias.\n\nSe hace la consulta con Anfisa, tienen disponible y entrega inmediata.\n\nBruno Sallese 1157828033",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A35-D035 Villa Mercedes Centro",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "FECHA de Necesidad de Material": "2025-07-14T15:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-07-14T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A35-D035 Villa Mercedes Centro",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "6848481ba508607de5fc33cc",
@@ -2756,7 +2874,8 @@
           "FECHA de Necesidad de Material": "2025-06-13T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-06-10T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6835aabac47f602746c2f5dd",
@@ -2767,10 +2886,6 @@
           {
             "name": "TELEFONICA HUAWEI",
             "color": "blue_dark"
-          },
-          {
-            "name": "Deposito Buenos Aires",
-            "color": "blue_dark"
           }
         ],
         "due": "2025-05-27T12:30:00.000Z",
@@ -2778,7 +2893,14 @@
           "FECHA de Necesidad de Material": "2025-05-27T13:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-05-27T12:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Deposito Buenos Aires",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "6824efd7cbc16fc55b1e00fc",
@@ -2800,7 +2922,8 @@
           "FECHA de Necesidad de Material": "2025-05-16T12:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-05-14T19:30:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "681e34129f3d89d31011f605",
@@ -2811,7 +2934,8 @@
         "due": "2025-05-09T16:58:00.000Z",
         "customFields": {
           "MONTO Final a PAGAR": "30.613"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "681b624cb78e06cb3146012d",
@@ -2822,35 +2946,40 @@
           {
             "name": "TELEFONICA HUAWEI",
             "color": "blue_dark"
-          },
-          {
-            "name": "Deposito Buenos Aires",
-            "color": "blue_dark"
           }
         ],
         "due": null,
         "customFields": {
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-05-06T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Deposito Buenos Aires",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "681b611e1c2613cce62559b4",
         "name": "A33-O737 Mendoza Garage Sardi Mudanza",
         "desc": "Se necesita la compra del siguiente material:\n\n- (12) CABLE ACERADO DESNUDO 6 MM\n- (1) terminal ojal de 6mm",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A33-O737 Mendoza Garage Sardi Mudanza",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "FECHA de Necesidad de Material": "2025-05-12T15:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-05-06T17:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "67ffc37085bc9fb32b7ae581",
@@ -2871,7 +3000,8 @@
           "FECHA de Necesidad de Material": "2025-04-22T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-04-16T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67f91aa439fa167fe2219c45",
@@ -2893,38 +3023,36 @@
           "FECHA de Necesidad de Material": "2025-04-14T12:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-04-11T14:14:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67f3d0e10a165c8eec53a4fc",
         "name": "SJ00169 SAN JUAN SURESTE",
         "desc": "COMPRA DE MATERIALES LOCALES",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "SJ00169 SAN JUAN SURESTE",
-            "color": "orange"
-          }
-        ],
+        "labels": [],
         "due": "2025-04-11T13:03:00.000Z",
         "customFields": {
           "Proyecto": "CLARO CELDAS",
           "FECHA de Necesidad de Material": "2025-04-11T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-04-07T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "SJ00169 SAN JUAN SURESTE",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "67d973d2e34554e39cc38fdc",
         "name": "ME00537 STORE MENDOZA M1- COMPRA -RICHETTA.",
         "desc": "",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "ME00537 STORE MENDOZA M1",
-            "color": "yellow"
-          }
-        ],
+        "labels": [],
         "due": "2025-04-17T13:14:00.000Z",
         "customFields": {
           "FECHA Real de Entrega": "2025-03-18T15:00:00.000Z",
@@ -2933,7 +3061,14 @@
           "METODO de Pago": "Transferencia",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-03-17T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ME00537 STORE MENDOZA M1",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "67d86a4b6181986775812ec2",
@@ -2973,19 +3108,15 @@
           "FECHA de Necesidad de Material": "2025-03-18T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-03-17T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67d31b95fe8a7cf9f13ed778",
         "name": "ME00537 STORE MENDOZA M1",
         "desc": "",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "ME00537 STORE MENDOZA M1",
-            "color": "yellow"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "CENTRO DE COSTO": "CL01 - CLARO CELDAS",
@@ -2993,7 +3124,14 @@
           "FECHA de Necesidad de Material": "2025-03-14T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-03-13T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ME00537 STORE MENDOZA M1",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "67bf5e902dab3fc8b6b5ab2f",
@@ -3004,10 +3142,6 @@
           {
             "name": "TELECOM S.A.",
             "color": "blue_dark"
-          },
-          {
-            "name": "A21-S625 Salta Villa Las Rosas",
-            "color": "red_dark"
           }
         ],
         "due": null,
@@ -3015,7 +3149,14 @@
           "FECHA de Necesidad de Material": "2025-03-05T11:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-02-26T18:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A21-S625 Salta Villa Las Rosas",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "67bca934280212935b682ae8",
@@ -3033,7 +3174,8 @@
           "FECHA de Necesidad de Material": "2025-02-24T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-02-24T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67bc623f5a34f2b95c2a0b3d",
@@ -3044,16 +3186,19 @@
           {
             "name": "TELECOM S.A.",
             "color": "blue_dark"
-          },
-          {
-            "name": "A33-O737 Mendoza Garage Sardi Mudanza",
-            "color": "red_dark"
           }
         ],
         "due": null,
         "customFields": {
           "PM Solicitante": "Maldonado Mayhi"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "679c0bb64ec6814b25d6bd7b",
@@ -3064,10 +3209,6 @@
           {
             "name": "TELEFONICA HUAWEI",
             "color": "blue_dark"
-          },
-          {
-            "name": "Deposito Buenos Aires",
-            "color": "blue_dark"
           }
         ],
         "due": null,
@@ -3075,7 +3216,14 @@
           "FECHA de Necesidad de Material": "2025-01-31T15:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-01-30T23:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Deposito Buenos Aires",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "6798c9b4798cc8840caf7ea3",
@@ -3093,19 +3241,15 @@
           "FECHA de Necesidad de Material": "2025-01-28T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-01-28T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "679115411d9bda32970025b8",
         "name": "BA00336 BAHIA BLANCA PETROBRAS",
         "desc": "MATERIALES LOCALES NECESARIOS PARA INSTALACIÓN.",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "BA00336 BAHIA BLANCA PETROBRAS",
-            "color": "orange"
-          }
-        ],
+        "labels": [],
         "due": "2025-01-24T15:58:00.000Z",
         "customFields": {
           "Proyecto": "CLARO CELDAS",
@@ -3113,7 +3257,14 @@
           "METODO de Pago": "Transferencia",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2025-01-22T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "BA00336 BAHIA BLANCA PETROBRAS",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "678a759ce864f769df20068c",
@@ -3143,7 +3294,8 @@
           "FECHA de Necesidad de Material": "2025-01-17T16:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-01-17T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "67865a2595dea840f56ae642",
@@ -3169,63 +3321,70 @@
           "FECHA de Necesidad de Material": "2025-01-14T15:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2025-01-14T13:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "675b4f1828529c88f9602930",
         "name": "A03-E995 Córdoba Kempes",
         "desc": "Se pide el siguiente material dado que al momento de ir a realizar la obra se realiza cambio de alcance.\n\nMaterial Kempes:\n\n- 1 lts pintura crema mate\n- 1 extractor industrial\n- 10 Tornillos de 2 x 8 para fijación de extractor\n- 6 tacos del 8\n- 6 tornillos para taco del 8\n- 1 rodillo de 10 cm para esmalte\n- 1 pincel de 2 pulgadas",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A03-E995 Córdoba Kempes",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "FECHA de Necesidad de Material": "2024-12-13T11:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2024-12-12T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-E995 Córdoba Kempes",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "67599f6098a8bb4070dd79a5",
         "name": "CAC CORDOBA PEATONAL (PISO DE GOMA)",
         "desc": "COMPRA PISO DE GOMA:\n\nGoma Indelval Cerama, 0.50m x 0.50m -\n\nSe adjunta imagenes del modelo de piso de goma solicitado.\n\nCotizar 2,5m2. de este piso.\n\nCotizar y comprar 2lts, de esmalte al agua, color blanco satinado.\n\nCotizar y comprar masilla de secado rápido x 15kg.\n\nOBSERVACION:\n\nEl presupuesto y compra de los siguientes materiales ser realizaron para varios sitios (Cac Neuquen,Terrero, Cac Peatonal Cordoba)",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "CAC CÓRDOBA PEATONAL",
-            "color": "blue_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "Proyecto": "ADECUACIÓN CAC",
           "FECHA de Necesidad de Material": "2024-12-13T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-12-11T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CAC CÓRDOBA PEATONAL",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "675304a911349bcec412f10b",
         "name": "A03-E995 Córdoba Kempes",
         "desc": "Se solicita el siguiente material para instalación: **(Por favor validar en deposito si tenemos algún material disponible antes de comprar)**\n\n- (6m) Cable canal de 1x1\n- (7m) Cable 2.5 mm2 de sección Verde amarillo.\n- (7m) Cable 2.5 mm2 de sección Azul.\n- (7m) Cable 2.5 mm2 de sección Negro.\n- (15) Tif de  2.5 mm2.\n- (1) Térmica bipolar de 10A.\n- (1) Toma corriente con caja externa para no embutir de 10A.\n- (1) Contactor de que de alerta a los 30°. Contacto de proveedor anterior 3513057786.",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A03-E995 Córdoba Kempes",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": "2024-12-09T12:00:00.000Z",
         "customFields": {
           "Proyecto": "TELECOM OBRA CIVIL",
           "FECHA de Necesidad de Material": "2024-12-09T12:00:00.000Z",
           "PM Solicitante": "Maldonado Mayhi",
           "FECHA de Solicitud": "2024-12-06T14:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-E995 Córdoba Kempes",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "67489135492caea488a4331f",
@@ -3240,14 +3399,6 @@
           {
             "name": "JU00009 LOS PERALES",
             "color": "orange"
-          },
-          {
-            "name": "ME00137 CERRO ARCO",
-            "color": "yellow"
-          },
-          {
-            "name": "DEPOSITO",
-            "color": "sky"
           }
         ],
         "due": "2024-12-28T13:58:00.000Z",
@@ -3261,7 +3412,19 @@
           "MONTO COTIZADO": "31162.65",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-11-28T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "ME00137 CERRO ARCO",
+            "color": "yellow"
+          },
+          {
+            "id": "st_c",
+            "name": "DEPOSITO",
+            "color": "sky"
+          }
+        ]
       },
       {
         "id": "6745dfef727ba4c10ce11d1a",
@@ -3279,7 +3442,8 @@
           }
         ],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "673f2f1983e2b8e3e9633969",
@@ -3301,77 +3465,163 @@
           "MONTO COTIZADO": "177196",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-11-21T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6735e701f1f93295df4e7d99",
         "name": "A01-S099 Rio IV Constitución",
         "desc": "Material a comprar: ( amilar retira el dia de mañana).\n\nEnduido 4 kg.\n\nYESO 3 KG\n\nESPATULA 10 CM\n\nPintura para impermeabilizar color ROJO  1KG/LT\n\nPINTURA COLOR (BEIGE satinado y VERDE CLARO) 1 LT de c/u\n\n2 pinceles medianos.\n\n1 rodillo mediano\n\n1 aerosol color blanco",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "A01-S099 Rio IV Constitución",
-            "color": "red_dark"
-          }
-        ],
+        "labels": [],
         "due": "2024-11-15T16:00:00.000Z",
         "customFields": {
           "Proyecto": "TELECOM OBRA CIVIL",
           "FECHA de Necesidad de Material": "2024-11-15T15:00:00.000Z",
           "PM Solicitante": "Kremer gustavo",
           "FECHA de Solicitud": "2024-11-14T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A01-S099 Rio IV Constitución",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "6717c8aa67ae5494062e28b1",
         "name": "CAC CÓRDOBA PEATONAL (PUERTAS DE ACCESO)",
         "desc": "27-12. Se carga un nuevo pedido de materiales reemplazando el anterior.\n\nCOMPRA DE  CAÑOS PUERTAS DE ACCESO\n\nCOMPRA DE VIDRIOS LAMINADOS",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "CAC CÓRDOBA PEATONAL",
-            "color": "blue_dark"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "FECHA de Necesidad de Material": "2024-12-02T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-12-04T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CAC CÓRDOBA PEATONAL",
+            "color": "blue_dark"
+          }
+        ]
       },
       {
         "id": "6717b86677668ec665ba1808",
         "name": "A11-S690 Tucumán Barrio Los Andes- Construcción Platea-escalerillas",
         "desc": "Se necesita la compra de estos materiales locales para la construcción de una nueva platea, canalizados y recorridos de escalerillas",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
+        "labels": [],
+        "due": null,
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "A11-S690 Tucumán Barrio Los Andes",
             "color": "red_dark"
           }
-        ],
-        "due": null,
-        "customFields": {}
+        ]
       },
       {
         "id": "66f28b14c6ff8fd7eb5b1ae3",
         "name": "CAC ROSARIO PEATONAL (REESTYLING+TAREAS VARIAS)",
         "desc": "",
         "idList": "6750a199848ec06b6d4fa2fa",
-        "labels": [
-          {
-            "name": "CAC ROSARIO PEATONAL",
-            "color": "blue_light"
-          }
-        ],
+        "labels": [],
         "due": null,
         "customFields": {
           "Proyecto": "ADECUACIÓN CAC",
           "FECHA de Necesidad de Material": "2024-05-16T15:00:00.000Z",
           "PM Solicitante": "Ramirez Jorge",
           "FECHA de Solicitud": "2024-05-14T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CAC ROSARIO PEATONAL",
+            "color": "blue_light"
+          }
+        ]
+      }
+    ],
+    "sitios": [
+      {
+        "id": "st_1788668471680_362",
+        "name": "DEPOSITO",
+        "color": "sky"
+      },
+      {
+        "id": "st_1788668471680_938",
+        "name": "Deposito Buenos Aires",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_212",
+        "name": "ADS ESTUDIOS MEDICOS",
+        "color": "orange"
+      },
+      {
+        "id": "st_1788668471680_507",
+        "name": "CLC CÓRDOBA",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_639",
+        "name": "Stock Deposito a asignar",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_42",
+        "name": "PISO 2 (DEPOSITO)",
+        "color": "sky_dark"
+      },
+      {
+        "id": "st_1788668471680_6",
+        "name": "SF01001 CENTRAL OFFICE",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_628",
+        "name": "CAC CÓRDOBA PEATONAL",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_504",
+        "name": "Oasis Cordillerano Village",
+        "color": "red_light"
+      },
+      {
+        "id": "st_1788668471680_463",
+        "name": "Life Apart Mendoza",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471680_750",
+        "name": "CAC GODOY CRUZ",
+        "color": "red"
+      },
+      {
+        "id": "st_1788668471680_582",
+        "name": "JC005 SAN JUAN TASA",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_846",
+        "name": "A09-S116 Bañado de los Pantanos",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_728",
+        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_667",
+        "name": "JC341",
+        "color": "red_dark"
       }
     ]
   },
@@ -3675,7 +3925,8 @@
           }
         ],
         "due": "2026-09-04T16:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9561dabd43b751f95119fe",
@@ -3697,7 +3948,8 @@
           }
         ],
         "due": "2026-09-04T14:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95632561d2052d5bba7f95",
@@ -3719,7 +3971,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a956491ece86a53c7b19492",
@@ -3745,7 +3998,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9567808fadb78c538e3a1e",
@@ -3763,7 +4017,8 @@
           }
         ],
         "due": "2026-09-04T19:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9566b9dbffecdfe33e71cf",
@@ -3781,7 +4036,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95a8ea33248918698dd200",
@@ -3799,7 +4055,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a980e4bc4facbdefe02be00",
@@ -3817,7 +4074,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9565a15ba4c5e447103cfc",
@@ -3835,7 +4093,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a956642a2e5adb7269f4c76",
@@ -3853,7 +4112,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96dbade3b824bffc9604d6",
@@ -3879,7 +4139,8 @@
           }
         ],
         "due": "2026-09-02T14:06:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9ac9d38b23af7b418892ee",
@@ -3909,7 +4170,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9acd21ccf3e3a9dacbfc06",
@@ -3940,7 +4202,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9afc4f2b0844f0eff0a731",
@@ -3963,7 +4226,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a2020a5db8e99be1776edca",
@@ -3985,7 +4249,8 @@
           }
         ],
         "due": "2026-06-03T09:50:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a98296fe5b0273b118b918c",
@@ -3994,20 +4259,12 @@
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
           {
-            "name": "A03-S048 Cordoba Personal Plaza",
-            "color": "green_light"
-          },
-          {
             "name": "AGUILAR FERNANDO",
             "color": "green_dark"
           },
           {
             "name": "PEDRO CÁCERES",
             "color": "yellow"
-          },
-          {
-            "name": "A03-S322 Córdoba Nuevo Bajo Palermo",
-            "color": "red_dark"
           }
         ],
         "due": null,
@@ -4015,7 +4272,19 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "8.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S048 Cordoba Personal Plaza",
+            "color": "green_light"
+          },
+          {
+            "id": "st_c",
+            "name": "A03-S322 Córdoba Nuevo Bajo Palermo",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "6a9ac8847c4f5f1dd1da3265",
@@ -4026,10 +4295,6 @@
           {
             "name": "GUERRERO ARGENIS",
             "color": "green"
-          },
-          {
-            "name": "A03-S387 Córdoba Altos De Villa Sol",
-            "color": "green_light"
           }
         ],
         "due": null,
@@ -4037,7 +4302,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "8.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S387 Córdoba Altos De Villa Sol",
+            "color": "green_light"
+          }
+        ]
       },
       {
         "id": "6a996b60c5454483bc2c3cbe",
@@ -4052,10 +4324,6 @@
           {
             "name": "Mario Cáceres",
             "color": "green"
-          },
-          {
-            "name": "A03-S387 Córdoba Altos De Villa Sol",
-            "color": "green_light"
           }
         ],
         "due": null,
@@ -4064,7 +4332,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "8.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S387 Córdoba Altos De Villa Sol",
+            "color": "green_light"
+          }
+        ]
       },
       {
         "id": "6a98255690578a2a888eea2b",
@@ -4079,10 +4354,6 @@
           {
             "name": "Juan Carlos Sanchez",
             "color": "yellow_dark"
-          },
-          {
-            "name": "A03-S755 Villa Allende YPF",
-            "color": "green_light"
           }
         ],
         "due": null,
@@ -4090,7 +4361,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "8.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S755 Villa Allende YPF",
+            "color": "green_light"
+          }
+        ]
       },
       {
         "id": "6a201f5931d57d922058c06d",
@@ -4112,7 +4390,8 @@
           }
         ],
         "due": "2026-06-03T09:50:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95af50cd982d40f4e16bb2",
@@ -4120,14 +4399,6 @@
         "desc": "Martes 01/09 - Ramirez Gonzalo, Fernando Aguilar -\n$8.000 c/u\n\nSitio  : A03-S778 Córdoba Peredo / A03-S413 Córdoba Universidad",
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
-          {
-            "name": "A03-S778 Córdoba Peredo",
-            "color": "lime_dark"
-          },
-          {
-            "name": "A03-S413 Córdoba Universidad",
-            "color": "lime_light"
-          },
           {
             "name": "RAMIREZ GONZALO",
             "color": "yellow"
@@ -4142,7 +4413,19 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "8.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A03-S778 Córdoba Peredo",
+            "color": "lime_dark"
+          },
+          {
+            "id": "st_c",
+            "name": "A03-S413 Córdoba Universidad",
+            "color": "lime_light"
+          }
+        ]
       },
       {
         "id": "6a9579f3d891d81bee3c82ab",
@@ -4176,7 +4459,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a918acf8437c019d7d83d34",
@@ -4184,10 +4468,6 @@
         "desc": "Viernes 28/08/2026 - Gonzalo, Fernando,\nJuan, Pedro- $25.000 c/u\n\nSitio : A33-O012 Mendoza Molina",
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
-          {
-            "name": "A33-O012 Mendoza Molina",
-            "color": "red_light"
-          },
           {
             "name": "RAMIREZ GONZALO",
             "color": "yellow"
@@ -4210,7 +4490,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A33-O012 Mendoza Molina",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "6a90e813865d10836b5eebca",
@@ -4228,7 +4515,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c557f938a838c9cf50425",
@@ -4246,7 +4534,8 @@
           }
         ],
         "due": "2026-08-28T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c52a4e6f722ffab651e9c",
@@ -4268,7 +4557,8 @@
           }
         ],
         "due": "2026-08-28T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a918cb3dae524f994bd36da",
@@ -4302,7 +4592,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a8ede6527edfd1752943dfd",
@@ -4336,7 +4627,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a8c54e6ad68dc0640b958ef",
@@ -4354,7 +4646,8 @@
           }
         ],
         "due": "2026-08-28T20:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e83c9371775a9b9fd6d2",
@@ -4372,7 +4665,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8ce72a39056f47fa5999a9",
@@ -4390,7 +4684,8 @@
           }
         ],
         "due": "2026-08-29T00:52:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8cd9527189acce14f1e83b",
@@ -4408,7 +4703,8 @@
           }
         ],
         "due": "2026-08-28T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e834a025ea220408ca57",
@@ -4434,7 +4730,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8e2a949d6c224eb9051a6a",
@@ -4456,7 +4753,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c5187195422e2a61d4bab",
@@ -4474,7 +4772,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c51182ddfb5e992b6fe6a",
@@ -4492,7 +4791,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a919bbf38b627076e1997d5",
@@ -4514,7 +4814,8 @@
           }
         ],
         "due": "2026-08-28T14:32:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c5448f3a22e0eca7468ca",
@@ -4536,7 +4837,8 @@
           }
         ],
         "due": "2026-08-27T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c9c615fb56105fc8a415c",
@@ -4550,7 +4852,8 @@
           }
         ],
         "due": "2026-08-28T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c538db9a4cf4e07430a46",
@@ -4572,7 +4875,8 @@
           }
         ],
         "due": "2026-08-27T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8d96139754c7677ea77c91",
@@ -4580,10 +4884,6 @@
         "desc": "\nSitio : A33-O012 Mendoza Molina\nMartes 25/08/2026- Gonzalos, Fernando, Pedro, Juan\n25\\.000 c/u\nMircoles 26/08/2026-Gonzalos, Fernando, Pedro, Juan\n25\\.000 c/u\nJueves 27/08/2026-Gonzalos, Fernando, Pedro, Juan\n25\\.000 c/u\nMonto total 300.000",
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
-          {
-            "name": "A33-O012 Mendoza Molina",
-            "color": "red_light"
-          },
           {
             "name": "PEDRO CÁCERES",
             "color": "yellow"
@@ -4606,7 +4906,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A33-O012 Mendoza Molina",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "6a8c4aa840c27aedfe08b4c3",
@@ -4614,10 +4921,6 @@
         "desc": "24-08. LUCIANO MARTINEZ, LUCAS KREMER, SALVADOR CÁCERES ( $ 25.000 C/U)\n\n25-08. LUCIANO MARTINEZ, LUCAS KREMER, SALVADOR CÁCERES ( $ 25.000 C/U)\n\n26-08. LUCIANO MARTINEZ, LUCAS KREMER, SALVADOR CÁCERES ( $ 25.000 C/U)\n\n27-08. LUCIANO MARTINEZ, LUCAS KREMER, SALVADOR CÁCERES ( $ 25.000 C/U)",
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
-          {
-            "name": "CO01022 RIO CUARTO 27",
-            "color": "purple_dark"
-          },
           {
             "name": "Lucas Kremer",
             "color": "green_dark"
@@ -4632,7 +4935,14 @@
           }
         ],
         "due": "2026-08-27T13:46:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CO01022 RIO CUARTO 27",
+            "color": "purple_dark"
+          }
+        ]
       },
       {
         "id": "6a8e2adc35d37e47cfd65cd4",
@@ -4650,7 +4960,8 @@
           }
         ],
         "due": "2026-08-26T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c3e0d0afd4e1efe75599c",
@@ -4684,7 +4995,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a7e6af711f48a768ce0472e",
@@ -4702,7 +5014,8 @@
           }
         ],
         "due": "2026-08-21T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c521d5541f8c5a29130f7",
@@ -4724,7 +5037,8 @@
           }
         ],
         "due": "2026-08-25T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c3cb1134221269c740f99",
@@ -4732,10 +5046,6 @@
         "desc": "Sitio :\nLunes_ 24/08/2026 - Gonzalo, Fernando, Juan, Pedro\nMonto 25.000 C/U",
         "idList": "6399f35b81e0ac04f0ba9bb7",
         "labels": [
-          {
-            "name": "A33-O001 Mendoza Las Heras",
-            "color": "green"
-          },
           {
             "name": "RAMIREZ GONZALO",
             "color": "yellow"
@@ -4759,7 +5069,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "25.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A33-O001 Mendoza Las Heras",
+            "color": "green"
+          }
+        ]
       },
       {
         "id": "6a8c37435325ada60c3f015c",
@@ -4773,7 +5090,8 @@
           }
         ],
         "due": "2026-08-24T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a88a8e19eaa916f5f132030",
@@ -4795,7 +5113,8 @@
           }
         ],
         "due": "2026-08-25T19:37:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a01ebd2da803396b117906c",
@@ -4804,7 +5123,8 @@
         "idList": "692dbfef4504910dcc765b85",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a01ebdc4185fb8d52433fba",
@@ -4813,7 +5133,8 @@
         "idList": "692dbfef4504910dcc765b85",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69df8d329c1dd8ac616ee80f",
@@ -4835,7 +5156,8 @@
           }
         ],
         "due": "2026-04-15T12:50:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69c489475361b71e35d82693",
@@ -4857,7 +5179,8 @@
           }
         ],
         "due": "2026-03-26T22:08:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69c488f13ae886c3321cb32e",
@@ -4879,7 +5202,8 @@
           }
         ],
         "due": "2026-03-26T22:08:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "697ce926acef49a0a08a8cf9",
@@ -4896,10 +5220,6 @@
             "color": "orange_dark"
           },
           {
-            "name": "KS119",
-            "color": "red_light"
-          },
-          {
             "name": "ISMAEL GILBERTO LOPEZ",
             "color": "red_dark"
           }
@@ -4909,7 +5229,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "90000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "KS119",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "6932d4b25a64a3fa43fa02a7",
@@ -4939,7 +5266,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "216000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "692d7ac56812e58ef7e718a3",
@@ -4969,7 +5297,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "45000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "692d7cd4a9e1fad39aa6f49b",
@@ -4988,10 +5317,6 @@
           {
             "name": "Mario Cáceres",
             "color": "green"
-          },
-          {
-            "name": "A36-F046 Santa Rosa Teco",
-            "color": "red_light"
           }
         ],
         "due": "2025-11-28T15:00:00.000Z",
@@ -4999,7 +5324,14 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "54000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A36-F046 Santa Rosa Teco",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "692d7bc26c670b7e68b40096",
@@ -5014,22 +5346,6 @@
           {
             "name": "AGUILAR FERNANDO",
             "color": "green_dark"
-          },
-          {
-            "name": "A11-S018 Tucumán URA CRISTO",
-            "color": "red_light"
-          },
-          {
-            "name": "A11-S144 Tucumán YERBA BUENA II (MVS)",
-            "color": "red"
-          },
-          {
-            "name": "A11-S247 Tucumán VILLA LUJAN 2 (MVS)",
-            "color": "red_dark"
-          },
-          {
-            "name": "A11-S258 Tucumán VILLA LUJAN",
-            "color": "orange_dark"
           }
         ],
         "due": "2025-11-28T15:00:00.000Z",
@@ -5037,9 +5353,32 @@
           "MODO": "TRANSFERENCIA",
           "MONTO Solicitado": "72000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A11-S018 Tucumán URA CRISTO",
+            "color": "red_light"
+          },
+          {
+            "id": "st_c",
+            "name": "A11-S144 Tucumán YERBA BUENA II (MVS)",
+            "color": "red"
+          },
+          {
+            "id": "st_c",
+            "name": "A11-S247 Tucumán VILLA LUJAN 2 (MVS)",
+            "color": "red_dark"
+          },
+          {
+            "id": "st_c",
+            "name": "A11-S258 Tucumán VILLA LUJAN",
+            "color": "orange_dark"
+          }
+        ]
       }
-    ]
+    ],
+    "sitios": []
   },
   {
     "id": "5e289b4f47fe28496055e1cd",
@@ -5083,11 +5422,6 @@
         "id": "63ef841ec58265ab6948827e",
         "name": "SITIOS",
         "color": "pink_dark"
-      },
-      {
-        "id": "6308a44e7e0347007d44b5c5",
-        "name": "DEPOSITO",
-        "color": "sky"
       },
       {
         "id": "680f9855d1d92baa87a8798b",
@@ -5150,11 +5484,6 @@
         "color": "green"
       },
       {
-        "id": "62bc3e3d2edfd017284de66e",
-        "name": "A03-S755 Villa Allende YPF",
-        "color": "red"
-      },
-      {
         "id": "6390f350b54c5001be9609d4",
         "name": "Skytec SAS",
         "color": "yellow_light"
@@ -5170,18 +5499,8 @@
         "color": "green"
       },
       {
-        "id": "61bc7672e11dd27919601425",
-        "name": "KS325",
-        "color": "green_light"
-      },
-      {
         "id": "6650a2823bf7a1b698df4670",
         "name": "Huawei Telefónica",
-        "color": "blue_dark"
-      },
-      {
-        "id": "6825ee1d1532cd18e23241dc",
-        "name": "Depósito Buenos Aires",
         "color": "blue_dark"
       },
       {
@@ -5230,19 +5549,9 @@
         "color": "red_light"
       },
       {
-        "id": "6495892437c30a145491bad0",
-        "name": "CLC CÓRDOBA - Juan B Justo",
-        "color": "yellow"
-      },
-      {
         "id": "5e289b5147fe28496055ec8a",
         "name": "ECHENIQUE PEDRO",
         "color": "yellow"
-      },
-      {
-        "id": "633c2d7daf1f2f018102a25c",
-        "name": "A03-S744 Córdoba Thomson",
-        "color": "red"
       },
       {
         "id": "68824cc147780f5f7d621420",
@@ -5285,11 +5594,6 @@
         "color": "yellow"
       },
       {
-        "id": "5f2ddf0a111a1f048bfcbb83",
-        "name": "BB058",
-        "color": "yellow"
-      },
-      {
         "id": "671660a81936f8b0985ae53d",
         "name": "KREMER LUCAS",
         "color": "green_dark"
@@ -5310,11 +5614,6 @@
         "color": "sky_dark"
       },
       {
-        "id": "6389d986ba4950020260ca2a",
-        "name": "CAC GODOY CRUZ",
-        "color": "red"
-      },
-      {
         "id": "66e45438e0624c1b86f6c6c0",
         "name": "Gonzalo Rámirez",
         "color": "green_dark"
@@ -5333,7 +5632,8 @@
           }
         ],
         "due": "2026-09-02T13:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a981714667b8eb59d350291",
@@ -5347,7 +5647,8 @@
           }
         ],
         "due": "2026-09-02T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a982e23aa0d0f6b83d76d4c",
@@ -5365,7 +5666,8 @@
           }
         ],
         "due": "2026-09-02T14:25:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a98286e38e7f22c9e3b860d",
@@ -5379,7 +5681,8 @@
           }
         ],
         "due": "2026-09-02T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9828c4bb4c60dd41e78d54",
@@ -5393,7 +5696,8 @@
           }
         ],
         "due": "2026-09-02T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9985ad42eb238ab82f58ad",
@@ -5407,7 +5711,8 @@
           }
         ],
         "due": "2026-09-03T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a998985ab7c7ff3da2600a4",
@@ -5421,7 +5726,8 @@
           }
         ],
         "due": "2026-09-03T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9a04e35de0ff9792d6ac9b",
@@ -5435,7 +5741,8 @@
           }
         ],
         "due": "2026-09-04T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9aea177408da4e556f309b",
@@ -5449,7 +5756,8 @@
           }
         ],
         "due": "2026-09-04T17:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9af4292b0844f0efe2ffc7",
@@ -5463,7 +5771,8 @@
           }
         ],
         "due": "2026-09-04T17:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9b0bd17d00c285c6556e75",
@@ -5477,7 +5786,8 @@
           }
         ],
         "due": "2026-09-04T21:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9710cad8bef796172649a8",
@@ -5486,7 +5796,8 @@
         "idList": "5ed56e05c5a313624c71cf6f",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9967ed831ff248abcf4e49",
@@ -5506,7 +5817,8 @@
           "TAREA": "Inicio de obra",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-03T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9968d49029dd956f1ecb48",
@@ -5526,7 +5838,8 @@
           "TAREA": "Traslado de Materiales",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-03T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a999f1716c98772ced0db8f",
@@ -5546,7 +5859,8 @@
           "TAREA": "Desmonte de sitio",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-03T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9ac4622ecf33cac4e6ffaf",
@@ -5555,7 +5869,8 @@
         "idList": "5ed56e05c5a313624c71cf6f",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9ac4e24089ec3e2d017c47",
@@ -5575,7 +5890,8 @@
           "TAREA": "Traslado de material",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-04T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9ac7b75f3e7990d857c2ce",
@@ -5595,7 +5911,8 @@
           "TAREA": "Traslado de material",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-04T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9af2897ec3a202dde3cd82",
@@ -5614,7 +5931,8 @@
           "MONTO ADELANTO DE OBRA $": "15.000",
           "TAREA": "Compra de material",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9b17a2e53577d754b815ec",
@@ -5634,7 +5952,8 @@
           "TAREA": "Compra de Materiales",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-09-04T19:20:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a4d06695db455432e276e88",
@@ -5650,7 +5969,8 @@
         "due": "2026-07-07T13:57:00.000Z",
         "customFields": {
           "MONTO ADELANTO DE OBRA $": "30000"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a452bd777eb11965d1e9900",
@@ -5664,7 +5984,8 @@
           }
         ],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a4410d6022ef8b6f234879d",
@@ -5686,7 +6007,8 @@
           "CENTRO DE COSTO": "TP03 - TELECOM PERSONAL DESINTERMEDIACION",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-06-30T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a317cbe16f670e77d045188",
@@ -5700,7 +6022,8 @@
           }
         ],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a197979f202c3bd4a5a4b15",
@@ -5716,7 +6039,8 @@
         "due": "2026-05-29T15:00:00.000Z",
         "customFields": {
           "MONTO ADELANTO DE OBRA $": "3.300.000"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "697b7c25e79d3e3e6ecc58b0",
@@ -5725,7 +6049,8 @@
         "idList": "644042659997a72203066b84",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "697cbf309ea5be07ba8cbd2a",
@@ -5734,7 +6059,8 @@
         "idList": "644042659997a72203066b84",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "694a9165fd5fd226faeec08d",
@@ -5752,7 +6078,8 @@
           "TAREA": "EXPANSIÓN LTE",
           "PM": "JORGE RAMIREZ",
           "FECHA SOLICITUD": "2025-12-23T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "69d90e86260394ff2947013c",
@@ -5777,7 +6104,8 @@
           "TAREA": "RELEVAMEINTOS HUAWEI",
           "PM": "JORGE RAMIREZ",
           "FECHA SOLICITUD": "2026-04-10T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6931a56c2574ab15fddbc225",
@@ -5804,7 +6132,8 @@
           "MONTO ADELANTO DE OBRA $": "1000",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2025-12-04T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "691dbf2bdcd9d62a392272b5",
@@ -5815,10 +6144,6 @@
           {
             "name": "Gonzalo Ramirez",
             "color": "green_dark"
-          },
-          {
-            "name": "A12-S027 PAMPA DE LOS GUANACOS",
-            "color": "red_dark"
           }
         ],
         "due": "2025-11-19T15:00:00.000Z",
@@ -5827,21 +6152,30 @@
           "MONTO ADELANTO DE OBRA $": "20000",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2025-11-19T14:15:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A12-S027 PAMPA DE LOS GUANACOS",
+            "color": "red_dark"
+          }
+        ]
       },
       {
         "id": "691c76df6b1364a0431de5be",
         "name": "CF01411 - BA01411",
         "desc": "",
         "idList": "644042659997a72203066b84",
-        "labels": [
+        "labels": [],
+        "due": null,
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "BA01411 PLAZA DEL AGUA 2 M1",
             "color": "blue_dark"
           }
-        ],
-        "due": null,
-        "customFields": {}
+        ]
       },
       {
         "id": "691b42c420cb5009f4440805",
@@ -5857,7 +6191,8 @@
         "due": "2025-11-25T14:11:00.000Z",
         "customFields": {
           "MONTO ADELANTO DE OBRA $": "150000"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6900c1c0e0f03596fbd24632",
@@ -5882,7 +6217,8 @@
           "TAREA": "Instalacion",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2025-10-22T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "68c40b2002d15189fdee5d61",
@@ -5893,10 +6229,6 @@
           {
             "name": "ENRIQUE RIVERO",
             "color": "red_dark"
-          },
-          {
-            "name": "CLC CÓRDOBA - Juan B Justo",
-            "color": "yellow"
           }
         ],
         "due": "2025-09-12T12:01:00.000Z",
@@ -5908,7 +6240,14 @@
           "CENTRO DE COSTO": "CL06 - CLARO OBRAS CIVILES",
           "PM": "JORGE RAMIREZ",
           "FECHA SOLICITUD": "2025-09-12T15:00:00.000Z"
-        }
+        },
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CLC CÓRDOBA - Juan B Justo",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "6a96dbd5c54c21b32d9effa8",
@@ -5926,7 +6265,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO ADELANTO DE OBRA $": "180.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a96dc7afb60d22a6e05bc93",
@@ -5935,16 +6275,19 @@
         "idList": "5e289b4f47fe28496055e1cf",
         "labels": [
           {
-            "name": "CLC CÓRDOBA - Juan B Justo",
-            "color": "yellow"
-          },
-          {
             "name": "RAMIREZ JORGE",
             "color": "green"
           }
         ],
         "due": "2026-09-01T14:06:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "CLC CÓRDOBA - Juan B Justo",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "6a96e382a7c2274625d142b0",
@@ -5958,7 +6301,8 @@
           }
         ],
         "due": "2026-09-01T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96d1facddc996ae886a491",
@@ -5972,7 +6316,8 @@
           }
         ],
         "due": "2026-09-01T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95b89c58585616232917cf",
@@ -5991,7 +6336,8 @@
           "MONTO ADELANTO DE OBRA $": "25.000",
           "TAREA": "Instalacion",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a96d9a94f0c44e230126b3f",
@@ -6009,7 +6355,8 @@
           "MODO": "TRANSFERENCIA",
           "MONTO ADELANTO DE OBRA $": "15.000",
           "PM": "MALDONADO MAYHIGER"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a95b10de888b316242ab727",
@@ -6023,7 +6370,8 @@
           }
         ],
         "due": "2026-08-31T17:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95a10187db086d908a452f",
@@ -6037,7 +6385,8 @@
           }
         ],
         "due": "2026-08-31T16:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95c417c30aede395bc7b36",
@@ -6051,7 +6400,8 @@
           }
         ],
         "due": "2026-08-31T19:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a958db43073aef2b24e2271",
@@ -6065,7 +6415,8 @@
           }
         ],
         "due": "2026-08-31T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a95711f0bfafcbcb1e970b6",
@@ -6079,7 +6430,8 @@
           }
         ],
         "due": "2026-08-31T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9570bb5f10144362d85afb",
@@ -6093,7 +6445,8 @@
           }
         ],
         "due": "2026-08-31T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a956eecf1629020ba9cc887",
@@ -6102,7 +6455,8 @@
         "idList": "5e289b4f47fe28496055e1cf",
         "labels": [],
         "due": "2026-08-31T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9568634bc3e0b812c76a9f",
@@ -6116,7 +6470,8 @@
           }
         ],
         "due": "2026-08-31T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a91a3a2602d36fe7c501181",
@@ -6135,7 +6490,8 @@
           "TAREA": "Elaboracion de CAO",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-08-28T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a9587ddbdc7f0eedf6a478a",
@@ -6151,7 +6507,8 @@
         "due": "2026-08-31T13:44:00.000Z",
         "customFields": {
           "MONTO ADELANTO DE OBRA $": "80000"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a91d4bd900e7998413ba015",
@@ -6165,7 +6522,8 @@
           }
         ],
         "due": "2026-08-28T20:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9189c0d62970ecc9eaff07",
@@ -6179,7 +6537,8 @@
           }
         ],
         "due": "2026-08-28T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a91877de9815259aad79bcd",
@@ -6193,7 +6552,8 @@
           }
         ],
         "due": "2026-08-28T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a916ad5238e1dc39b7fb968",
@@ -6207,7 +6567,8 @@
           }
         ],
         "due": "2026-08-28T11:02:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a916ace661f2b040c5531df",
@@ -6221,7 +6582,8 @@
           }
         ],
         "due": "2026-08-28T11:02:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e8ed055066ba8fa52b22",
@@ -6235,7 +6597,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e8e7f65b0c8c50b106b7",
@@ -6249,7 +6612,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e8f55dc4fb96bf2c9591",
@@ -6263,7 +6627,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a90e8e1c49eedd5a12160b8",
@@ -6277,7 +6642,8 @@
           }
         ],
         "due": "2026-08-28T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a91c229a25d7371dc899095",
@@ -6296,7 +6662,8 @@
           "MONTO ADELANTO DE OBRA $": "20.000",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-08-28T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a90326214f9cdf493156dd4",
@@ -6310,7 +6677,8 @@
           }
         ],
         "due": "2026-08-27T15:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a902cde4c0bdb6379253aed",
@@ -6324,7 +6692,8 @@
           }
         ],
         "due": "2026-08-27T14:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f4999178cc85d4bf79346",
@@ -6338,7 +6707,8 @@
           }
         ],
         "due": "2026-08-27T20:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8efd499255de71f51a8ed9",
@@ -6347,7 +6717,8 @@
         "idList": "5e289b4f47fe28496055e1cf",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f4979882d94d9006e4dfe",
@@ -6361,7 +6732,8 @@
           }
         ],
         "due": "2026-08-26T20:15:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8efd94935f7f4dae455223",
@@ -6381,7 +6753,8 @@
           "TAREA": "Reunion",
           "PM": "MALDONADO MAYHIGER",
           "FECHA SOLICITUD": "2026-08-26T15:00:00.000Z"
-        }
+        },
+        "sitios": []
       },
       {
         "id": "6a8e28b2a6a96418d95b6324",
@@ -6395,7 +6768,8 @@
           }
         ],
         "due": "2026-08-26T23:42:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8ef887a4c368514e41f52f",
@@ -6409,7 +6783,8 @@
           }
         ],
         "due": "2026-08-26T15:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8ef5f467758ab8db1dc4ec",
@@ -6423,7 +6798,50 @@
           }
         ],
         "due": "2026-08-26T14:19:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
+      }
+    ],
+    "sitios": [
+      {
+        "id": "st_1788668471683_126",
+        "name": "DEPOSITO",
+        "color": "sky"
+      },
+      {
+        "id": "st_1788668471683_589",
+        "name": "A03-S755 Villa Allende YPF",
+        "color": "red"
+      },
+      {
+        "id": "st_1788668471683_64",
+        "name": "KS325",
+        "color": "green_light"
+      },
+      {
+        "id": "st_1788668471683_693",
+        "name": "Depósito Buenos Aires",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471683_294",
+        "name": "CLC CÓRDOBA - Juan B Justo",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471683_977",
+        "name": "A03-S744 Córdoba Thomson",
+        "color": "red"
+      },
+      {
+        "id": "st_1788668471683_305",
+        "name": "BB058",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471683_551",
+        "name": "CAC GODOY CRUZ",
+        "color": "red"
       }
     ]
   },
@@ -6516,11 +6934,6 @@
         "color": "yellow"
       },
       {
-        "id": "67aa199a926862ecb1304111",
-        "name": "Life Apart",
-        "color": "yellow"
-      },
-      {
         "id": "68c1822036040be396958010",
         "name": "SANCHEZ JUAN CARLOS",
         "color": "blue_dark"
@@ -6569,11 +6982,6 @@
         "id": "69036a8cd7bfe7a64772973c",
         "name": "LUIS GONZALEZ",
         "color": "yellow"
-      },
-      {
-        "id": "67e55618570ef6821470127e",
-        "name": "NQ00143 Plottier 6 - Transporte Dolores Parra",
-        "color": "purple_dark"
       },
       {
         "id": "6a5102467c25619a856df51f",
@@ -6626,11 +7034,6 @@
         "color": "red"
       },
       {
-        "id": "67b36f2e697820f13df717a1",
-        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
-        "color": "red_dark"
-      },
-      {
         "id": "6883921d4614c480e2e536e5",
         "name": "SORIA WALTER",
         "color": "lime"
@@ -6651,26 +7054,6 @@
         "color": "red_light"
       },
       {
-        "id": "67e4519745dc98434e397c11",
-        "name": "MENDOZA ME00537",
-        "color": "orange"
-      },
-      {
-        "id": "679233c65872087826b786d2",
-        "name": "HOTEL CORAZON HOLLYWOOD B",
-        "color": "blue_light"
-      },
-      {
-        "id": "68471b4b9fee79ecd602ab05",
-        "name": "A10-S063 CATAMARCA MARIANO MORENO",
-        "color": "purple"
-      },
-      {
-        "id": "6830873b5a2750e8624fe2c3",
-        "name": "BA00336 PETROBRAS BAHÍA BLANCA",
-        "color": "orange_light"
-      },
-      {
         "id": "6a565c51e505d76ee7b4f59b",
         "name": "CORTEZ CARLOS",
         "color": "orange_dark"
@@ -6686,11 +7069,6 @@
         "color": "pink_light"
       },
       {
-        "id": "67f3f2d87bb8e6e5e1ab147b",
-        "name": "A11-S473 Tucuman Centro 8",
-        "color": "purple"
-      },
-      {
         "id": "6a1ee07a3f4f24fa183e5af4",
         "name": "ROMANO ESTEBAN",
         "color": "purple"
@@ -6701,19 +7079,9 @@
         "color": "pink_light"
       },
       {
-        "id": "6835f14061ef2fcd33b5ea73",
-        "name": "A33-O091 Mendoza Shopping Plaza",
-        "color": "orange"
-      },
-      {
         "id": "690a0a138a6ff3f122321f83",
         "name": "Gonzalo Basconcel",
         "color": "lime"
-      },
-      {
-        "id": "6835f1489072066b827cc513",
-        "name": "A33-O073 Mendoza Aeropuerto",
-        "color": "red_dark"
       }
     ],
     "cards": [
@@ -6741,7 +7109,8 @@
           }
         ],
         "due": "2026-08-26T14:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96d6abb762581be150c6ef",
@@ -6763,7 +7132,8 @@
           }
         ],
         "due": "2026-09-04T15:23:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a96f38dad3757b39521034d",
@@ -6781,7 +7151,8 @@
           }
         ],
         "due": "2026-09-01T18:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9aca7a528e3cc525595c7c",
@@ -6807,7 +7178,8 @@
           }
         ],
         "due": "2026-09-04T13:43:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9ade2f8ccbe5092b615c14",
@@ -6833,7 +7205,8 @@
           }
         ],
         "due": "2026-09-04T14:54:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9ae1e6e4d44e76d8e96e69",
@@ -6855,7 +7228,8 @@
           }
         ],
         "due": "2026-09-04T15:23:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a9b1d626093b4f5f76cbf82",
@@ -6877,7 +7251,8 @@
           }
         ],
         "due": "2026-09-04T15:23:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c3baa4173793022819c2f",
@@ -6903,7 +7278,8 @@
           }
         ],
         "due": "2026-08-26T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a959bf8b18541f8ebfda034",
@@ -6911,10 +7287,6 @@
         "desc": "$70000 + IVA\n\nNoche del 31/08\nAbonar noche 01/09\n\nCUIT 27-30729170-9\nAlias: villalonga2025\nCVU: 0000003100114273738433\nNombre: Maria Julia Kriger",
         "idList": "6943f0d46a2ceb90fefc2451",
         "labels": [
-          {
-            "name": "BB090",
-            "color": "orange_light"
-          },
           {
             "name": "Haedo Diego",
             "color": "lime_dark"
@@ -6929,7 +7301,14 @@
           }
         ],
         "due": "2026-09-01T15:23:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "BB090",
+            "color": "orange_light"
+          }
+        ]
       },
       {
         "id": "6a918dae4781e6985acac896",
@@ -6955,7 +7334,8 @@
           }
         ],
         "due": "2026-08-31T13:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7b29d3f62c91e3817a3e31",
@@ -6978,22 +7358,27 @@
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
-          },
+          }
+        ],
+        "due": "2026-08-27T13:45:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "Life Apart",
             "color": "yellow"
           },
           {
+            "id": "st_c",
             "name": "A33-O174 Mendoza Norte",
             "color": "lime_light"
           },
           {
+            "id": "st_c",
             "name": "A33-O001 Mendoza Las Heras",
             "color": "purple_light"
           }
-        ],
-        "due": "2026-08-27T13:45:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a7f135b51d9636c1989661b",
@@ -7023,7 +7408,8 @@
           }
         ],
         "due": "2026-08-27T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a79c70eec4d5195e59dad73",
@@ -7045,7 +7431,8 @@
           }
         ],
         "due": "2026-08-14T12:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c3be42499169613140d13",
@@ -7067,7 +7454,8 @@
           }
         ],
         "due": "2026-08-24T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8487c1175311949673bbc3",
@@ -7093,7 +7481,8 @@
           }
         ],
         "due": "2026-08-27T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7f0e7377c613bbe507d95f",
@@ -7115,7 +7504,8 @@
           }
         ],
         "due": "2026-08-21T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8f16ee8eb2b98479f0c2b0",
@@ -7137,7 +7527,8 @@
           }
         ],
         "due": "2026-08-26T16:41:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a846a3b78aea2d8ee913961",
@@ -7155,7 +7546,8 @@
           }
         ],
         "due": "2026-08-18T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8c3a60613c285ef7d419fe",
@@ -7181,7 +7573,8 @@
           }
         ],
         "due": "2026-08-24T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a5f80b793b8d6ae67dd28da",
@@ -7195,7 +7588,8 @@
           }
         ],
         "due": "2026-07-21T13:19:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a846aefc31382c324feed3e",
@@ -7217,7 +7611,8 @@
           }
         ],
         "due": "2026-08-24T14:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a7f21cc193f716963fe4c3e",
@@ -7239,7 +7634,8 @@
           }
         ],
         "due": "2026-08-14T13:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a6b4d6d1c126be6299a7915",
@@ -7265,7 +7661,8 @@
           }
         ],
         "due": "2026-08-11T13:13:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a709b28adf1cdfb87de9776",
@@ -7284,18 +7681,22 @@
           {
             "name": "Villalba Damian",
             "color": "yellow"
-          },
+          }
+        ],
+        "due": "2026-08-12T13:45:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "BB140",
             "color": "orange"
           },
           {
+            "id": "st_c",
             "name": "BB197",
             "color": "yellow"
           }
-        ],
-        "due": "2026-08-12T13:45:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6a720681bd1860394f50ceed",
@@ -7321,7 +7722,8 @@
           }
         ],
         "due": "2026-08-07T13:45:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a8453f5faecfbc7bced1aa2",
@@ -7343,7 +7745,8 @@
           }
         ],
         "due": "2026-08-18T12:25:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a2030eaa6c2d90a4de9a471",
@@ -7351,10 +7754,6 @@
         "desc": "TRANSFERIR NOCHE DEL 2 Y 3/6 $179080\n\nnoche del 4 y 5/6 179080\n\nPAGAR NOCHE DEL 6, 7 Y 8/6 268620\n\nnoche del 9 y 10/6 179080\n\n11 y 12/6 179080\n\nPAGAR NOCHE DEL 13, 14 Y 15/6 268620\n\npagar noche del 16 y 17/6 179080\n\npagar noche del 18/6 y 19/6 179080\n\npagar noche del 20/6, 21/6 y 22/6 268620\n\npagar noche dl 23/6 74000 + iva\n\nnoche del 24/3  74000 + iva\n\nnoche del 25/6 74000 + iva\n\nnoche del 26/6 74000 + iva\n\nPAGAR NOCHE DEL 27, 28 y 29 (solo fernando y gonzalo) 66000 mas iva cada noche\n\nnoche de",
         "idList": "6943f0d46a2ceb90fefc2451",
         "labels": [
-          {
-            "name": "Life Apart",
-            "color": "yellow"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -7381,7 +7780,14 @@
           }
         ],
         "due": "2026-06-30T16:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Life Apart",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "67912aed1682d6cd2b4f6ffb",
@@ -7390,7 +7796,8 @@
         "idList": "6943f0d46a2ceb90fefc2451",
         "labels": [],
         "due": null,
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69036a3d9d6be96d85c40ad2",
@@ -7416,29 +7823,34 @@
           }
         ],
         "due": "2025-11-18T13:39:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6904b05c0e0a7666ba2a19b7",
         "name": "DEPOSITO MDP BM523 -  BM050  - BM034 MAZA ARIAS JORGE",
         "desc": "abonar 100000 y la semana proxima 100000\n\n‌\n\nBanco Galicia\nJORGE LUIS MAZA ARIAS\nCTA: 4067635-7 078-8\nCBU: 00700788-30004067635789\nALIAS: Jorgemaza.mdp\nCUIL: 20-36346328-3\n\n‌\n\nsin factura",
         "idList": "67924706995c54319b2159d8",
-        "labels": [
+        "labels": [],
+        "due": "2025-11-11T12:32:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "BM050",
             "color": "red"
           },
           {
+            "id": "st_c",
             "name": "BM523",
             "color": "yellow_light"
           },
           {
+            "id": "st_c",
             "name": "BM034",
             "color": "red_light"
           }
-        ],
-        "due": "2025-11-11T12:32:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "6911e1f8bcf0398ef96dd2f0",
@@ -7456,7 +7868,8 @@
           }
         ],
         "due": "2025-11-13T13:01:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69121374e08248ff1d59f6f9",
@@ -7464,10 +7877,6 @@
         "desc": "ABONAR NOCHE DEL 10/11 84000 TRANSFERIDO 10-11\n\nabonar 10000 de diferencia por el trailer",
         "idList": "67924706995c54319b2159d8",
         "labels": [
-          {
-            "name": "A12-S027 Pampa de los Guanacos",
-            "color": "orange_dark"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -7482,7 +7891,14 @@
           }
         ],
         "due": "2025-11-11T16:33:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A12-S027 Pampa de los Guanacos",
+            "color": "orange_dark"
+          }
+        ]
       },
       {
         "id": "691730c8cea7eaef4aecbfdf",
@@ -7490,10 +7906,6 @@
         "desc": "abonar noche del 15 y 16/11 $70000 x noche TRANSFERIDO 14-11\n\npagar noche del 17/11 TRANSFERIDO 17-11\n\n‌\n\n‌\n\nTT: SULCA SILVIA MABEL\n\nCVU: 0000003100005442568363\n\nCUIT: 27233030916\n\n‌\n\n‌\n\n[casajuniors.mp](http://casajuniors.mp/ \"‌\")\nEsta a nombre de SILVIA MABEL SULCA",
         "idList": "67924706995c54319b2159d8",
         "labels": [
-          {
-            "name": "A12-S003 CAMPO GALLO",
-            "color": "red"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -7508,7 +7920,14 @@
           }
         ],
         "due": "2025-11-17T14:11:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A12-S003 CAMPO GALLO",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "691734658f1860856e85cf68",
@@ -7516,10 +7935,6 @@
         "desc": "PAGAR NOCHE DEL 15 Y 16/11 60000 MAS IVA POR NOCHE TRANSFERIDO 14-11-2025\n\npagar noche del 17 y 18/11 TRANSFERIDO 17-11\n\npagar noche del 19/11 TRANSFERIDO 19-11\n\npagar noche del 20/11 TRANSFERIDO 20-11\n\n‌\n\nCAMBIARON EL ALIAS!!!!",
         "idList": "67924706995c54319b2159d8",
         "labels": [
-          {
-            "name": "Life Apart",
-            "color": "yellow"
-          },
           {
             "name": "Mario Cáceres",
             "color": "sky_dark"
@@ -7531,30 +7946,42 @@
           {
             "name": "PEDRO CACERES",
             "color": "purple_light"
+          }
+        ],
+        "due": "2025-11-20T14:11:00.000Z",
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "Life Apart",
+            "color": "yellow"
           },
           {
+            "id": "st_c",
             "name": "A33-O033\tMonte Caseros",
             "color": "red"
           },
           {
+            "id": "st_c",
             "name": "A33-O058 MENDOZA PLAZA COBOS",
             "color": "purple"
           },
           {
+            "id": "st_c",
             "name": "A33-O061 MENDOZA UNC",
             "color": "orange"
           },
           {
+            "id": "st_c",
             "name": "A33-O063 MENDOZA VIVERO",
             "color": "red_dark"
           },
           {
+            "id": "st_c",
             "name": "A33-O072 MENDOZA TAPERA GIL",
             "color": "sky_light"
           }
-        ],
-        "due": "2025-11-20T14:11:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "691346afa8fd0deedb603052",
@@ -7562,10 +7989,6 @@
         "desc": "ABONAR NOCHE DEL 11/11 Y 12/11  $45000 POR NOCHE TRANSFERIDO 11-11\n\npagar noche del 13/11 TRANSFERIDO 13-11\n\npagar noche del 14/11 TRANSFERIDO 14-11\n\n‌\n\npagar noche del 18/11 TRANSFERIDO 18-11\n\npagar noche del 19/11 TRANSFERIDO 19-11\n\n‌\n\nLavictoria.matias\n\nMATIAS GERMAN ANDEN\n\n‌\n\nANDEN MATIAS GERMAN\n\nCVU: 0000003100065277592371\n\nCUIT: 20408475164\n\n‌\n\nFACTURA AL FINAL al 20-11 fac$180mil y transferencias $270mil",
         "idList": "67924706995c54319b2159d8",
         "labels": [
-          {
-            "name": "A12-S027 Pampa de los Guanacos",
-            "color": "orange_dark"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -7584,7 +8007,14 @@
           }
         ],
         "due": "2025-11-19T14:11:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A12-S027 Pampa de los Guanacos",
+            "color": "orange_dark"
+          }
+        ]
       },
       {
         "id": "6a5e34862082539bd90ea622",
@@ -7606,7 +8036,8 @@
           }
         ],
         "due": "2026-07-22T15:33:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a54ecebde7aa8ae35eefbe5",
@@ -7628,7 +8059,8 @@
           }
         ],
         "due": "2026-07-16T13:52:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a453ddffaf6251e6ad79fb7",
@@ -7647,14 +8079,17 @@
           {
             "name": "SANCHEZ JUAN CARLOS",
             "color": "blue_dark"
-          },
-          {
-            "name": "A35-D036 San Luis Centro",
-            "color": "orange"
           }
         ],
         "due": "2026-07-01T16:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A35-D036 San Luis Centro",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a35468cce653b838d1fba1d",
@@ -7662,10 +8097,6 @@
         "desc": "pagar noche del 23 y 24/6 $148.200 (es 188200 ambas noches, 40mil ya trasnferidos)\n\npagar noche del 25 y 26/6 188200\n\nBanco Macro\nCBU:\n2850394140095190791218\nAlias: viaggiato\nTitular: Siciliano  Antonella S\nC.U.I.T: 27-32099874-9\nCAJA DE AHORROS EN $\n439409519079121",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "RELEVAMIENTOS CORDOBA",
-            "color": "orange"
-          },
           {
             "name": "LUIS GONZALEZ",
             "color": "yellow"
@@ -7676,7 +8107,14 @@
           }
         ],
         "due": "2026-06-25T12:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS CORDOBA",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a32a8b179bacd4b9ca766cf",
@@ -7695,14 +8133,17 @@
           {
             "name": "ROMANO ESTEBAN",
             "color": "purple"
-          },
-          {
-            "name": "SF00935",
-            "color": "purple"
           }
         ],
         "due": "2026-07-01T16:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "SF00935",
+            "color": "purple"
+          }
+        ]
       },
       {
         "id": "6a1ee03df59f08655f871d4c",
@@ -7710,10 +8151,6 @@
         "desc": "abonar noche del 2 y 3/6 84700 cada una\n\nabonar noche del 4 y 5/6 84700 $169.400\n\nnoche del 6/5 84700\n\nABONAR NOCHE DEL 7 Y 8/6 84700 CADA UNA\n\n9 y 10/6 84700 cada una\n\npagar 11 y 12/6 84700 cu\n\nPAGAR NOCHE DEL 13/6 y 14/6 84700 cu PAGADO\n\npagar noche del 15 Y 16/6 84700 CADA UNA\n\npagar noche del 17/6 84700\n\npagar noche del 18/6 84700\n\npagar noche del 19/6 84700\n\npagar noche del 20, 21\n\nnoche del 22/6 y 23/6  84700 cu",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "BA01052",
-            "color": "red_light"
-          },
           {
             "name": "ROMANO ESTEBAN",
             "color": "purple"
@@ -7728,7 +8165,14 @@
           }
         ],
         "due": "2026-06-23T12:21:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "BA01052",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "6a1869846eefbb286a07f075",
@@ -7743,14 +8187,17 @@
           {
             "name": "LOPEZ FRANCO",
             "color": "orange_light"
-          },
-          {
-            "name": "RELEVAMIENTOS CORDOBA",
-            "color": "orange"
           }
         ],
         "due": "2026-06-12T16:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS CORDOBA",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a15d302739c0c4c0fffe33e",
@@ -7765,14 +8212,17 @@
           {
             "name": "LUIS GONZALEZ",
             "color": "yellow"
-          },
-          {
-            "name": "RELEVAMIENTOS CORDOBA",
-            "color": "orange"
           }
         ],
         "due": "2026-05-26T17:06:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS CORDOBA",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "6a0b44c9c170243e4f15fb9e",
@@ -7780,14 +8230,6 @@
         "desc": "PAGADAS NOCHES DEL 18 Y 19/5\n\nPAGAR NOCHE DEL 20/5 55000\n\npagar noche del 21/5 55000\n\n‌\n\n‌\n\nDatos de la cuenta para abonar el total de la estadia:\nBanco Santander:\nTitular: PEREZ MARIANO:\nCUIT: 20-25739418-3\nCTA. CTE: 295-358110/2\nCBU: 0720295988000035811022\nALIAS: HOTEL.CINE",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "A41-B455",
-            "color": "red_light"
-          },
-          {
-            "name": "A41-B541",
-            "color": "purple_dark"
-          },
           {
             "name": "LOPEZ FRANCO",
             "color": "orange_light"
@@ -7798,7 +8240,19 @@
           }
         ],
         "due": "2026-05-21T16:27:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A41-B455",
+            "color": "red_light"
+          },
+          {
+            "id": "st_c",
+            "name": "A41-B541",
+            "color": "purple_dark"
+          }
+        ]
       },
       {
         "id": "6a034ec15d4945acdc220bbc",
@@ -7824,7 +8278,8 @@
           }
         ],
         "due": "2026-05-22T16:27:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "6a03329f0dc826f173c777e4",
@@ -7832,10 +8287,6 @@
         "desc": "MISMO DPTO DE SIEMPRE\n\n‌\n\nNOCHE DEL 12/5/2026 60000\n\nNOCHE DEL 13/5 60000\n\nnoche del 14/5 60000",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "RELEVAMIENTOS MAR DEL PLATA",
-            "color": "red"
-          },
           {
             "name": "LUIS GONZALEZ",
             "color": "yellow"
@@ -7850,7 +8301,14 @@
           }
         ],
         "due": "2026-05-17T16:27:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MAR DEL PLATA",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69f8ae820bfd65ab21382d53",
@@ -7865,14 +8323,17 @@
           {
             "name": "LUIS GONZALEZ",
             "color": "yellow"
-          },
-          {
-            "name": "RELEVAMIENTOS MAR DEL PLATA",
-            "color": "red"
           }
         ],
         "due": "2026-05-07T14:35:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MAR DEL PLATA",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69f0dbd6d459fed6fe721956",
@@ -7891,14 +8352,17 @@
           {
             "name": "Fernando Aguilar",
             "color": "sky_dark"
-          },
-          {
-            "name": "A11-S389 TUCUMAN CENTRO 5",
-            "color": "pink_light"
           }
         ],
         "due": "2026-04-29T13:02:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A11-S389 TUCUMAN CENTRO 5",
+            "color": "pink_light"
+          }
+        ]
       },
       {
         "id": "69ef6f3baf996afd7ecc17fd",
@@ -7906,14 +8370,6 @@
         "desc": "abonar noche del 26 y 27/4 66.000 + iva cada una $159.720**TRANSFERIDO 27-04**\n\npagar noche del 28/4 y 29/4 $159.720 **TRANSFERIDO 29-04**\n\nabonar noche del 30/4 $ 79860 **TRANSFERIDO 30-04**",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "RELEVAMIENTOS MENDOZA",
-            "color": "orange_light"
-          },
-          {
-            "name": "Life Apart",
-            "color": "yellow"
-          },
           {
             "name": "Lucas Kremer",
             "color": "green_dark"
@@ -7928,7 +8384,19 @@
           }
         ],
         "due": "2026-04-30T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MENDOZA",
+            "color": "orange_light"
+          },
+          {
+            "id": "st_c",
+            "name": "Life Apart",
+            "color": "yellow"
+          }
+        ]
       },
       {
         "id": "69eb6b68d5545bb5f606ee42",
@@ -7954,7 +8422,8 @@
           }
         ],
         "due": "2026-04-24T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69ea2662521aa53fdf2ccf04",
@@ -7962,10 +8431,6 @@
         "desc": "pagar noche del 24 y 25/4 95000 cada una **TRANSFERIDO 24-04**\n\n‌\n\n0170279040000033583310\n\nRETO.BUTACA.SOFA\nIVAN PRIETO\nCuit 20 94205799 8",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "A32-O093 Las Leñas",
-            "color": "purple_light"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -7980,7 +8445,14 @@
           }
         ],
         "due": "2026-04-24T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A32-O093 Las Leñas",
+            "color": "purple_light"
+          }
+        ]
       },
       {
         "id": "69ea25ade949c9e837694264",
@@ -7999,14 +8471,17 @@
           {
             "name": "SANCHEZ JUAN CARLOS",
             "color": "blue_dark"
-          },
-          {
-            "name": "A32-O093 Las Leñas",
-            "color": "purple_light"
           }
         ],
         "due": "2026-04-23T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A32-O093 Las Leñas",
+            "color": "purple_light"
+          }
+        ]
       },
       {
         "id": "69e8f167281763ad0197d311",
@@ -8032,7 +8507,8 @@
           }
         ],
         "due": "2026-04-23T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69e7801fb3049991ce979e18",
@@ -8058,7 +8534,8 @@
           }
         ],
         "due": "2026-04-21T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69e65825b93608a28dcb9664",
@@ -8080,7 +8557,8 @@
           }
         ],
         "due": "2026-04-20T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69e61ee02198f32b0ab558e4",
@@ -8095,14 +8573,17 @@
           {
             "name": "LOPEZ FRANCO",
             "color": "orange_light"
-          },
-          {
-            "name": "RELEVAMIENTOS MAR DEL PLATA",
-            "color": "red"
           }
         ],
         "due": "2026-04-29T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MAR DEL PLATA",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69df92cde8b13e8e708bca65",
@@ -8110,10 +8591,6 @@
         "desc": "ABONAR NOCHE DEL 15/4 Y 16/4 95000 CADA UNA **TRANSFERIDO 15-04**\n\nabonar noche del 17, 18, 19 y 20/4 95000 cada una **TRANSFERIDO 20-04**\n\nabonar noche del 21/4 95000 **TRANSFERIDO 21-04**\n\nabonar noche del 22/4 95000 **TRANSFERIDO 22-04**\n\n‌\n\nElena Beatriz Cortez\nCVU: 0000003100069877270468\nAlias: elena.beatriz.cortez\nCUIT/CUIL: 27294702704\nMercado Pago",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "KS413 SIDACO",
-            "color": "red_light"
-          },
           {
             "name": "Fernando Aguilar",
             "color": "sky_dark"
@@ -8128,7 +8605,14 @@
           }
         ],
         "due": "2026-04-22T13:30:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "KS413 SIDACO",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "69d4f58934847e71256d724c",
@@ -8151,14 +8635,17 @@
           {
             "name": "Fernando Aguilar",
             "color": "sky_dark"
-          },
-          {
-            "name": "A02-S006\tCRUZ ALTA CENTRAL",
-            "color": "purple_light"
           }
         ],
         "due": "2026-04-10T12:16:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A02-S006\tCRUZ ALTA CENTRAL",
+            "color": "purple_light"
+          }
+        ]
       },
       {
         "id": "69d3f92bd5cc88dcd151d418",
@@ -8166,10 +8653,6 @@
         "desc": "abonar noche del 6/4 130000\n\n dos hab dobles\n\n‌\n\nRicardo Ruben Bertoli\nCVU: 0000003100067560471011\nAlias: Ricardo.bertoli\nCUIT/CUIL: 20307796539\nMercado Pago",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "A02-S006\tCRUZ ALTA CENTRAL",
-            "color": "purple_light"
-          },
           {
             "name": "Fernando Aguilar",
             "color": "sky_dark"
@@ -8188,7 +8671,14 @@
           }
         ],
         "due": "2026-04-06T17:14:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A02-S006\tCRUZ ALTA CENTRAL",
+            "color": "purple_light"
+          }
+        ]
       },
       {
         "id": "69cd4411811f6d1b8fd2a2d9",
@@ -8203,14 +8693,17 @@
           {
             "name": "LUIS GONZALEZ",
             "color": "yellow"
-          },
-          {
-            "name": "RELEVAMIENTOS MAR DEL PLATA",
-            "color": "red"
           }
         ],
         "due": "2026-04-13T12:34:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MAR DEL PLATA",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69cbd0d0b84de91fb8ba20d2",
@@ -8225,18 +8718,22 @@
           {
             "name": "Fernando Aguilar",
             "color": "sky_dark"
-          },
+          }
+        ],
+        "due": "2026-03-31T13:50:00.000Z",
+        "customFields": {},
+        "sitios": [
           {
+            "id": "st_c",
             "name": "A11-M031\tMovistar TC043",
             "color": "red_dark"
           },
           {
+            "id": "st_c",
             "name": "A11-M042\tMovistar TC307",
             "color": "purple"
           }
-        ],
-        "due": "2026-03-31T13:50:00.000Z",
-        "customFields": {}
+        ]
       },
       {
         "id": "69c6a673300a62e327cba059",
@@ -8253,20 +8750,24 @@
             "color": "green_dark"
           },
           {
-            "name": "A23-S075\tSanta María",
-            "color": "red_light"
-          },
-          {
-            "name": "RELEVAMIENTOS TUCUMAN",
-            "color": "orange"
-          },
-          {
             "name": "AN015   GRAL MOSCONI (CTI)",
             "color": "red_dark"
           }
         ],
         "due": "2026-03-30T13:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A23-S075\tSanta María",
+            "color": "red_light"
+          },
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS TUCUMAN",
+            "color": "orange"
+          }
+        ]
       },
       {
         "id": "69c5429f61dd568e4a75433c",
@@ -8288,7 +8789,8 @@
           }
         ],
         "due": "2026-03-26T13:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69c41b4f457a92c7ca5388cc",
@@ -8296,10 +8798,6 @@
         "desc": "ABONAR NOCHE DEL 25/3 80000\n\n‌\n\nALIAS: DELFIN.COMETA. JABON\nCUIT BANCO MACRO\nDATOS BANCARIOS HOTEL ASTUR\nCUENTA CORRIENTE EN PESOS $\nNÚMERO: 312709419613342\nCBU: 2850127330094196133421: 30-71233647-8",
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
-          {
-            "name": "A23-S075\tSanta María",
-            "color": "red_light"
-          },
           {
             "name": "Gonzalo Rámirez",
             "color": "green_dark"
@@ -8314,7 +8812,14 @@
           }
         ],
         "due": "2026-03-25T15:12:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A23-S075\tSanta María",
+            "color": "red_light"
+          }
+        ]
       },
       {
         "id": "69bd5423f93b7c2a100d70e2",
@@ -8336,7 +8841,8 @@
           }
         ],
         "due": "2026-03-23T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69bd54232079bdff962f88c9",
@@ -8351,14 +8857,17 @@
           {
             "name": "LOPEZ FRANCO",
             "color": "orange_light"
-          },
-          {
-            "name": "RELEVAMIENTOS MAR DEL PLATA",
-            "color": "red"
           }
         ],
         "due": "2026-03-30T13:47:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS MAR DEL PLATA",
+            "color": "red"
+          }
+        ]
       },
       {
         "id": "69bd541a2c450c9d1b50a2b9",
@@ -8380,7 +8889,8 @@
           }
         ],
         "due": "2026-03-20T19:00:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69b9764e6e34955d880056ad",
@@ -8398,7 +8908,8 @@
           }
         ],
         "due": "2026-03-18T17:16:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69aed1efd47fe1cc5f924898",
@@ -8407,16 +8918,19 @@
         "idList": "67912b575eaa0465694be1ae",
         "labels": [
           {
-            "name": "RELEVAMIENTOS HUAWEI - CÓRDOBA",
-            "color": "lime_dark"
-          },
-          {
             "name": "MARTIN ABRACAITE",
             "color": "yellow_light"
           }
         ],
         "due": "2026-03-27T13:10:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS HUAWEI - CÓRDOBA",
+            "color": "lime_dark"
+          }
+        ]
       },
       {
         "id": "69a98e6fb7009321a622572e",
@@ -8446,7 +8960,8 @@
           }
         ],
         "due": "2026-03-05T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": []
       },
       {
         "id": "69a6e5a0b3abd15dc20edf68",
@@ -8457,14 +8972,17 @@
           {
             "name": "MARTIN ABRACAITE",
             "color": "yellow_light"
-          },
-          {
-            "name": "RELEVAMIENTOS HUAWEI - CÓRDOBA",
-            "color": "lime_dark"
           }
         ],
         "due": "2026-03-03T12:22:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "RELEVAMIENTOS HUAWEI - CÓRDOBA",
+            "color": "lime_dark"
+          }
+        ]
       },
       {
         "id": "69a1abc1befd5d9aefeae857",
@@ -8483,14 +9001,69 @@
           {
             "name": "Nataniel Cáceres",
             "color": "sky_dark"
-          },
-          {
-            "name": "A23-S010\tPichanal",
-            "color": "pink_light"
           }
         ],
         "due": "2026-02-27T14:36:00.000Z",
-        "customFields": {}
+        "customFields": {},
+        "sitios": [
+          {
+            "id": "st_c",
+            "name": "A23-S010\tPichanal",
+            "color": "pink_light"
+          }
+        ]
+      }
+    ],
+    "sitios": [
+      {
+        "id": "st_1788668471683_921",
+        "name": "Life Apart",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471683_316",
+        "name": "NQ00143 Plottier 6 - Transporte Dolores Parra",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471683_577",
+        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471683_916",
+        "name": "MENDOZA ME00537",
+        "color": "orange"
+      },
+      {
+        "id": "st_1788668471683_364",
+        "name": "HOTEL CORAZON HOLLYWOOD B",
+        "color": "blue_light"
+      },
+      {
+        "id": "st_1788668471683_797",
+        "name": "A10-S063 CATAMARCA MARIANO MORENO",
+        "color": "purple"
+      },
+      {
+        "id": "st_1788668471683_286",
+        "name": "BA00336 PETROBRAS BAHÍA BLANCA",
+        "color": "orange_light"
+      },
+      {
+        "id": "st_1788668471683_193",
+        "name": "A11-S473 Tucuman Centro 8",
+        "color": "purple"
+      },
+      {
+        "id": "st_1788668471683_220",
+        "name": "A33-O091 Mendoza Shopping Plaza",
+        "color": "orange"
+      },
+      {
+        "id": "st_1788668471683_229",
+        "name": "A33-O073 Mendoza Aeropuerto",
+        "color": "red_dark"
       }
     ]
   }

@@ -154,6 +154,40 @@ async function initDatabase() {
       }
     }
 
+    // 3. Reclasificación automática de etiquetas a sitios en Postgres si quedaron de versiones previas
+    try {
+      const siteKeywords = [
+        'mendoza', 'córdoba', 'cordoba', 'hotel', 'apart', 'deposito', 'depósito',
+        'saliquelo', 'salta', 'tucuman', 'catamarca', 'san juan', 'plottier',
+        'bahía blanca', 'bahia blanca', 'pichanal', 'cruz alta', 'rio cuarto',
+        'rioja', 'jujuy', 'neuquen', 'neuquén', 'santa victoria',
+        'ypf', 'garage', 'village', 'central office', 'peatonal', 'godoy cruz',
+        'estudios medicos', 'estudios médicos', 'estudio medico', 'piso 2', 'piso 1',
+        'bañado', 'aeropuerto', 'shopping', 'terminal', 'mar del plata', 'mdp'
+      ];
+      const resLabels = await client.query('SELECT * FROM labels');
+      for (const lbl of resLabels.rows) {
+        const n = (lbl.name || '').toLowerCase();
+        const isS = /^[a-z]\d{2}-[a-z]\d+/i.test(n) || /^(sf|jc|ks|bb|ba|nq|me|bm)\d+/i.test(n) || /\b(cac|clc)\b/i.test(n) || siteKeywords.some(kw => n.includes(kw));
+        if (isS) {
+          const resSite = await client.query('SELECT id FROM sites WHERE board_id = $1 AND LOWER(name) = LOWER($2)', [lbl.board_id, lbl.name]);
+          let siteId = resSite.rows[0] ? resSite.rows[0].id : null;
+          if (!siteId) {
+            const insSite = await client.query('INSERT INTO sites (board_id, name, color) VALUES ($1, $2, $3) RETURNING id', [lbl.board_id, lbl.name, lbl.color || 'orange']);
+            siteId = insSite.rows[0].id;
+          }
+          const resCards = await client.query('SELECT card_id FROM card_labels WHERE label_id = $1', [lbl.id]);
+          for (const c of resCards.rows) {
+            await client.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [c.card_id, siteId]);
+          }
+          await client.query('DELETE FROM card_labels WHERE label_id = $1', [lbl.id]);
+          await client.query('DELETE FROM labels WHERE id = $1', [lbl.id]);
+        }
+      }
+    } catch(errMigr) {
+      console.log('ℹ️ [DB] Nota migracion labels a sitios:', errMigr.message);
+    }
+
     return true;
   } catch (err) {
     console.error('❌ [DB] Error al inicializar PostgreSQL:', err.message);
