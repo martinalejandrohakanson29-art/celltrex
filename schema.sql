@@ -124,21 +124,25 @@ CREATE INDEX IF NOT EXISTS idx_attachments_card ON card_attachments(card_id);
 
 -- Función y disparadores para actualizar automáticamente updated_at
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
-RETURNS TRIGGER AS 
+RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
- LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS set_timestamp_boards ON boards;
 CREATE TRIGGER set_timestamp_boards
 BEFORE UPDATE ON boards
 FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
 
+DROP TRIGGER IF EXISTS set_timestamp_lists ON lists;
 CREATE TRIGGER set_timestamp_lists
 BEFORE UPDATE ON lists
 FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
 
+DROP TRIGGER IF EXISTS set_timestamp_cards ON cards;
 CREATE TRIGGER set_timestamp_cards
 BEFORE UPDATE ON cards
 FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
+

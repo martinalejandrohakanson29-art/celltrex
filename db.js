@@ -1,4 +1,4 @@
-﻿const { Pool } = require('pg');
+const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -34,8 +34,9 @@ async function initDatabase() {
     return false;
   }
 
+    let client;
   try {
-    const client = await pool.connect();
+    client = await pool.connect();
     console.log('✅ [DB] Conexión establecida con PostgreSQL.');
     isConnected = true;
 
@@ -153,11 +154,12 @@ async function initDatabase() {
       }
     }
 
-    client.release();
     return true;
   } catch (err) {
     console.error('❌ [DB] Error al inicializar PostgreSQL:', err.message);
     return false;
+  } finally {
+    if (client) client.release();
   }
 }
 
