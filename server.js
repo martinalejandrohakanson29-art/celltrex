@@ -117,7 +117,8 @@ app.get('/api/boards', async (req, res) => {
           fecha_desde: c.transfer_fecha_desde ? c.transfer_fecha_desde.toISOString().split('T')[0] : '',
           fecha_hasta: c.transfer_fecha_hasta ? c.transfer_fecha_hasta.toISOString().split('T')[0] : '',
           dias_reservados: c.transfer_dias_reservados,
-          vencimiento: c.due_date ? c.due_date.toISOString().split('T')[0] : ''
+          vencimiento: c.due_date ? c.due_date.toISOString().split('T')[0] : '',
+          paymentTranches: (c.custom_data && c.custom_data.paymentTranches) ? c.custom_data.paymentTranches : null
         },
         customFields: c.custom_data || {}
       }));
@@ -233,7 +234,10 @@ app.post('/api/cards', async (req, res) => {
       t.fecha_hasta || null,
       t.dias_reservados ? parseInt(t.dias_reservados, 10) : null,
       t.vencimiento || null,
-      JSON.stringify(customFields || {})
+      JSON.stringify({
+        ...(customFields || {}),
+        paymentTranches: t.paymentTranches || []
+      })
     ]);
 
     const cardId = resCard.rows[0].id;
@@ -268,7 +272,7 @@ app.put('/api/cards/:id', async (req, res) => {
   if (!db.isConnected) return res.json({ success: true });
 
   const { id } = req.params;
-  const { listId, position, isPaid, title, desc } = req.body;
+  const { listId, position, isPaid, title, desc, paymentTranches } = req.body;
 
   try {
     const updates = [];
@@ -294,6 +298,10 @@ app.put('/api/cards/:id', async (req, res) => {
     if (desc !== undefined) {
       updates.push(`description = $${idx++}`);
       values.push(desc);
+    }
+    if (paymentTranches !== undefined) {
+      updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
+      values.push(JSON.stringify(paymentTranches));
     }
 
     if (updates.length > 0) {

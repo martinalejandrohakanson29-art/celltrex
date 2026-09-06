@@ -934,6 +934,61 @@
       border-color: #059669;
     }
 
+    /* Estado Parcial: Azul / Celeste */
+    .card-pay-badge.is-partial {
+      background-color: #F0F9FF;
+      border: 1px solid #38BDF8;
+      color: #0369A1;
+    }
+
+    .card-pay-badge.is-partial .card-pay-check {
+      accent-color: #0284C7;
+    }
+
+    .card-pay-badge.is-partial:hover {
+      background-color: #E0F2FE;
+      border-color: #0284C7;
+    }
+
+    .tranche-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      font-size: 0.78rem;
+      transition: all 0.15s ease;
+    }
+
+    .tranche-item.is-paid {
+      background: #F0FDF4;
+      border-color: #86EFAC;
+    }
+
+    .tranche-item:hover {
+      border-color: #CBD5E1;
+    }
+
+    .chip-search-input {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #FFFFFF;
+      margin: 6px 0 8px 0;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .chip-search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.15);
+    }
+
     .badge-lbl {
       font-size: 0.65rem;
       font-weight: 700;
@@ -2778,6 +2833,67 @@ CREATE TABLE card_attachments (
       return false;
     }
 
+    function formatShortDate(dateStr) {
+      if (!dateStr) return '';
+      const parts = String(dateStr).split('T')[0].split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}`;
+      }
+      return dateStr;
+    }
+
+    function generatePaymentTranches(fechaDesde, fechaHasta, totalMonto, existingTranches = []) {
+      if (!fechaDesde || !fechaHasta) return [];
+      const dStart = new Date(fechaDesde + 'T00:00:00');
+      const dEnd = new Date(fechaHasta + 'T00:00:00');
+      if (isNaN(dStart.getTime()) || isNaN(dEnd.getTime())) return [];
+
+      const diffDays = Math.round((dEnd - dStart) / (1000 * 60 * 60 * 24)) + 1;
+      if (diffDays <= 0) return [];
+
+      const totalDays = diffDays;
+      const numBlocks = Math.ceil(totalDays / 2);
+      const tranches = [];
+      let accumulatedAmount = 0;
+      const amountPerDay = totalDays > 0 ? (totalMonto / totalDays) : 0;
+
+      for (let i = 0; i < numBlocks; i++) {
+        const startDayOffset = i * 2;
+        const nights = Math.min(2, totalDays - startDayOffset);
+
+        const blockStart = new Date(dStart.getTime() + startDayOffset * 86400000);
+        const blockEnd = new Date(dStart.getTime() + (startDayOffset + nights - 1) * 86400000);
+
+        const fromStr = blockStart.toISOString().split('T')[0];
+        const toStr = blockEnd.toISOString().split('T')[0];
+
+        let blockMonto = 0;
+        if (i === numBlocks - 1) {
+          blockMonto = Math.max(0, Math.round(totalMonto - accumulatedAmount));
+        } else {
+          blockMonto = Math.round(amountPerDay * nights);
+          accumulatedAmount += blockMonto;
+        }
+
+        const existing = existingTranches && existingTranches[i];
+        const isPaid = existing ? !!existing.isPaid : false;
+        const paidAt = existing && existing.paidAt ? existing.paidAt : null;
+
+        tranches.push({
+          id: i + 1,
+          title: `Tramo ${i + 1} (${nights} noche${nights > 1 ? 's' : ''})`,
+          fromDate: fromStr,
+          toDate: toStr,
+          nights: nights,
+          amount: blockMonto,
+          isPaid: isPaid,
+          paidAt: paidAt
+        });
+      }
+
+      return tranches;
+    }
+
     function ensureDataIntegrity() {
       boards.forEach(b => {
         if (!b.formConfig || b.formConfig.length === 0) {
@@ -2825,6 +2941,20 @@ CREATE TABLE card_attachments (
             }
           });
           c.labels = cleanCardLabels;
+
+          // Generación automática de tramos de pago de 2 noches para hospedajes / transferData
+          if (c.transferData && c.transferData.fecha_desde && c.transferData.fecha_hasta) {
+            if (!c.transferData.paymentTranches || c.transferData.paymentTranches.length === 0) {
+              c.transferData.paymentTranches = generatePaymentTranches(
+                c.transferData.fecha_desde,
+                c.transferData.fecha_hasta,
+                c.transferData.monto_ars || 0
+              );
+              if (c.isPaid) {
+                c.transferData.paymentTranches.forEach(t => { t.isPaid = true; });
+              }
+            }
+          }
         });
       });
     }
@@ -3246,21 +3376,70 @@ CREATE TABLE card_attachments (
         tagsHtml += `<span class="tag-meta attach">📎 ${card.attachments.length} ${card.attachments.length === 1 ? 'adjunto' : 'adjuntos'}</span>`;
       }
 
-      const isPaid = !!card.isPaid;
+      // Badges for Payment & Tranches
+      let payBadgeClass = 'is-pending';
+      let payBadgeText = 'Pendiente';
+      let payBadgeTitle = 'Estado: PENDIENTE (Clic para marcar como Pagado)';
+      let isCardChecked = false;
+      let tranchesProgressHtml = '';
+
+      const tranches = (card.transferData && card.transferData.paymentTranches) ? card.transferData.paymentTranches : null;
+      if (tranches && tranches.length > 0) {
+        const paidCount = tranches.filter(t => t.isPaid).length;
+        const totalCount = tranches.length;
+        const nextUnpaid = tranches.find(t => !t.isPaid);
+        const percent = Math.round((paidCount / totalCount) * 100);
+
+        if (paidCount === totalCount) {
+          payBadgeClass = 'is-paid';
+          payBadgeText = 'Pagado';
+          payBadgeTitle = `Todos los tramos pagados (${paidCount}/${totalCount})`;
+          isCardChecked = true;
+        } else if (paidCount > 0) {
+          payBadgeClass = 'is-partial';
+          payBadgeText = `Parcial ${paidCount}/${totalCount}`;
+          payBadgeTitle = `Pagos parciales: ${paidCount} de ${totalCount} tramos pagados (${percent}%)`;
+          isCardChecked = false;
+        } else {
+          payBadgeClass = 'is-pending';
+          payBadgeText = 'Pendiente';
+          payBadgeTitle = `Pendiente: 0 de ${totalCount} tramos pagados`;
+          isCardChecked = false;
+        }
+
+        tranchesProgressHtml = `
+          <div style="margin-top:6px; padding-top:6px; border-top:1px dashed #E2E8F0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.67rem; color:var(--text-muted); font-weight:700; margin-bottom:3px;">
+              <span>Pagos: ${paidCount}/${totalCount} tramos (${percent}%)</span>
+              ${nextUnpaid ? `<span style="color:#D97706;">⏰ Próx: ${formatShortDate(nextUnpaid.fromDate)}</span>` : '<span style="color:#16A34A;">✓ Al día</span>'}
+            </div>
+            <div style="background:#E2E8F0; border-radius:999px; height:5px; overflow:hidden; width:100%;">
+              <div style="width:${percent}%; background:${paidCount === totalCount ? '#10B981' : (paidCount > 0 ? '#0284C7' : '#E2E8F0')}; height:100%; transition:width 0.3s;"></div>
+            </div>
+          </div>
+        `;
+      } else {
+        const isPaid = !!card.isPaid;
+        payBadgeClass = isPaid ? 'is-paid' : 'is-pending';
+        payBadgeText = isPaid ? 'Pagado' : 'Pendiente';
+        payBadgeTitle = isPaid ? 'Estado: PAGADO (Clic para pasar a Pendiente)' : 'Estado: PENDIENTE (Clic para marcar como Pagado)';
+        isCardChecked = isPaid;
+      }
 
       el.innerHTML = `
         ${coverImgHtml}
         <div class="card-top-row">
           <div class="card-labels-wrap">${labelsHtml}${sitiosHtml}</div>
-          <label class="card-pay-badge ${isPaid ? 'is-paid' : 'is-pending'}" 
-                 title="${isPaid ? 'Estado: PAGADO (Clic para pasar a Pendiente)' : 'Estado: PENDIENTE (Clic para marcar como Pagado)'}"
+          <label class="card-pay-badge ${payBadgeClass}" 
+                 title="${payBadgeTitle}"
                  onclick="event.stopPropagation();">
-            <input type="checkbox" class="card-pay-check" ${isPaid ? 'checked' : ''} onchange="toggleCardPayment('${card.id}', '${board.id}', this.checked)" />
-            <span class="card-pay-text">${isPaid ? 'Pagado' : 'Pendiente'}</span>
+            <input type="checkbox" class="card-pay-check" ${isCardChecked ? 'checked' : ''} onchange="toggleCardPayment('${card.id}', '${board.id}', this.checked)" />
+            <span class="card-pay-text">${payBadgeText}</span>
           </label>
         </div>
         <div class="card-name">${esc(card.name)}</div>
         ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
+        ${tranchesProgressHtml}
       `;
 
       el.onclick = () => openCardDetail(card, board);
@@ -3281,11 +3460,17 @@ CREATE TABLE card_attachments (
       const card = board.cards.find(c => c.id === cardId);
       if (!card) return;
 
-      if (typeof explicitState === 'boolean') {
-        card.isPaid = explicitState;
-      } else {
-        card.isPaid = !card.isPaid;
+      const targetState = (typeof explicitState === 'boolean') ? explicitState : !card.isPaid;
+      card.isPaid = targetState;
+
+      // Si tiene tramos de estadía, sincronizar todos los tramos
+      if (card.transferData && card.transferData.paymentTranches && card.transferData.paymentTranches.length > 0) {
+        card.transferData.paymentTranches.forEach(t => {
+          t.isPaid = targetState;
+          t.paidAt = targetState ? (t.paidAt || new Date().toISOString().split('T')[0]) : null;
+        });
       }
+
       saveData();
 
       if (fromDetail && detailCardContext && detailCardContext.card.id === cardId) {
@@ -3295,6 +3480,32 @@ CREATE TABLE card_attachments (
       renderBoard(boardId);
       showToast(`Tarjeta "${card.name}": Pago marcado como ${card.isPaid ? 'PAGADO (Verde)' : 'PENDIENTE (Naranja)'}.`);
     }
+
+    function toggleTranchePayment(cardId, boardId, trancheId, isPaid) {
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const card = board.cards.find(c => c.id === cardId);
+      if (!card || !card.transferData || !card.transferData.paymentTranches) return;
+
+      const tranche = card.transferData.paymentTranches.find(t => t.id === trancheId);
+      if (!tranche) return;
+
+      tranche.isPaid = isPaid;
+      tranche.paidAt = isPaid ? new Date().toISOString().split('T')[0] : null;
+
+      // La tarjeta queda totalmente pagada si todos los tramos están cubiertos
+      card.isPaid = card.transferData.paymentTranches.every(t => t.isPaid);
+
+      saveData();
+
+      if (detailCardContext && detailCardContext.card.id === cardId) {
+        detailCardContext.card = card;
+        renderDetailContent();
+      }
+      renderBoard(boardId);
+      showToast(`Tramo #${trancheId} (${tranche.title}) marcado como ${isPaid ? 'PAGADO' : 'PENDIENTE'}.`);
+    }
+    window.toggleTranchePayment = toggleTranchePayment;
 
     function setupDragAndDrop(container, listId, boardId) {
       container.ondragover = (e) => {
@@ -3454,6 +3665,47 @@ CREATE TABLE card_attachments (
       let transferHtml = '';
       if (card.transferData && card.transferData.titular) {
         const t = card.transferData;
+        const tranches = t.paymentTranches || [];
+        const paidCount = tranches.filter(x => x.isPaid).length;
+        const totalCount = tranches.length;
+
+        let tranchesSectionHtml = '';
+        if (tranches.length > 0) {
+          const percent = Math.round((paidCount / totalCount) * 100);
+          tranchesSectionHtml = `
+            <div style="margin-top:12px; padding-top:10px; border-top:1px solid #86EFAC;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:0.8rem; font-weight:800; color:#14532D;">
+                  🏨 Desglose de Pagos cada 2 Noches (${paidCount}/${totalCount} pagados - ${percent}%):
+                </span>
+                <span style="font-size:0.75rem; font-weight:700; color:${paidCount === totalCount ? '#15803D' : (paidCount > 0 ? '#0369A1' : '#C2410C')};">
+                  ${paidCount === totalCount ? '🟢 Todo Pagado' : (paidCount > 0 ? `🔵 Parcial (${paidCount}/${totalCount})` : '🟠 Pendiente')}
+                </span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                ${tranches.map(tr => `
+                  <div class="tranche-item ${tr.isPaid ? 'is-paid' : ''}" style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:${tr.isPaid ? '#DCFCE7' : '#FFFFFF'}; border:1px solid ${tr.isPaid ? '#86EFAC' : '#E2E8F0'}; border-radius:6px;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <input type="checkbox" ${tr.isPaid ? 'checked' : ''} onchange="toggleTranchePayment('${card.id}', '${board.id}', ${tr.id}, this.checked)" style="cursor:pointer; width:15px; height:15px; accent-color:#16A34A;" id="chk_tranche_${tr.id}" />
+                      <label for="chk_tranche_${tr.id}" style="cursor:pointer; font-size:0.8rem; font-weight:700; color:${tr.isPaid ? '#14532D' : '#334155'};">
+                        ${esc(tr.title)}: <strong>${esc(formatShortDate(tr.fromDate))}</strong> al <strong>${esc(formatShortDate(tr.toDate))}</strong>
+                      </label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.82rem; color:${tr.isPaid ? '#15803D' : '#1E293B'};">
+                        $${Number(tr.amount).toLocaleString('es-AR')}
+                      </span>
+                      <span class="card-pay-badge ${tr.isPaid ? 'is-paid' : 'is-pending'}" style="font-size:0.65rem; padding:1px 6px;">
+                        ${tr.isPaid ? '✓ Pagado' : 'Pendiente'}
+                      </span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
         transferHtml = `
           <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:8px; padding:12px; margin-top:8px;">
             <div style="font-size:0.8rem; font-weight:800; color:#14532D; margin-bottom:8px;">🏦 Datos para Transferir:</div>
@@ -3461,10 +3713,11 @@ CREATE TABLE card_attachments (
               <div><strong style="color:var(--text-muted);">Titular:</strong> ${esc(t.titular || '-')}</div>
               <div><strong style="color:var(--text-muted);">CUIT/CUIL:</strong> ${esc(t.cuit || '-')}</div>
               <div><strong style="color:var(--text-muted);">CBU/CVU/Alias:</strong> ${esc(t.cbu || '-')}</div>
-              <div><strong style="color:var(--text-muted);">Monto:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">$${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
+              <div><strong style="color:var(--text-muted);">Monto Total:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">$${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
               <div><strong style="color:var(--text-muted);">Fechas Reservadas:</strong> ${esc(t.fecha_desde || '-')} al ${esc(t.fecha_hasta || '-')} (${t.dias_reservados || 0} días)</div>
               <div><strong style="color:var(--text-muted);">Vencimiento Tarjeta:</strong> <span style="color:#DC2626; font-weight:700;">${esc(t.vencimiento || '-')}</span></div>
             </div>
+            ${tranchesSectionHtml}
           </div>
         `;
       }
@@ -3503,7 +3756,32 @@ CREATE TABLE card_attachments (
           '</div></div>';
       }
 
-      const isPaid = !!card.isPaid;
+      let detailPayBadgeClass = 'is-pending';
+      let detailPayBadgeText = 'Pendiente';
+      let detailPayChecked = false;
+      const detailTranches = (card.transferData && card.transferData.paymentTranches) ? card.transferData.paymentTranches : null;
+      if (detailTranches && detailTranches.length > 0) {
+        const pCount = detailTranches.filter(x => x.isPaid).length;
+        const tCount = detailTranches.length;
+        if (pCount === tCount) {
+          detailPayBadgeClass = 'is-paid';
+          detailPayBadgeText = 'Pagado';
+          detailPayChecked = true;
+        } else if (pCount > 0) {
+          detailPayBadgeClass = 'is-partial';
+          detailPayBadgeText = `Parcial (${pCount}/${tCount})`;
+          detailPayChecked = false;
+        } else {
+          detailPayBadgeClass = 'is-pending';
+          detailPayBadgeText = 'Pendiente';
+          detailPayChecked = false;
+        }
+      } else {
+        const isPaid = !!card.isPaid;
+        detailPayBadgeClass = isPaid ? 'is-paid' : 'is-pending';
+        detailPayBadgeText = isPaid ? 'Pagado' : 'Pendiente';
+        detailPayChecked = isPaid;
+      }
 
       document.getElementById('bodyCardDetail').innerHTML = `
         <div style="display:flex; flex-direction:column; gap:12px;">
@@ -3514,9 +3792,9 @@ CREATE TABLE card_attachments (
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">Estado Pago:</span>
-              <label class="card-pay-badge ${isPaid ? 'is-paid' : 'is-pending'}" style="font-size:0.8rem; padding:4px 10px; cursor:pointer;" title="Clic para alternar estado de pago">
-                <input type="checkbox" class="card-pay-check" ${isPaid ? 'checked' : ''} onchange="toggleCardPayment('${card.id}', '${board.id}', this.checked, true)" />
-                <span class="card-pay-text">${isPaid ? 'Pagado' : 'Pendiente'}</span>
+              <label class="card-pay-badge ${detailPayBadgeClass}" style="font-size:0.8rem; padding:4px 10px; cursor:pointer;" title="Clic para alternar estado de pago">
+                <input type="checkbox" class="card-pay-check" ${detailPayChecked ? 'checked' : ''} onchange="toggleCardPayment('${card.id}', '${board.id}', this.checked, true)" />
+                <span class="card-pay-text">${detailPayBadgeText}</span>
               </label>
             </div>
           </div>
@@ -3853,6 +4131,9 @@ CREATE TABLE card_attachments (
                 + Nuevo Recurso
               </button>
             </div>
+            <div style="margin: 6px 0 6px 0;">
+              <input type="text" id="inpSearchRecursos" class="chip-search-input" placeholder="🔍 Buscar recursos..." />
+            </div>
             <div class="item-creator-panel" id="panelNewRecurso">
               <div style="font-size:0.75rem; font-weight:800; color:var(--primary);">➕ Crear Nuevo Recurso</div>
               <div style="display:flex; gap:8px;">
@@ -3887,6 +4168,9 @@ CREATE TABLE card_attachments (
               <button type="button" class="btn-add-item-trigger" id="btnToggleNewSitio">
                 + Nuevo Sitio
               </button>
+            </div>
+            <div style="margin: 6px 0 6px 0;">
+              <input type="text" id="inpSearchSitios" class="chip-search-input" placeholder="🔍 Buscar sitios..." />
             </div>
             <div class="item-creator-panel" id="panelNewSitio" style="background:#FFFBEB; border-color:#FDE68A;">
               <div style="font-size:0.75rem; font-weight:800; color:#92400E;">📍 Crear Nuevo Sitio</div>
@@ -3950,7 +4234,8 @@ CREATE TABLE card_attachments (
             <div id="lblDiasCalculados" style="font-size:0.75rem; color:#15803D; font-weight:700; display:none;">
               📅 Duración: <span id="valDiasCalculados">0</span> día(s)
             </div>
-            <div class="form-group">
+            <div id="wrapPaymentTranchesPreview" style="margin-top:10px; display:none;"></div>
+            <div class="form-group" style="margin-top:8px;">
               <label class="form-label">Fecha Vencimiento Tarjeta ${f.required ? '<span class="required-star">*</span>' : ''}</label>
               <input type="date" id="fldTransfVencimiento" class="form-input" />
             </div>
@@ -3989,12 +4274,41 @@ CREATE TABLE card_attachments (
         renderRecursosChips(board);
       }
 
+      const inpSRec = document.getElementById('inpSearchRecursos');
+      if (inpSRec) {
+        inpSRec.oninput = (e) => renderRecursosChips(board, e.target.value);
+      }
+
       const btnTSitio = document.getElementById('btnToggleNewSitio');
       if (btnTSitio) {
         btnTSitio.onclick = () => document.getElementById('panelNewSitio').classList.toggle('open');
         setupSitioPalette();
         document.getElementById('btnSaveNewSitio').onclick = handleCreateNewSitio;
         renderSitiosChips(board);
+      }
+
+      const inpSSit = document.getElementById('inpSearchSitios');
+      if (inpSSit) {
+        inpSSit.oninput = (e) => renderSitiosChips(board, e.target.value);
+      }
+
+      // Listeners para previsualización de tramos cada 2 noches
+      const fldDesde = document.getElementById('fldTransfFechaDesde');
+      const fldHasta = document.getElementById('fldTransfFechaHasta');
+      const fldMonto = document.getElementById('fldTransfMonto');
+      if (fldDesde && fldHasta) {
+        [fldDesde, fldHasta, fldMonto].forEach(el => {
+          if (el) {
+            el.addEventListener('input', () => {
+              calculateReservationDays();
+              updatePaymentTranchesPreview();
+            });
+            el.addEventListener('change', () => {
+              calculateReservationDays();
+              updatePaymentTranchesPreview();
+            });
+          }
+        });
       }
 
       // Dropzone events for new card attachments
@@ -4173,10 +4487,12 @@ CREATE TABLE card_attachments (
       }
     }
 
-    function renderRecursosChips(board) {
+    function renderRecursosChips(board, filterQuery = '') {
       const boxLabels = document.getElementById('boxModalLabels');
       if (!boxLabels) return;
       boxLabels.innerHTML = '';
+
+      const q = (filterQuery !== undefined && filterQuery !== null ? String(filterQuery) : (document.getElementById('inpSearchRecursos')?.value || '')).trim().toLowerCase();
 
       // Setup drop target to receive chips from Sitios
       boxLabels.ondragover = (e) => {
@@ -4205,7 +4521,18 @@ CREATE TABLE card_attachments (
         return;
       }
 
-      board.labels.forEach(l => {
+      const filtered = board.labels.filter(l => {
+        if (!q) return true;
+        if (selectedLabels.has(l.name)) return true; // Siempre mantener a la vista los recursos seleccionados
+        return l.name.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        boxLabels.innerHTML = `<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">No se encontraron recursos para "${esc(q)}".</span>`;
+        return;
+      }
+
+      filtered.forEach(l => {
         const isSel = selectedLabels.has(l.name);
         const st = getLabelStyles(l.color);
         const chip = document.createElement('span');
@@ -4242,7 +4569,7 @@ CREATE TABLE card_attachments (
           } else {
             selectedLabels.add(l.name);
           }
-          renderRecursosChips(board);
+          renderRecursosChips(board, document.getElementById('inpSearchRecursos')?.value || '');
           validateModalRules();
         };
 
@@ -4276,10 +4603,12 @@ CREATE TABLE card_attachments (
       });
     }
 
-    function renderSitiosChips(board) {
+    function renderSitiosChips(board, filterQuery = '') {
       const boxSitios = document.getElementById('boxModalSitios');
       if (!boxSitios) return;
       boxSitios.innerHTML = '';
+
+      const q = (filterQuery !== undefined && filterQuery !== null ? String(filterQuery) : (document.getElementById('inpSearchSitios')?.value || '')).trim().toLowerCase();
 
       // Setup drop target to receive chips from Recursos
       boxSitios.ondragover = (e) => {
@@ -4308,7 +4637,18 @@ CREATE TABLE card_attachments (
         return;
       }
 
-      board.sitios.forEach(s => {
+      const filtered = board.sitios.filter(s => {
+        if (!q) return true;
+        if (selectedSitios.has(s.name)) return true; // Siempre mantener a la vista los sitios seleccionados
+        return s.name.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        boxSitios.innerHTML = `<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">No se encontraron sitios para "${esc(q)}".</span>`;
+        return;
+      }
+
+      filtered.forEach(s => {
         const isSel = selectedSitios.has(s.name);
         const st = getLabelStyles(s.color || 'orange');
         const chip = document.createElement('span');
@@ -4345,7 +4685,7 @@ CREATE TABLE card_attachments (
           } else {
             selectedSitios.add(s.name);
           }
-          renderSitiosChips(board);
+          renderSitiosChips(board, document.getElementById('inpSearchSitios')?.value || '');
           validateModalRules();
         };
 
@@ -4435,24 +4775,86 @@ CREATE TABLE card_attachments (
       if (!desdeVal || !hastaVal || !lbl) return 0;
 
       if (desdeVal.value && hastaVal.value) {
-        const d1 = new Date(desdeVal.value);
-        const d2 = new Date(hastaVal.value);
+        const d1 = new Date(desdeVal.value + 'T00:00:00');
+        const d2 = new Date(hastaVal.value + 'T00:00:00');
         const diffDays = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
 
         if (diffDays > 0) {
           valSpan.innerText = diffDays;
           lbl.style.display = 'block';
           lbl.style.color = '#15803D';
+          updatePaymentTranchesPreview();
           return diffDays;
         } else {
           valSpan.innerText = 'Hasta debe ser >= Desde';
           lbl.style.display = 'block';
           lbl.style.color = '#DC2626';
+          updatePaymentTranchesPreview();
           return -1;
         }
       }
       lbl.style.display = 'none';
+      updatePaymentTranchesPreview();
       return 0;
+    }
+
+    function updatePaymentTranchesPreview() {
+      const wrap = document.getElementById('wrapPaymentTranchesPreview');
+      if (!wrap) return;
+      const desdeVal = document.getElementById('fldTransfFechaDesde')?.value;
+      const hastaVal = document.getElementById('fldTransfFechaHasta')?.value;
+      const montoVal = parseFloat(document.getElementById('fldTransfMonto')?.value) || 0;
+
+      if (!desdeVal || !hastaVal) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+        return;
+      }
+
+      const tranches = generatePaymentTranches(desdeVal, hastaVal, montoVal);
+      if (!tranches || tranches.length === 0) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+        return;
+      }
+
+      wrap.style.display = 'block';
+      let html = `
+        <div style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:8px; padding:10px; margin-top:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--primary);">
+              🏨 Desglose de Pagos cada 2 Noches (${tranches.length} tramos):
+            </span>
+            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:600;">
+              Total: $${Number(montoVal).toLocaleString('es-AR')}
+            </span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+      `;
+
+      tranches.forEach(t => {
+        html += `
+          <div class="tranche-item">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; color:#334155;">#${t.id}</span>
+              <span style="color:#475569;">${esc(t.title)}: <strong>${esc(formatShortDate(t.fromDate))}</strong> al <strong>${esc(formatShortDate(t.toDate))}</strong></span>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#15803D;">
+              $${Number(t.amount).toLocaleString('es-AR')}
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+          <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-style:italic;">
+            * Cada bloque de 2 noches podrá marcarse individualmente como Pagado o Pendiente en el detalle de la tarjeta.
+          </div>
+        </div>
+      `;
+
+      wrap.innerHTML = html;
     }
 
     // Dynamic Validation based on Board Form Configuration
@@ -4556,15 +4958,21 @@ CREATE TABLE card_attachments (
       const transfBox = document.getElementById('fldTransfTitular');
       if (transfBox) {
         const dias = calculateReservationDays();
+        const fDesde = document.getElementById('fldTransfFechaDesde').value;
+        const fHasta = document.getElementById('fldTransfFechaHasta').value;
+        const montoArs = parseFloat(document.getElementById('fldTransfMonto').value) || 0;
+        const paymentTranches = generatePaymentTranches(fDesde, fHasta, montoArs);
+
         transferData = {
           titular: document.getElementById('fldTransfTitular').value.trim(),
           cuit: document.getElementById('fldTransfCuit').value.trim(),
           cbu: document.getElementById('fldTransfCbu').value.trim(),
-          monto_ars: parseFloat(document.getElementById('fldTransfMonto').value) || 0,
-          fecha_desde: document.getElementById('fldTransfFechaDesde').value,
-          fecha_hasta: document.getElementById('fldTransfFechaHasta').value,
+          monto_ars: montoArs,
+          fecha_desde: fDesde,
+          fecha_hasta: fHasta,
           dias_reservados: dias > 0 ? dias : 1,
-          vencimiento: document.getElementById('fldTransfVencimiento').value
+          vencimiento: document.getElementById('fldTransfVencimiento').value,
+          paymentTranches: paymentTranches
         };
       }
 
