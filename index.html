@@ -2161,12 +2161,12 @@
         if (bar) bar.style.width = '45%';
         if (pct) pct.innerText = '45%';
         if (msg) msg.innerText = 'Sincronizando nodos de telecomunicaciones...';
-      }, 250);
+      }, 500);
       setTimeout(function() {
         if (bar) bar.style.width = '75%';
         if (pct) pct.innerText = '75%';
         if (msg) msg.innerText = 'Conectando con base de datos PostgreSQL...';
-      }, 650);
+      }, 1150);
     })();
   </script>
 
@@ -2239,14 +2239,6 @@
           </svg>
         </button>
       </form>
-
-      <div class="login-demo-helper">
-        <span style="font-size:0.72rem; color:#64748B;">Acceso rápido sugerido:</span>
-        <div class="login-demo-pill" id="btnFillDemoCreds" title="Clic para rellenar automáticamente">
-          <span>👤 <strong>admin@celltrex.com.ar</strong> | 🔑 <strong>celltrex2026</strong></span>
-          <span style="font-weight:700; font-size:0.68rem; text-transform:uppercase;">Usar &rarr;</span>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -5097,13 +5089,13 @@ CREATE TABLE card_attachments (
           preloader.classList.add('hidden');
           setTimeout(() => { preloader.style.display = 'none'; if (onComplete) onComplete(); }, 500);
         }
-      }, 3500);
+      }, 5000);
 
       const steps = [
-        { pct: 25, msg: 'Calibrando enlace de microondas...', delay: 200 },
-        { pct: 55, msg: 'Sincronizando nodos de telecomunicaciones...', delay: 350 },
-        { pct: 85, msg: 'Conectando con base de datos PostgreSQL...', delay: 350 },
-        { pct: 100, msg: 'Sistemas operativos en línea.', delay: 250 }
+        { pct: 25, msg: 'Calibrando enlace de microondas...', delay: 450 },
+        { pct: 55, msg: 'Sincronizando nodos de telecomunicaciones...', delay: 650 },
+        { pct: 85, msg: 'Conectando con base de datos PostgreSQL...', delay: 650 },
+        { pct: 100, msg: 'Sistemas operativos en línea.', delay: 400 }
       ];
 
       let currentStep = 0;
@@ -5123,10 +5115,10 @@ CREATE TABLE card_attachments (
             setTimeout(() => {
               preloader.style.display = 'none';
             }, 600);
-          }, 200);
+          }, 300);
         }
       }
-      setTimeout(advance, 80);
+      setTimeout(advance, 100);
     }
 
     function handleLoginSubmit() {
@@ -5305,16 +5297,6 @@ CREATE TABLE card_attachments (
           btnTogglePwd.innerHTML = isPwd 
             ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
             : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
-        };
-      }
-
-      // Quick Demo Credential Fill Button
-      const btnFillDemo = document.getElementById('btnFillDemoCreds');
-      if (btnFillDemo) {
-        btnFillDemo.onclick = () => {
-          document.getElementById('loginEmail').value = 'admin@celltrex.com.ar';
-          document.getElementById('loginPassword').value = 'celltrex2026';
-          document.getElementById('loginErrorBox').style.display = 'none';
         };
       }
 
