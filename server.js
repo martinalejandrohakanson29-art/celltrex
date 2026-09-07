@@ -304,6 +304,13 @@ app.put('/api/cards/:id', async (req, res) => {
     return res.status(400).json({ error: 'ID de tarjeta inválido para actualización (debe ser UUID)', needCreate: true });
   }
 
+  const safeDate = (val) => {
+    if (!val || typeof val !== 'string') return null;
+    const trimmed = val.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+    return null;
+  };
+
   try {
     const updates = ['updated_at = NOW()'];
     const values = [id];
@@ -327,17 +334,21 @@ app.put('/api/cards/:id', async (req, res) => {
     }
     if (desc !== undefined) {
       updates.push(`description = $${idx++}`);
-      values.push(desc);
+      values.push(desc || '');
     }
-    if (customFields !== undefined) {
-      updates.push(`custom_data = COALESCE(custom_data, '{}'::jsonb) || $${idx++}::jsonb`);
-      values.push(JSON.stringify(customFields));
+
+    // Consolidar todas las modificaciones JSON en un único patch para custom_data
+    const customDataPatch = {};
+
+    if (customFields && typeof customFields === 'object') {
+      Object.assign(customDataPatch, customFields);
     }
+
     if (paymentTranches !== undefined) {
-      updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
-      values.push(JSON.stringify(paymentTranches));
+      customDataPatch.paymentTranches = paymentTranches;
     }
-    if (transferData !== undefined) {
+
+    if (transferData && typeof transferData === 'object') {
       if (transferData.titular !== undefined) {
         updates.push(`transfer_titular = $${idx++}`);
         values.push(transferData.titular || null);
@@ -352,38 +363,42 @@ app.put('/api/cards/:id', async (req, res) => {
       }
       if (transferData.fecha_desde !== undefined) {
         updates.push(`transfer_fecha_desde = $${idx++}`);
-        values.push(transferData.fecha_desde || null);
+        values.push(safeDate(transferData.fecha_desde));
       }
       if (transferData.fecha_hasta !== undefined) {
         updates.push(`transfer_fecha_hasta = $${idx++}`);
-        values.push(transferData.fecha_hasta || null);
+        values.push(safeDate(transferData.fecha_hasta));
       }
       if (transferData.monto_ars !== undefined) {
         updates.push(`transfer_monto_ars = $${idx++}`);
-        values.push(transferData.monto_ars ? Number(transferData.monto_ars) : null);
-      }
-      if (transferData.monto_noche !== undefined) {
-        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{monto_noche}', $${idx++}::jsonb)`);
-        values.push(JSON.stringify(Number(transferData.monto_noche) || 0));
+        const mArs = parseFloat(transferData.monto_ars);
+        values.push(isNaN(mArs) ? null : mArs);
       }
       if (transferData.dias_reservados !== undefined) {
         updates.push(`transfer_dias_reservados = $${idx++}`);
-        values.push(transferData.dias_reservados ? parseInt(transferData.dias_reservados, 10) : null);
+        const dRes = parseInt(transferData.dias_reservados, 10);
+        values.push(isNaN(dRes) ? null : dRes);
       }
       if (transferData.is_indefinite !== undefined) {
         updates.push(`transfer_is_indefinite = $${idx++}`);
         values.push(!!transferData.is_indefinite);
-        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{is_indefinite}', $${idx++}::jsonb)`);
-        values.push(JSON.stringify(!!transferData.is_indefinite));
+        customDataPatch.is_indefinite = !!transferData.is_indefinite;
       }
       if (transferData.vencimiento !== undefined) {
         updates.push(`due_date = $${idx++}`);
-        values.push(transferData.vencimiento || null);
+        values.push(safeDate(transferData.vencimiento));
+      }
+      if (transferData.monto_noche !== undefined) {
+        customDataPatch.monto_noche = Number(transferData.monto_noche) || 0;
       }
       if (transferData.paymentTranches !== undefined) {
-        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
-        values.push(JSON.stringify(transferData.paymentTranches));
+        customDataPatch.paymentTranches = transferData.paymentTranches;
       }
+    }
+
+    if (Object.keys(customDataPatch).length > 0) {
+      updates.push(`custom_data = COALESCE(custom_data, '{}'::jsonb) || $${idx++}::jsonb`);
+      values.push(JSON.stringify(customDataPatch));
     }
 
     if (updates.length > 0) {
