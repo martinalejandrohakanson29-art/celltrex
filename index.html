@@ -950,6 +950,43 @@
       border-color: #EAB308;
     }
 
+    .btn-card-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0F766E;
+      background: #F0FDFA;
+      border: 1px solid #99F6E4;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-card-save:hover {
+      background: #CCFBF1;
+      border-color: #0D9488;
+      color: #115E59;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-card-save.is-saving {
+      background: #FEF9C3;
+      border-color: #FACC15;
+      color: #854D0E;
+      cursor: wait;
+    }
+
+    .btn-card-save.is-saved {
+      background: #DCFCE7;
+      border-color: #86EFAC;
+      color: #15803D;
+    }
+
     .tranche-item {
       display: flex;
       align-items: center;
@@ -2669,6 +2706,9 @@
           <div class="modal-title" id="lblDetailTitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Detalle</div>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn btn-outline" id="btnDetailSaveDb" onclick="manualSaveCard(detailCardContext?.card?.id, detailCardContext?.board?.id, this)" style="font-size:0.75rem; padding:5px 12px; font-weight:700; border-color:#99F6E4; color:#0F766E; background:#F0FDFA; cursor:pointer;" title="Guardar tarjeta en la Base de Datos PostgreSQL">
+            💾 Guardar en BD
+          </button>
           <button type="button" class="btn btn-outline" id="btnToggleEditCard" onclick="toggleCardEditMode()" style="font-size:0.75rem; padding:5px 12px; font-weight:700; border-color:var(--primary); color:var(--primary); background:#F8FAFC; cursor:pointer;">
             ✏️ Editar Tarjeta
           </button>
@@ -3578,6 +3618,12 @@ CREATE TABLE card_attachments (
         <div class="card-name">${esc(card.name)}</div>
         ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
         ${tranchesProgressHtml}
+        <div class="card-footer-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1px solid #F1F5F9;">
+          <span style="font-size:0.62rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">#${esc(String(card.id).slice(0, 8))}</span>
+          <button type="button" class="btn-card-save" onclick="event.stopPropagation(); manualSaveCard('${card.id}', '${board.id}', this)" title="Guardar cambios de esta tarjeta en la Base de Datos">
+            💾 Guardar
+          </button>
+        </div>
       `;
 
       el.onclick = () => openCardDetail(card, board);
@@ -3591,6 +3637,136 @@ CREATE TABLE card_attachments (
 
       return el;
     }
+
+    // ==========================================
+    // BASE DE DATOS: SINCRONIZACIÓN Y GUARDADO DE TARJETAS
+    // ==========================================
+    async function syncCardToDb(cardId, boardId, options = {}) {
+      let board = boards.find(b => b.id === boardId);
+      let card = board ? board.cards.find(c => c.id === cardId) : null;
+
+      if (!card) {
+        for (const b of boards) {
+          const found = b.cards.find(c => c.id === cardId);
+          if (found) {
+            card = found;
+            board = b;
+            break;
+          }
+        }
+      }
+
+      if (!card) return false;
+
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(card.id);
+
+      try {
+        if (!isUuid) {
+          // Tarjeta temporal creada localmente: insertar en PostgreSQL
+          const res = await fetch('/api/cards', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              listId: card.idList,
+              title: card.name,
+              desc: card.desc || '',
+              isPaid: !!card.isPaid,
+              transferData: card.transferData || null,
+              customFields: card.customFields || {},
+              labels: card.labels || [],
+              sitios: card.sitios || []
+            })
+          });
+
+          if (!res.ok) throw new Error('Error HTTP ' + res.status);
+          const data = await res.json();
+          if (data.success && data.card && data.card.id) {
+            const oldId = card.id;
+            card.id = data.card.id;
+            saveData();
+            // Actualizar referencia en el DOM
+            const cardEl = document.querySelector(`[data-card-id="${oldId}"]`);
+            if (cardEl) cardEl.dataset.cardId = card.id;
+            if (options.showToast !== false) {
+              showToast(options.toastMsg || `✓ Tarjeta "${card.name}" guardada en Base de Datos.`);
+            }
+            return true;
+          }
+          return false;
+        }
+
+        // Tarjeta existente con UUID: actualizar en PostgreSQL
+        const res = await fetch(`/api/cards/${card.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            listId: card.idList,
+            position: card.pos || 0,
+            title: card.name,
+            desc: card.desc || '',
+            isPaid: !!card.isPaid,
+            transferData: card.transferData || null,
+            customFields: card.customFields || {},
+            paymentTranches: card.transferData?.paymentTranches || [],
+            labels: card.labels || [],
+            sitios: card.sitios || []
+          })
+        });
+
+        if (!res.ok) throw new Error('Error HTTP ' + res.status);
+        const data = await res.json();
+        if (data.success) {
+          if (options.showToast !== false) {
+            showToast(options.toastMsg || `✓ Tarjeta "${card.name}" guardada en Base de Datos.`);
+          }
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.warn('Sync offline o error con PostgreSQL:', err.message);
+        if (options.showToast !== false) {
+          showToast('ℹ️ Cambios guardados localmente (' + err.message + ')', 'warning');
+        }
+        return false;
+      }
+    }
+    window.syncCardToDb = syncCardToDb;
+
+    async function manualSaveCard(cardId, boardId, btn) {
+      if (!cardId) {
+        if (detailCardContext && detailCardContext.card) {
+          cardId = detailCardContext.card.id;
+          boardId = detailCardContext.board ? detailCardContext.board.id : boardId;
+        }
+      }
+      if (!cardId) return;
+
+      let origText = '';
+      if (btn) {
+        origText = btn.innerHTML;
+        btn.disabled = true;
+        btn.classList.add('is-saving');
+        btn.innerHTML = '⏳ Guardando...';
+      }
+
+      const success = await syncCardToDb(cardId, boardId, { showToast: true });
+
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove('is-saving');
+        if (success) {
+          btn.classList.add('is-saved');
+          btn.innerHTML = '✅ Guardado';
+          setTimeout(() => {
+            btn.classList.remove('is-saved');
+            btn.innerHTML = origText || '💾 Guardar';
+          }, 2000);
+        } else {
+          btn.innerHTML = origText || '💾 Guardar';
+        }
+      }
+    }
+    window.manualSaveCard = manualSaveCard;
 
     function toggleCardPayment(cardId, boardId, explicitState = null, fromDetail = false) {
       const board = boards.find(b => b.id === boardId);
@@ -3617,6 +3793,7 @@ CREATE TABLE card_attachments (
       }
       renderBoard(boardId);
       showToast(`Tarjeta "${card.name}": Pago marcado como ${card.isPaid ? 'PAGADO (Verde)' : 'PENDIENTE (Naranja)'}.`);
+      syncCardToDb(card.id, boardId, { showToast: false });
     }
 
     function toggleTranchePayment(cardId, boardId, trancheId, isPaid) {
@@ -3642,6 +3819,7 @@ CREATE TABLE card_attachments (
       }
       renderBoard(boardId);
       showToast(`Tramo #${trancheId} (${tranche.title}) marcado como ${isPaid ? 'PAGADO' : 'PENDIENTE'}.`);
+      syncCardToDb(card.id, boardId, { showToast: false });
     }
     window.toggleTranchePayment = toggleTranchePayment;
 
@@ -3666,6 +3844,10 @@ CREATE TABLE card_attachments (
               card.idList = listId;
               saveData();
               renderBoard(data.sourceBoardId);
+              syncCardToDb(card.id, data.sourceBoardId, {
+                showToast: true,
+                toastMsg: `✓ Tarjeta "${card.name}" movida y guardada en Base de Datos.`
+              });
             }
           }
         } catch(err) {
@@ -4071,32 +4253,16 @@ CREATE TABLE card_attachments (
 
       saveData();
 
-      // Sincronizar con PostgreSQL
-      try {
-        await fetch(`/api/cards/${card.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            listId: card.idList,
-            title: card.name,
-            desc: card.desc,
-            isPaid: card.isPaid,
-            transferData: card.transferData,
-            customFields: card.customFields,
-            paymentTranches: card.transferData?.paymentTranches,
-            labels: card.labels,
-            sitios: card.sitios
-          })
-        });
-      } catch(e) {
-        console.log('Sync offline:', e.message);
-      }
-
       isEditingCardDetail = false;
       document.getElementById('lblDetailTitle').innerText = card.name;
       renderDetailContent();
       renderBoard(board.id);
-      showToast(`Tarjeta "${card.name}" guardada y actualizada con éxito.`);
+
+      // Sincronizar directamente con PostgreSQL
+      await syncCardToDb(card.id, board.id, {
+        showToast: true,
+        toastMsg: `✓ Tarjeta "${card.name}" modificada y guardada en Base de Datos.`
+      });
     }
     window.saveFullCardEdit = saveFullCardEdit;
 
@@ -4614,7 +4780,11 @@ CREATE TABLE card_attachments (
         renderDetailContent();
       }
       renderBoard(boardId);
-      showToast(`Estadía actualizada (${newTranches.length} noche${newTranches.length > 1 ? 's' : ''}).`);
+      showToast(`Estadía actualizada (${newTranches.length} noche${newTranches.length > 1 ? 's' : ''}). Guardando en BD...`);
+      syncCardToDb(card.id, boardId, {
+        showToast: true,
+        toastMsg: `✓ Estadía de "${card.name}" guardada en Base de Datos.`
+      });
     }
     window.saveEditedStay = saveEditedStay;
 
@@ -4679,6 +4849,7 @@ CREATE TABLE card_attachments (
       }
       renderBoard(boardId);
       showToast(`Se agregó la Noche ${newId} a la estadía.`);
+      syncCardToDb(card.id, boardId, { showToast: false });
     }
     window.addOneNightToStay = addOneNightToStay;
 
@@ -4727,6 +4898,7 @@ CREATE TABLE card_attachments (
       }
       renderBoard(boardId);
       showToast(`Se acortó la estadía (ahora son ${newTotalNights} noches).`);
+      syncCardToDb(card.id, boardId, { showToast: false });
     }
     window.removeLastNightFromStay = removeLastNightFromStay;
 
@@ -5924,7 +6096,12 @@ CREATE TABLE card_attachments (
       saveData();
       closeNewCard();
       setView(boardId);
-      showToast(`Tarjeta "${title}" generada exitosamente (${newCard.attachments.length} adjunto/s).`);
+      showToast(`Tarjeta "${title}" generada. Guardando en BD...`);
+
+      syncCardToDb(newCard.id, boardId, {
+        showToast: true,
+        toastMsg: `✓ Tarjeta "${title}" creada y guardada en Base de Datos.`
+      });
     }
 
     function esc(s) {

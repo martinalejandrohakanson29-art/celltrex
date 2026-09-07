@@ -250,8 +250,18 @@ app.post('/api/cards', async (req, res) => {
     // Asociar labels
     if (Array.isArray(labels)) {
       for (const l of labels) {
-        if (l.id) {
-          await db.query('INSERT INTO card_labels (card_id, label_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [cardId, l.id]);
+        let labelId = l.id;
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(labelId);
+        if (!isUuid && l.name) {
+          const lRes = await db.query(
+            `SELECT id FROM labels WHERE name = $1 AND board_id = (SELECT board_id FROM lists WHERE id = $2 LIMIT 1) LIMIT 1`,
+            [l.name, listId]
+          );
+          if (lRes.rowCount > 0) labelId = lRes.rows[0].id;
+          else labelId = null;
+        }
+        if (labelId) {
+          await db.query('INSERT INTO card_labels (card_id, label_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [cardId, labelId]);
         }
       }
     }
@@ -259,8 +269,18 @@ app.post('/api/cards', async (req, res) => {
     // Asociar sitios
     if (Array.isArray(sitios)) {
       for (const s of sitios) {
-        if (s.id) {
-          await db.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [cardId, s.id]);
+        let siteId = s.id;
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(siteId);
+        if (!isUuid && s.name) {
+          const sRes = await db.query(
+            `SELECT id FROM sites WHERE name = $1 AND board_id = (SELECT board_id FROM lists WHERE id = $2 LIMIT 1) LIMIT 1`,
+            [s.name, listId]
+          );
+          if (sRes.rowCount > 0) siteId = sRes.rows[0].id;
+          else siteId = null;
+        }
+        if (siteId) {
+          await db.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [cardId, siteId]);
         }
       }
     }
@@ -279,8 +299,13 @@ app.put('/api/cards/:id', async (req, res) => {
   const { id } = req.params;
   const { listId, position, isPaid, title, desc, paymentTranches, transferData, customFields, labels, sitios } = req.body;
 
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+  if (!isUuid) {
+    return res.status(400).json({ error: 'ID de tarjeta inválido para actualización (debe ser UUID)', needCreate: true });
+  }
+
   try {
-    const updates = [];
+    const updates = ['updated_at = NOW()'];
     const values = [id];
     let idx = 2;
 
@@ -369,8 +394,18 @@ app.put('/api/cards/:id', async (req, res) => {
     if (Array.isArray(labels)) {
       await db.query('DELETE FROM card_labels WHERE card_id = $1', [id]);
       for (const l of labels) {
-        if (l.id) {
-          await db.query('INSERT INTO card_labels (card_id, label_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, l.id]);
+        let labelId = l.id;
+        const isUuidLbl = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(labelId);
+        if (!isUuidLbl && l.name) {
+          const lRes = await db.query(
+            `SELECT id FROM labels WHERE name = $1 AND board_id = (SELECT l.board_id FROM lists l JOIN cards c ON c.list_id = l.id WHERE c.id = $2 LIMIT 1) LIMIT 1`,
+            [l.name, id]
+          );
+          if (lRes.rowCount > 0) labelId = lRes.rows[0].id;
+          else labelId = null;
+        }
+        if (labelId) {
+          await db.query('INSERT INTO card_labels (card_id, label_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, labelId]);
         }
       }
     }
@@ -379,8 +414,18 @@ app.put('/api/cards/:id', async (req, res) => {
     if (Array.isArray(sitios)) {
       await db.query('DELETE FROM card_sites WHERE card_id = $1', [id]);
       for (const s of sitios) {
-        if (s.id) {
-          await db.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, s.id]);
+        let siteId = s.id;
+        const isUuidSt = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(siteId);
+        if (!isUuidSt && s.name) {
+          const sRes = await db.query(
+            `SELECT id FROM sites WHERE name = $1 AND board_id = (SELECT l.board_id FROM lists l JOIN cards c ON c.list_id = l.id WHERE c.id = $2 LIMIT 1) LIMIT 1`,
+            [s.name, id]
+          );
+          if (sRes.rowCount > 0) siteId = sRes.rows[0].id;
+          else siteId = null;
+        }
+        if (siteId) {
+          await db.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, siteId]);
         }
       }
     }
