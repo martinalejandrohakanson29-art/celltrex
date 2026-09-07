@@ -2663,17 +2663,29 @@
 
   <!-- MODAL: Detalle de Tarjeta -->
   <div class="modal-overlay" id="modalCardDetail">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="modal-title" id="lblDetailTitle">Detalle</div>
-        <button class="modal-close-btn" id="btnCloseDetail">&times;</button>
+    <div class="modal-dialog" style="max-width: 720px;">
+      <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+          <div class="modal-title" id="lblDetailTitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Detalle</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn btn-outline" id="btnToggleEditCard" onclick="toggleCardEditMode()" style="font-size:0.75rem; padding:5px 12px; font-weight:700; border-color:var(--primary); color:var(--primary); background:#F8FAFC; cursor:pointer;">
+            ✏️ Editar Tarjeta
+          </button>
+          <button class="modal-close-btn" id="btnCloseDetail">&times;</button>
+        </div>
       </div>
-      <div class="modal-body" id="bodyCardDetail"></div>
-      <div class="modal-footer" style="justify-content: space-between;">
+      <div class="modal-body" id="bodyCardDetail" style="max-height:76vh; overflow-y:auto;"></div>
+      <div class="modal-footer" id="footerCardDetail" style="justify-content: space-between;">
         <button class="btn btn-outline" id="btnDeleteDetailCard" style="color:#DC2626; border-color:#FECACA;">
           🗑️ Eliminar Tarjeta
         </button>
-        <button class="btn btn-outline" id="btnCloseDetailBottom">Cerrar</button>
+        <div style="display:flex; gap:8px;" id="wrapFooterDetailBtns">
+          <button class="btn btn-outline" id="btnCloseDetailBottom">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="btnFooterEditCard" onclick="toggleCardEditMode(true)" style="font-size:0.8rem; font-weight:700;">
+            ✏️ Editar
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -3759,19 +3771,522 @@ CREATE TABLE card_attachments (
     }
 
     // ==========================================
-    // DETALLE DE TARJETA CON GESTIÓN DE ADJUNTOS
+    // DETALLE Y EDICIÓN COMPLETA DE TARJETA
     // ==========================================
+    let isEditingCardDetail = false;
+    let editSelectedLabels = new Set();
+    let editSelectedSitios = new Set();
+
     function openCardDetail(card, board) {
       detailCardContext = { card, board };
-      document.getElementById('lblDetailTitle').innerText = card.name;
+      isEditingCardDetail = false;
+      editSelectedLabels = new Set((card.labels || []).map(l => l.name));
+      editSelectedSitios = new Set((card.sitios || []).map(s => s.name));
 
+      document.getElementById('lblDetailTitle').innerText = card.name;
       renderDetailContent();
       document.getElementById('modalCardDetail').classList.add('active');
     }
 
+    function toggleCardEditMode(forceState = null) {
+      if (!detailCardContext) return;
+      if (typeof forceState === 'boolean') {
+        isEditingCardDetail = forceState;
+      } else {
+        isEditingCardDetail = !isEditingCardDetail;
+      }
+      if (isEditingCardDetail) {
+        editSelectedLabels = new Set((detailCardContext.card.labels || []).map(l => l.name));
+        editSelectedSitios = new Set((detailCardContext.card.sitios || []).map(s => s.name));
+      }
+      renderDetailContent();
+    }
+    window.toggleCardEditMode = toggleCardEditMode;
+
+    function renderEditRecursosChips(board, filterQuery = '') {
+      const box = document.getElementById('boxEditModalRecursos');
+      if (!box) return;
+      box.innerHTML = '';
+      const q = (filterQuery !== undefined && filterQuery !== null ? String(filterQuery) : (document.getElementById('inpSearchEditRecursos')?.value || '')).trim().toLowerCase();
+
+      const allLabels = board.labels || [];
+      if (allLabels.length === 0) {
+        box.innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">No hay recursos registrados en este tablero.</span>';
+        return;
+      }
+
+      const filtered = allLabels.filter(l => {
+        if (!q) return true;
+        if (editSelectedLabels.has(l.name)) return true;
+        return l.name.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        box.innerHTML = `<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">Sin coincidencias para "${esc(q)}".</span>`;
+        return;
+      }
+
+      filtered.forEach(l => {
+        const isSel = editSelectedLabels.has(l.name);
+        const st = getLabelStyles(l.color);
+        const chip = document.createElement('span');
+        chip.className = 'chip-item' + (isSel ? ' selected' : '');
+        chip.style.cursor = 'pointer';
+        chip.style.userSelect = 'none';
+
+        if (isSel) {
+          chip.style.backgroundColor = st.solid;
+          chip.style.color = '#FFFFFF';
+          chip.style.border = '1.5px solid ' + st.solid;
+          chip.style.fontWeight = '700';
+        } else {
+          chip.style.backgroundColor = st.bg;
+          chip.style.color = st.text;
+          chip.style.border = '1.5px solid ' + st.border;
+        }
+
+        chip.innerHTML = `<span style="pointer-events:none;">${isSel ? '✓ ' : ''}👤 ${esc(l.name)}</span>`;
+        chip.onclick = () => {
+          if (editSelectedLabels.has(l.name)) {
+            editSelectedLabels.delete(l.name);
+          } else {
+            editSelectedLabels.add(l.name);
+          }
+          const cnt = document.getElementById('lblEditRecursosCount');
+          if (cnt) cnt.innerText = editSelectedLabels.size;
+          renderEditRecursosChips(board, document.getElementById('inpSearchEditRecursos')?.value || '');
+        };
+        box.appendChild(chip);
+      });
+
+      const cnt = document.getElementById('lblEditRecursosCount');
+      if (cnt) cnt.innerText = editSelectedLabels.size;
+    }
+
+    function renderEditSitiosChips(board, filterQuery = '') {
+      const box = document.getElementById('boxEditModalSitios');
+      if (!box) return;
+      box.innerHTML = '';
+      const q = (filterQuery !== undefined && filterQuery !== null ? String(filterQuery) : (document.getElementById('inpSearchEditSitios')?.value || '')).trim().toLowerCase();
+
+      const allSitios = board.sitios || [];
+      if (allSitios.length === 0) {
+        box.innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">No hay sitios registrados en este tablero.</span>';
+        return;
+      }
+
+      const filtered = allSitios.filter(s => {
+        if (!q) return true;
+        if (editSelectedSitios.has(s.name)) return true;
+        return s.name.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        box.innerHTML = `<span style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">Sin coincidencias para "${esc(q)}".</span>`;
+        return;
+      }
+
+      filtered.forEach(s => {
+        const isSel = editSelectedSitios.has(s.name);
+        const st = getLabelStyles(s.color || 'orange');
+        const chip = document.createElement('span');
+        chip.className = 'chip-item' + (isSel ? ' selected' : '');
+        chip.style.cursor = 'pointer';
+        chip.style.userSelect = 'none';
+
+        if (isSel) {
+          chip.style.backgroundColor = st.solid;
+          chip.style.color = '#FFFFFF';
+          chip.style.border = '1.5px solid ' + st.solid;
+          chip.style.fontWeight = '700';
+        } else {
+          chip.style.backgroundColor = st.bg;
+          chip.style.color = st.text;
+          chip.style.border = '1.5px solid ' + st.border;
+        }
+
+        chip.innerHTML = `<span style="pointer-events:none;">${isSel ? '✓ ' : ''}📍 ${esc(s.name)}</span>`;
+        chip.onclick = () => {
+          if (editSelectedSitios.has(s.name)) {
+            editSelectedSitios.delete(s.name);
+          } else {
+            editSelectedSitios.add(s.name);
+          }
+          const cnt = document.getElementById('lblEditSitiosCount');
+          if (cnt) cnt.innerText = editSelectedSitios.size;
+          renderEditSitiosChips(board, document.getElementById('inpSearchEditSitios')?.value || '');
+        };
+        box.appendChild(chip);
+      });
+
+      const cnt = document.getElementById('lblEditSitiosCount');
+      if (cnt) cnt.innerText = editSelectedSitios.size;
+    }
+
+    function addQuickRecursoToEdit() {
+      if (!detailCardContext) return;
+      const { board } = detailCardContext;
+      const inp = document.getElementById('inpAddQuickRecurso');
+      const val = inp?.value.trim();
+      if (!val) return;
+
+      if (!board.labels) board.labels = [];
+      let found = board.labels.find(l => l.name.toLowerCase() === val.toLowerCase());
+      if (!found) {
+        found = { id: 'lbl_' + Date.now(), name: val, color: 'blue_dark' };
+        board.labels.push(found);
+      }
+      editSelectedLabels.add(found.name);
+      inp.value = '';
+      renderEditRecursosChips(board);
+    }
+    window.addQuickRecursoToEdit = addQuickRecursoToEdit;
+
+    function addQuickSitioToEdit() {
+      if (!detailCardContext) return;
+      const { board } = detailCardContext;
+      const inp = document.getElementById('inpAddQuickSitio');
+      const val = inp?.value.trim();
+      if (!val) return;
+
+      if (!board.sitios) board.sitios = [];
+      let found = board.sitios.find(s => s.name.toLowerCase() === val.toLowerCase());
+      if (!found) {
+        found = { id: 'st_' + Date.now(), name: val, color: 'orange' };
+        board.sitios.push(found);
+      }
+      editSelectedSitios.add(found.name);
+      inp.value = '';
+      renderEditSitiosChips(board);
+    }
+    window.addQuickSitioToEdit = addQuickSitioToEdit;
+
+    async function saveFullCardEdit() {
+      if (!detailCardContext) return;
+      const { card, board } = detailCardContext;
+
+      const newTitle = document.getElementById('edtCardTitle')?.value.trim();
+      if (!newTitle || newTitle.length < 3) {
+        showToast('El título debe tener al menos 3 caracteres.', 'error');
+        return;
+      }
+
+      const newListId = document.getElementById('edtCardList')?.value;
+      const newPayState = document.getElementById('edtCardPayState')?.value === '1';
+      const newDesc = document.getElementById('edtCardDesc')?.value.trim();
+
+      // Labels seleccionados
+      const newLabels = [];
+      if (editSelectedLabels) {
+        editSelectedLabels.forEach(name => {
+          const found = (board.labels || []).find(l => l.name.toLowerCase() === name.toLowerCase());
+          newLabels.push({
+            id: found ? found.id : ('lbl_' + Date.now()),
+            name: found ? found.name : name,
+            color: found ? found.color : 'blue_dark'
+          });
+        });
+      }
+
+      // Sitios seleccionados
+      const newSitios = [];
+      if (editSelectedSitios) {
+        editSelectedSitios.forEach(name => {
+          const found = (board.sitios || []).find(s => s.name.toLowerCase() === name.toLowerCase());
+          newSitios.push({
+            id: found ? found.id : ('st_' + Date.now()),
+            name: found ? found.name : name,
+            color: found ? found.color : 'orange'
+          });
+        });
+      }
+
+      // TransferData si el formulario lo incluye
+      let newTransferData = card.transferData ? { ...card.transferData } : null;
+      const fldTitular = document.getElementById('edtCardTitular');
+      if (fldTitular) {
+        const titularVal = fldTitular.value.trim();
+        const cuitVal = document.getElementById('edtCardCuit')?.value.trim() || '';
+        const cbuVal = document.getElementById('edtCardCbu')?.value.trim() || '';
+        const montoVal = parseFloat(document.getElementById('edtCardMonto')?.value) || 0;
+        const fDesdeVal = document.getElementById('edtCardFechaDesde')?.value || '';
+        const fHastaVal = document.getElementById('edtCardFechaHasta')?.value || '';
+        const isIndefVal = !!document.getElementById('edtCardIndef')?.checked;
+        const vencVal = document.getElementById('edtCardVenc')?.value || '';
+
+        if (titularVal || montoVal > 0 || fDesdeVal) {
+          const prevTranches = newTransferData?.paymentTranches || [];
+          const newTranches = generatePaymentTranches(
+            fDesdeVal,
+            fHastaVal,
+            montoVal,
+            prevTranches,
+            isIndefVal,
+            prevTranches.length || 1
+          );
+
+          newTransferData = {
+            ...(newTransferData || {}),
+            titular: titularVal,
+            cuit: cuitVal,
+            cbu: cbuVal,
+            monto_ars: montoVal,
+            fecha_desde: fDesdeVal,
+            fecha_hasta: isIndefVal ? '' : fHastaVal,
+            is_indefinite: isIndefVal,
+            vencimiento: vencVal,
+            paymentTranches: newTranches,
+            dias_reservados: newTranches.length
+          };
+        }
+      }
+
+      // Custom fields
+      const newCustomFields = { ...(card.customFields || {}) };
+      document.querySelectorAll('#wrapEditCustomFields input').forEach(inp => {
+        const label = inp.dataset.label;
+        if (label) {
+          newCustomFields[label] = inp.value.trim();
+        }
+      });
+
+      // Aplicar cambios al objeto tarjeta
+      card.name = newTitle;
+      if (newListId) card.idList = newListId;
+      card.isPaid = newPayState;
+      card.desc = newDesc;
+      card.labels = newLabels;
+      card.sitios = newSitios;
+      if (newTransferData) {
+        card.transferData = newTransferData;
+        if (newTransferData.paymentTranches && newTransferData.paymentTranches.length > 0) {
+          card.isPaid = newTransferData.paymentTranches.every(t => t.isPaid);
+        }
+      }
+      card.customFields = newCustomFields;
+
+      saveData();
+
+      // Sincronizar con PostgreSQL
+      try {
+        await fetch(`/api/cards/${card.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            listId: card.idList,
+            title: card.name,
+            desc: card.desc,
+            isPaid: card.isPaid,
+            transferData: card.transferData,
+            customFields: card.customFields,
+            paymentTranches: card.transferData?.paymentTranches,
+            labels: card.labels,
+            sitios: card.sitios
+          })
+        });
+      } catch(e) {
+        console.log('Sync offline:', e.message);
+      }
+
+      isEditingCardDetail = false;
+      document.getElementById('lblDetailTitle').innerText = card.name;
+      renderDetailContent();
+      renderBoard(board.id);
+      showToast(`Tarjeta "${card.name}" guardada y actualizada con éxito.`);
+    }
+    window.saveFullCardEdit = saveFullCardEdit;
+
     function renderDetailContent() {
       if (!detailCardContext) return;
       const { card, board } = detailCardContext;
+
+      const btnToggle = document.getElementById('btnToggleEditCard');
+      const btnFooterEdit = document.getElementById('btnFooterEditCard');
+
+      if (isEditingCardDetail) {
+        if (btnToggle) btnToggle.innerHTML = '👁️ Ver Detalle';
+        if (btnFooterEdit) btnFooterEdit.style.display = 'none';
+        renderEditFormContent(card, board);
+        return;
+      }
+
+      if (btnToggle) btnToggle.innerHTML = '✏️ Editar Tarjeta';
+      if (btnFooterEdit) btnFooterEdit.style.display = 'inline-block';
+      renderViewDetailContent(card, board);
+    }
+
+    function renderEditFormContent(card, board) {
+      const t = card.transferData || {};
+      const hasTransferBlock = (board.formConfig || []).some(f => f.id === 'transferData' && f.enabled) || !!card.transferData;
+
+      // Collect custom fields
+      const customFieldsList = [];
+      (board.formConfig || []).forEach(f => {
+        if (f.enabled && !['recursos', 'sitios', 'transferData'].includes(f.id)) {
+          customFieldsList.push({ id: f.id, label: f.label, type: f.type });
+        }
+      });
+      if (card.customFields) {
+        Object.keys(card.customFields).forEach(k => {
+          if (!customFieldsList.some(f => f.label === k)) {
+            customFieldsList.push({ id: 'cf_' + k, label: k, type: 'text' });
+          }
+        });
+      }
+
+      let customFieldsHtml = '';
+      if (customFieldsList.length > 0) {
+        customFieldsHtml = `
+          <div id="wrapEditCustomFields" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:12px; margin-bottom:12px;">
+            <div style="font-size:0.78rem; font-weight:800; color:var(--primary); margin-bottom:8px;">Metadatos Específicos del Tablero:</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              ${customFieldsList.map(cf => `
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label" style="font-size:0.72rem;">${esc(cf.label)}</label>
+                  <input type="${cf.type === 'number' || cf.type === 'currency' ? 'number' : 'text'}" 
+                         id="edtDynField_${esc(cf.id)}" 
+                         data-label="${esc(cf.label)}" 
+                         class="form-input" 
+                         value="${esc(card.customFields ? (card.customFields[cf.label] || '') : '')}" 
+                         style="padding:5px 8px; font-size:0.8rem;" />
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let transferSectionHtml = '';
+      if (hasTransferBlock) {
+        transferSectionHtml = `
+          <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:12px;">
+            <div style="font-size:0.8rem; font-weight:800; color:#14532D; margin-bottom:8px;">🏦 Datos para Transferir y Estadía:</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">Titular de Cuenta</label>
+                <input type="text" id="edtCardTitular" class="form-input" value="${esc(t.titular || '')}" style="padding:5px 8px; font-size:0.8rem;" />
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">CUIT / CUIL</label>
+                <input type="text" id="edtCardCuit" class="form-input" value="${esc(t.cuit || '')}" style="padding:5px 8px; font-size:0.8rem;" />
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">CBU / CVU o Alias</label>
+                <input type="text" id="edtCardCbu" class="form-input" value="${esc(t.cbu || '')}" style="padding:5px 8px; font-size:0.8rem;" />
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">Monto Total $ ARS</label>
+                <input type="number" id="edtCardMonto" class="form-input" value="${t.monto_ars || 0}" style="padding:5px 8px; font-size:0.8rem;" />
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">Fecha Desde</label>
+                <input type="date" id="edtCardFechaDesde" class="form-input" value="${esc(t.fecha_desde || '')}" style="padding:5px 8px; font-size:0.8rem;" />
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label" style="font-size:0.72rem;">Fecha Hasta</label>
+                <input type="date" id="edtCardFechaHasta" class="form-input" value="${esc(t.fecha_hasta || '')}" ${t.is_indefinite ? 'disabled' : ''} style="padding:5px 8px; font-size:0.8rem;" />
+                <label style="font-size:0.7rem; color:#475569; font-weight:700; display:flex; align-items:center; gap:5px; margin-top:4px; cursor:pointer;">
+                  <input type="checkbox" id="edtCardIndef" ${t.is_indefinite ? 'checked' : ''} onchange="document.getElementById('edtCardFechaHasta').disabled = this.checked; if(this.checked) document.getElementById('edtCardFechaHasta').value='';" style="accent-color:var(--primary);" />
+                  <span>Estadía Indefinida</span>
+                </label>
+              </div>
+              <div class="form-group" style="margin:0; grid-column:1 / -1;">
+                <label class="form-label" style="font-size:0.72rem;">Vencimiento de Tarjeta</label>
+                <input type="date" id="edtCardVenc" class="form-input" value="${esc(t.vencimiento || '')}" style="padding:5px 8px; font-size:0.8rem; max-width:260px;" />
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('bodyCardDetail').innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:8px 12px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:0.82rem; font-weight:800; color:#1E40AF;">✏️ Modo Edición Completa</div>
+            <div style="font-size:0.72rem; color:#3B82F6;">Modifica cualquier campo y presiona Guardar</div>
+          </div>
+
+          <!-- TÍTULO -->
+          <div class="form-group" style="margin:0;">
+            <label class="form-label" style="font-size:0.78rem; font-weight:800;">Título de la Tarjeta <span class="required-star">*</span></label>
+            <input type="text" id="edtCardTitle" class="form-input" value="${esc(card.name)}" style="font-size:0.92rem; font-weight:700;" placeholder="Título descriptivo..." />
+          </div>
+
+          <!-- COLUMNA Y ESTADO DE PAGO -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group" style="margin:0;">
+              <label class="form-label" style="font-size:0.75rem;">Columna / Estado:</label>
+              <select id="edtCardList" class="form-select" style="font-size:0.82rem;">
+                ${board.lists.map(l => `<option value="${l.id}" ${l.id === card.idList ? 'selected' : ''}>${esc(l.name)}</option>`).join('')}
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label" style="font-size:0.75rem;">Estado de Pago:</label>
+              <select id="edtCardPayState" class="form-select" style="font-size:0.82rem;">
+                <option value="0" ${!card.isPaid ? 'selected' : ''}>🟠 Pendiente</option>
+                <option value="1" ${card.isPaid ? 'selected' : ''}>🟢 Pagado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- RECURSOS -->
+          <div class="form-group" style="margin:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <label class="form-label" style="margin:0; font-size:0.75rem; font-weight:800;">👤 Recursos / Personas Asignadas:</label>
+              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;"><span id="lblEditRecursosCount">${editSelectedLabels.size}</span> seleccionado(s)</span>
+            </div>
+            <input type="text" id="inpSearchEditRecursos" class="form-input" placeholder="🔍 Filtrar recursos..." style="font-size:0.75rem; padding:4px 8px; margin-bottom:6px;" />
+            <div id="boxEditModalRecursos" class="chips-container" style="max-height:120px; overflow-y:auto; padding:6px; border:1px solid #CBD5E1; border-radius:6px; background:#F8FAFC; display:flex; flex-wrap:wrap; gap:6px;"></div>
+            <div style="display:flex; gap:6px; margin-top:6px;">
+              <input type="text" id="inpAddQuickRecurso" class="form-input" placeholder="+ Crear y asignar nuevo recurso..." style="font-size:0.75rem; padding:4px 8px; flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault(); addQuickRecursoToEdit();}" />
+              <button type="button" class="btn btn-outline" style="font-size:0.72rem; padding:4px 10px;" onclick="addQuickRecursoToEdit()">+ Agregar</button>
+            </div>
+          </div>
+
+          <!-- SITIOS -->
+          <div class="form-group" style="margin:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <label class="form-label" style="margin:0; font-size:0.75rem; font-weight:800;">📍 Sitios / Localidades Asignadas:</label>
+              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;"><span id="lblEditSitiosCount">${editSelectedSitios.size}</span> seleccionado(s)</span>
+            </div>
+            <input type="text" id="inpSearchEditSitios" class="form-input" placeholder="🔍 Filtrar sitios..." style="font-size:0.75rem; padding:4px 8px; margin-bottom:6px;" />
+            <div id="boxEditModalSitios" class="chips-container" style="max-height:120px; overflow-y:auto; padding:6px; border:1px solid #CBD5E1; border-radius:6px; background:#F8FAFC; display:flex; flex-wrap:wrap; gap:6px;"></div>
+            <div style="display:flex; gap:6px; margin-top:6px;">
+              <input type="text" id="inpAddQuickSitio" class="form-input" placeholder="+ Crear y asignar nuevo sitio..." style="font-size:0.75rem; padding:4px 8px; flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault(); addQuickSitioToEdit();}" />
+              <button type="button" class="btn btn-outline" style="font-size:0.72rem; padding:4px 10px;" onclick="addQuickSitioToEdit()">+ Agregar</button>
+            </div>
+          </div>
+
+          ${transferSectionHtml}
+          ${customFieldsHtml}
+
+          <!-- DESCRIPCIÓN Y NOTAS -->
+          <div class="form-group" style="margin:0;">
+            <label class="form-label" style="font-size:0.78rem; font-weight:800;">Descripción / Notas:</label>
+            <textarea id="edtCardDesc" class="form-input" rows="4" style="font-size:0.82rem; line-height:1.45;" placeholder="Detalles u observaciones de la tarjeta...">${esc(card.desc || '')}</textarea>
+          </div>
+
+          <!-- BOTONES DE ACCIÓN -->
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px; padding-top:12px; border-top:1px solid #E2E8F0;">
+            <button type="button" class="btn btn-outline" onclick="toggleCardEditMode(false)" style="font-size:0.8rem; padding:6px 14px;">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="saveFullCardEdit()" style="font-size:0.8rem; padding:6px 20px; font-weight:700;">💾 Guardar Cambios</button>
+          </div>
+        </div>
+      `;
+
+      // Renderizar chips interactivos
+      renderEditRecursosChips(board);
+      renderEditSitiosChips(board);
+
+      const inpSR = document.getElementById('inpSearchEditRecursos');
+      if (inpSR) inpSR.oninput = (e) => renderEditRecursosChips(board, e.target.value);
+
+      const inpSS = document.getElementById('inpSearchEditSitios');
+      if (inpSS) inpSS.oninput = (e) => renderEditSitiosChips(board, e.target.value);
+    }
+
+    function renderViewDetailContent(card, board) {
+      if (!card || !board) return;
 
       const list = board.lists.find(l => l.id === card.idList);
       const listName = list ? list.name : 'Desconocido';

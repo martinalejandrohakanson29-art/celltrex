@@ -275,7 +275,7 @@ app.put('/api/cards/:id', async (req, res) => {
   if (!db.isConnected) return res.json({ success: true });
 
   const { id } = req.params;
-  const { listId, position, isPaid, title, desc, paymentTranches, transferData } = req.body;
+  const { listId, position, isPaid, title, desc, paymentTranches, transferData, customFields, labels, sitios } = req.body;
 
   try {
     const updates = [];
@@ -302,11 +302,27 @@ app.put('/api/cards/:id', async (req, res) => {
       updates.push(`description = $${idx++}`);
       values.push(desc);
     }
+    if (customFields !== undefined) {
+      updates.push(`custom_data = COALESCE(custom_data, '{}'::jsonb) || $${idx++}::jsonb`);
+      values.push(JSON.stringify(customFields));
+    }
     if (paymentTranches !== undefined) {
       updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{paymentTranches}', $${idx++}::jsonb)`);
       values.push(JSON.stringify(paymentTranches));
     }
     if (transferData !== undefined) {
+      if (transferData.titular !== undefined) {
+        updates.push(`transfer_titular = $${idx++}`);
+        values.push(transferData.titular || null);
+      }
+      if (transferData.cuit !== undefined) {
+        updates.push(`transfer_cuit = $${idx++}`);
+        values.push(transferData.cuit || null);
+      }
+      if (transferData.cbu !== undefined) {
+        updates.push(`transfer_cbu = $${idx++}`);
+        values.push(transferData.cbu || null);
+      }
       if (transferData.fecha_desde !== undefined) {
         updates.push(`transfer_fecha_desde = $${idx++}`);
         values.push(transferData.fecha_desde || null);
@@ -341,6 +357,26 @@ app.put('/api/cards/:id', async (req, res) => {
 
     if (updates.length > 0) {
       await db.query(`UPDATE cards SET ${updates.join(', ')} WHERE id = $1`, values);
+    }
+
+    // Actualizar labels si se envían
+    if (Array.isArray(labels)) {
+      await db.query('DELETE FROM card_labels WHERE card_id = $1', [id]);
+      for (const l of labels) {
+        if (l.id) {
+          await db.query('INSERT INTO card_labels (card_id, label_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, l.id]);
+        }
+      }
+    }
+
+    // Actualizar sitios si se envían
+    if (Array.isArray(sitios)) {
+      await db.query('DELETE FROM card_sites WHERE card_id = $1', [id]);
+      for (const s of sitios) {
+        if (s.id) {
+          await db.query('INSERT INTO card_sites (card_id, site_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [id, s.id]);
+        }
+      }
     }
 
     res.json({ success: true });
