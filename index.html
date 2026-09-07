@@ -936,18 +936,18 @@
 
     /* Estado Parcial: Azul / Celeste */
     .card-pay-badge.is-partial {
-      background-color: #F0F9FF;
-      border: 1px solid #38BDF8;
-      color: #0369A1;
+      background-color: #FEF9C3;
+      border: 1px solid #FACC15;
+      color: #854D0E;
     }
 
     .card-pay-badge.is-partial .card-pay-check {
-      accent-color: #0284C7;
+      accent-color: #EAB308;
     }
 
     .card-pay-badge.is-partial:hover {
-      background-color: #E0F2FE;
-      border-color: #0284C7;
+      background-color: #FEF08A;
+      border-color: #EAB308;
     }
 
     .tranche-item {
@@ -2943,7 +2943,7 @@ CREATE TABLE card_attachments (
       return dateStr;
     }
 
-    function generatePaymentTranches(fechaDesde, fechaHasta, totalMonto, existingTranches = [], isIndefinite = false, nightsCount = 0) {
+    function generatePaymentTranches(fechaDesde, fechaHasta, montoPorNoche, existingTranches = [], isIndefinite = false, nightsCount = 0) {
       if (!fechaDesde) return [];
       const dStart = new Date(fechaDesde + 'T00:00:00');
       if (isNaN(dStart.getTime())) return [];
@@ -2964,9 +2964,8 @@ CREATE TABLE card_attachments (
         totalNights = Math.max(1, diffDays);
       }
 
+      const ratePerNight = parseFloat(montoPorNoche) || 0;
       const tranches = [];
-      let accumulatedAmount = 0;
-      const amountPerNight = totalNights > 0 ? (totalMonto / totalNights) : 0;
 
       for (let i = 0; i < totalNights; i++) {
         const blockStart = new Date(dStart.getTime() + i * 86400000);
@@ -2975,17 +2974,10 @@ CREATE TABLE card_attachments (
         const fromStr = blockStart.toISOString().split('T')[0];
         const toStr = blockEnd.toISOString().split('T')[0];
 
-        let blockMonto = 0;
-        if (i === totalNights - 1) {
-          blockMonto = Math.max(0, Math.round(totalMonto - accumulatedAmount));
-        } else {
-          blockMonto = Math.round(amountPerNight);
-          accumulatedAmount += blockMonto;
-        }
-
         const existing = existingTranches && existingTranches[i];
         const isPaid = existing ? !!existing.isPaid : false;
         const paidAt = existing && existing.paidAt ? existing.paidAt : null;
+        const blockMonto = ratePerNight > 0 ? Math.round(ratePerNight) : (existing ? (existing.amount || 0) : 0);
 
         tranches.push({
           id: i + 1,
@@ -3056,14 +3048,18 @@ CREATE TABLE card_attachments (
             if (!c.transferData.paymentTranches || c.transferData.paymentTranches.length === 0 || hasOldMultiNightTranches) {
               const oldTranches = c.transferData.paymentTranches || [];
               const wasAllPaid = c.isPaid;
+              const initialNights = c.transferData.dias_reservados || 1;
+              const ratePerNight = c.transferData.monto_noche || (initialNights > 0 ? Math.round((c.transferData.monto_ars || 0) / initialNights) : (c.transferData.monto_ars || 0));
+              c.transferData.monto_noche = ratePerNight;
               c.transferData.paymentTranches = generatePaymentTranches(
                 c.transferData.fecha_desde,
                 c.transferData.fecha_hasta,
-                c.transferData.monto_ars || 0,
+                ratePerNight,
                 [],
                 !!c.transferData.is_indefinite,
-                c.transferData.dias_reservados || 1
+                initialNights
               );
+              c.transferData.monto_ars = ratePerNight * c.transferData.paymentTranches.length;
               if (wasAllPaid) {
                 c.transferData.paymentTranches.forEach(t => { t.isPaid = true; });
               } else if (oldTranches.length > 0) {
@@ -3484,7 +3480,8 @@ CREATE TABLE card_attachments (
       let tagsHtml = '';
 
       if (card.transferData && card.transferData.monto_ars) {
-        tagsHtml += `<span class="tag-meta money">💵 ${esc(Number(card.transferData.monto_ars).toLocaleString('es-AR'))} ARS</span>`;
+        const ratePerN = card.transferData.monto_noche || (card.transferData.paymentTranches?.length ? Math.round(card.transferData.monto_ars / card.transferData.paymentTranches.length) : card.transferData.monto_ars);
+        tagsHtml += `<span class="tag-meta money" title="Tarifa: $${Number(ratePerN).toLocaleString('es-AR')}/noche">💵 Saldo: $${esc(Number(card.transferData.monto_ars).toLocaleString('es-AR'))} ($${esc(Number(ratePerN).toLocaleString('es-AR'))}/n.)</span>`;
         if (card.transferData.is_indefinite || !card.transferData.fecha_hasta) {
           tagsHtml += `<span class="tag-meta date-range">📅 Desde: ${esc(card.transferData.fecha_desde || '')} (Indefinido)</span>`;
         } else if (card.transferData.fecha_desde && card.transferData.fecha_hasta) {
@@ -3543,14 +3540,19 @@ CREATE TABLE card_attachments (
           isCardChecked = false;
         }
 
+        const progressColor = paidCount === totalCount ? '#10B981' : (paidCount > 0 ? '#EAB308' : '#E2E8F0');
+        const progressLabelColor = paidCount === totalCount ? '#15803D' : (paidCount > 0 ? '#B45309' : 'var(--text-muted)');
+
         tranchesProgressHtml = `
           <div style="margin-top:6px; padding-top:6px; border-top:1px dashed #E2E8F0;">
-            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.67rem; color:var(--text-muted); font-weight:700; margin-bottom:3px;">
-              <span>Noches: ${paidCount}/${totalCount} pagadas (${percent}%)</span>
-              ${nextUnpaid ? `<span style="color:#D97706;">⏰ Próx: ${formatShortDate(nextUnpaid.fromDate)}</span>` : '<span style="color:#16A34A;">✓ Al día</span>'}
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.67rem; font-weight:700; margin-bottom:3px;">
+              <span style="color:${progressLabelColor};">
+                ${paidCount === totalCount ? '✓ Pagado' : (paidCount > 0 ? '⏳ Parcial' : '⚪ Pendiente')}: ${paidCount}/${totalCount} noches (${percent}%)
+              </span>
+              ${nextUnpaid ? `<span style="color:#D97706;">Próx: ${formatShortDate(nextUnpaid.fromDate)}</span>` : '<span style="color:#16A34A;">Al día</span>'}
             </div>
-            <div style="background:#E2E8F0; border-radius:999px; height:5px; overflow:hidden; width:100%;">
-              <div style="width:${percent}%; background:${paidCount === totalCount ? '#10B981' : (paidCount > 0 ? '#0284C7' : '#E2E8F0')}; height:100%; transition:width 0.3s;"></div>
+            <div style="background:#E2E8F0; border-radius:999px; height:6px; overflow:hidden; width:100%; box-shadow:inset 0 1px 2px rgba(0,0,0,0.06);">
+              <div style="width:${percent}%; background:${progressColor}; height:100%; transition:width 0.3s ease, background 0.3s ease;"></div>
             </div>
           </div>
         `;
@@ -4025,12 +4027,14 @@ CREATE TABLE card_attachments (
             prevTranches.length || 1
           );
 
+          const totalSaldo = montoVal * newTranches.length;
           newTransferData = {
             ...(newTransferData || {}),
             titular: titularVal,
             cuit: cuitVal,
             cbu: cbuVal,
-            monto_ars: montoVal,
+            monto_noche: montoVal,
+            monto_ars: totalSaldo,
             fecha_desde: fDesdeVal,
             fecha_hasta: isIndefVal ? '' : fHastaVal,
             is_indefinite: isIndefVal,
@@ -4175,8 +4179,8 @@ CREATE TABLE card_attachments (
                 <input type="text" id="edtCardCbu" class="form-input" value="${esc(t.cbu || '')}" style="padding:5px 8px; font-size:0.8rem;" />
               </div>
               <div class="form-group" style="margin:0;">
-                <label class="form-label" style="font-size:0.72rem;">Monto Total $ ARS</label>
-                <input type="number" id="edtCardMonto" class="form-input" value="${t.monto_ars || 0}" style="padding:5px 8px; font-size:0.8rem;" />
+                <label class="form-label" style="font-size:0.72rem;">Monto por Noche ($ ARS)</label>
+                <input type="number" id="edtCardMonto" class="form-input" value="${t.monto_noche || (t.paymentTranches?.length ? Math.round(t.monto_ars / t.paymentTranches.length) : (t.monto_ars || 0))}" style="padding:5px 8px; font-size:0.8rem;" placeholder="Tarifa por noche..." />
               </div>
               <div class="form-group" style="margin:0;">
                 <label class="form-label" style="font-size:0.72rem;">Fecha Desde</label>
@@ -4312,9 +4316,10 @@ CREATE TABLE card_attachments (
         let tranchesSectionHtml = '';
         if (tranches.length > 0) {
           const percent = Math.round((paidCount / totalCount) * 100);
+          const detailProgressColor = paidCount === totalCount ? '#10B981' : (paidCount > 0 ? '#EAB308' : '#E2E8F0');
           tranchesSectionHtml = `
             <div style="margin-top:12px; padding-top:10px; border-top:1px solid #86EFAC;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
                 <span style="font-size:0.8rem; font-weight:800; color:#14532D;">
                   🏨 Desglose Noche por Noche (${paidCount}/${totalCount} pagadas - ${percent}%):
                 </span>
@@ -4326,6 +4331,10 @@ CREATE TABLE card_attachments (
                     ➖ Acortar Noche
                   </button>
                 </div>
+              </div>
+              <!-- Barra de progreso amarilla en progreso, verde al completarse -->
+              <div style="background:#E2E8F0; border-radius:999px; height:6px; overflow:hidden; width:100%; margin-bottom:8px; box-shadow:inset 0 1px 2px rgba(0,0,0,0.06);">
+                <div style="width:${percent}%; background:${detailProgressColor}; height:100%; transition:width 0.3s ease, background 0.3s ease;"></div>
               </div>
               <div style="display:flex; flex-direction:column; gap:6px; max-height:240px; overflow-y:auto; padding-right:4px;">
                 ${tranches.map(tr => `
@@ -4385,8 +4394,8 @@ CREATE TABLE card_attachments (
               </div>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
                 <div class="form-group" style="margin:0;">
-                  <label class="form-label" style="font-size:0.7rem;">Monto Total ARS</label>
-                  <input type="number" id="edtStayMonto" class="form-input" value="${t.monto_ars || 0}" style="padding:4px 8px; font-size:0.78rem;" />
+                  <label class="form-label" style="font-size:0.7rem;">Monto por Noche ($ ARS)</label>
+                  <input type="number" id="edtStayMonto" class="form-input" value="${t.monto_noche || (t.paymentTranches?.length ? Math.round(t.monto_ars / t.paymentTranches.length) : (t.monto_ars || 0))}" style="padding:4px 8px; font-size:0.78rem;" />
                 </div>
                 <div class="form-group" style="margin:0;">
                   <label class="form-label" style="font-size:0.7rem;">Vencimiento</label>
@@ -4403,7 +4412,8 @@ CREATE TABLE card_attachments (
               <div><strong style="color:var(--text-muted);">Titular:</strong> ${esc(t.titular || '-')}</div>
               <div><strong style="color:var(--text-muted);">CUIT/CUIL:</strong> ${esc(t.cuit || '-')}</div>
               <div><strong style="color:var(--text-muted);">CBU/CVU/Alias:</strong> ${esc(t.cbu || '-')}</div>
-              <div><strong style="color:var(--text-muted);">Monto Total:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
+              <div><strong style="color:var(--text-muted);">Tarifa por Noche:</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534;">$${esc(Number(t.monto_noche || (t.paymentTranches?.length ? Math.round(t.monto_ars / t.paymentTranches.length) : (t.monto_ars || 0))).toLocaleString('es-AR'))} ARS</span></div>
+              <div style="grid-column:1 / -1;"><strong style="color:var(--text-muted);">Saldo Total (${totalCount} noche${totalCount > 1 ? 's' : ''}):</strong> <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#166534; font-size:0.9rem;">$${esc(Number(t.monto_ars || 0).toLocaleString('es-AR'))} ARS</span></div>
               <div style="grid-column:1 / -1;"><strong style="color:var(--text-muted);">Fechas Reservadas:</strong> ${dateRangeDisplay}</div>
               <div><strong style="color:var(--text-muted);">Vencimiento Tarjeta:</strong> <span style="color:#DC2626; font-weight:700;">${esc(t.vencimiento || '-')}</span></div>
             </div>
@@ -4585,11 +4595,13 @@ CREATE TABLE card_attachments (
 
       const prevTranches = card.transferData.paymentTranches || [];
       const newTranches = generatePaymentTranches(fDesde, fHasta, monto, prevTranches, isIndef, prevTranches.length || 1);
+      const totalSaldo = monto * newTranches.length;
 
       card.transferData.fecha_desde = fDesde;
       card.transferData.fecha_hasta = isIndef ? '' : fHasta;
       card.transferData.is_indefinite = isIndef;
-      card.transferData.monto_ars = monto;
+      card.transferData.monto_noche = monto;
+      card.transferData.monto_ars = totalSaldo;
       if (venc) card.transferData.vencimiento = venc;
       card.transferData.paymentTranches = newTranches;
       card.transferData.dias_reservados = newTranches.length;
@@ -4632,8 +4644,8 @@ CREATE TABLE card_attachments (
       const newId = t.paymentTranches.length + 1;
       const totalCount = newId;
 
-      const currentPerNight = t.paymentTranches.length > 0 ? Math.round(t.monto_ars / t.paymentTranches.length) : (t.monto_ars || 0);
-      t.monto_ars = (t.monto_ars || 0) + currentPerNight;
+      const ratePerNight = t.monto_noche || (t.paymentTranches.length > 0 ? (t.paymentTranches[0].amount || Math.round(t.monto_ars / t.paymentTranches.length)) : (t.monto_ars || 0));
+      t.monto_noche = ratePerNight;
 
       t.paymentTranches.push({
         id: newId,
@@ -4641,21 +4653,15 @@ CREATE TABLE card_attachments (
         fromDate: nextFromDate,
         toDate: toDateStr,
         nights: 1,
-        amount: currentPerNight,
+        amount: ratePerNight,
         isPaid: false,
         paidAt: null
       });
 
-      const perNight = Math.round(t.monto_ars / totalCount);
-      let acc = 0;
+      t.monto_ars = ratePerNight * t.paymentTranches.length;
       t.paymentTranches.forEach((tr, idx) => {
-        if (idx === totalCount - 1) {
-          tr.amount = Math.max(0, Math.round(t.monto_ars - acc));
-        } else {
-          tr.amount = perNight;
-          acc += perNight;
-        }
         tr.id = idx + 1;
+        tr.amount = ratePerNight;
         tr.title = `Noche ${idx + 1} (${formatShortDate(tr.fromDate)})`;
       });
 
@@ -4703,17 +4709,13 @@ CREATE TABLE card_attachments (
         t.fecha_hasta = newLast.toDate;
       }
 
-      const perNight = Math.round(t.monto_ars / (newTotalNights + 1));
-      t.monto_ars = Math.max(0, t.monto_ars - perNight);
-      const newPerNight = newTotalNights > 0 ? Math.round(t.monto_ars / newTotalNights) : 0;
-      let acc = 0;
+      const ratePerNight = t.monto_noche || (t.paymentTranches.length > 0 ? (t.paymentTranches[0].amount || Math.round(t.monto_ars / t.paymentTranches.length)) : 0);
+      t.monto_noche = ratePerNight;
+      t.monto_ars = ratePerNight * newTotalNights;
       t.paymentTranches.forEach((tr, idx) => {
-        if (idx === newTotalNights - 1) {
-          tr.amount = Math.max(0, Math.round(t.monto_ars - acc));
-        } else {
-          tr.amount = newPerNight;
-          acc += newPerNight;
-        }
+        tr.id = idx + 1;
+        tr.amount = ratePerNight;
+        tr.title = `Noche ${idx + 1} (${formatShortDate(tr.fromDate)})`;
       });
 
       card.isPaid = t.paymentTranches.every(tr => tr.isPaid);
@@ -5084,8 +5086,8 @@ CREATE TABLE card_attachments (
                 <input type="text" id="fldTransfCbu" class="form-input" placeholder="CBU 22 dígitos o Alias" />
               </div>
               <div class="form-group">
-                <label class="form-label">Monto en $ ARS ${f.required ? '<span class="required-star">*</span>' : ''}</label>
-                <input type="number" id="fldTransfMonto" class="form-input" placeholder="0.00" min="1" step="any" />
+                <label class="form-label">Monto por Noche ($ ARS) ${f.required ? '<span class="required-star">*</span>' : ''}</label>
+                <input type="number" id="fldTransfMonto" class="form-input" placeholder="Tarifa por noche (Ej: 45000)" min="1" step="any" />
               </div>
             </div>
             <div class="form-grid-2">
@@ -5679,7 +5681,9 @@ CREATE TABLE card_attachments (
 
         if (diffDays >= 0) {
           const nights = Math.max(1, diffDays);
-          valSpan.innerText = nights;
+          const rateVal = parseFloat(document.getElementById('fldTransfMonto')?.value) || 0;
+          const totalSaldo = nights * rateVal;
+          valSpan.innerText = nights + ' noche(s)' + (rateVal > 0 ? (' — Saldo Total: $' + Number(totalSaldo).toLocaleString('es-AR') + ' ($' + Number(rateVal).toLocaleString('es-AR') + '/noche)') : '');
           lbl.style.display = 'block';
           lbl.style.color = '#15803D';
           return nights;
@@ -5723,8 +5727,8 @@ CREATE TABLE card_attachments (
             <span style="font-size:0.75rem; font-weight:800; color:var(--primary);">
               🏨 Desglose de Pagos Noche por Noche (${tranches.length} noche${tranches.length > 1 ? 's' : ''}${isIndef ? ' - Indefinido' : ''}):
             </span>
-            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:600;">
-              Total: ${Number(montoVal).toLocaleString('es-AR')}
+            <span style="font-size:0.72rem; color:#15803D; font-weight:700;">
+              Saldo: $${Number(montoVal * tranches.length).toLocaleString('es-AR')} ($${Number(montoVal).toLocaleString('es-AR')}/n.)
             </span>
           </div>
           <div style="display:flex; flex-direction:column; gap:6px; max-height:160px; overflow-y:auto;">
@@ -5861,14 +5865,16 @@ CREATE TABLE card_attachments (
         const dias = calculateReservationDays();
         const fDesde = document.getElementById('fldTransfFechaDesde').value;
         const fHasta = isIndef ? '' : (document.getElementById('fldTransfFechaHasta')?.value || '');
-        const montoArs = parseFloat(document.getElementById('fldTransfMonto').value) || 0;
-        const paymentTranches = generatePaymentTranches(fDesde, fHasta, montoArs, [], isIndef, dias > 0 ? dias : 1);
+        const montoPorNoche = parseFloat(document.getElementById('fldTransfMonto').value) || 0;
+        const paymentTranches = generatePaymentTranches(fDesde, fHasta, montoPorNoche, [], isIndef, dias > 0 ? dias : 1);
+        const totalSaldo = montoPorNoche * paymentTranches.length;
 
         transferData = {
           titular: document.getElementById('fldTransfTitular').value.trim(),
           cuit: document.getElementById('fldTransfCuit').value.trim(),
           cbu: document.getElementById('fldTransfCbu').value.trim(),
-          monto_ars: montoArs,
+          monto_noche: montoPorNoche,
+          monto_ars: totalSaldo,
           fecha_desde: fDesde,
           fecha_hasta: fHasta,
           is_indefinite: isIndef,

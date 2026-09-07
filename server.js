@@ -113,6 +113,7 @@ app.get('/api/boards', async (req, res) => {
           titular: c.transfer_titular,
           cuit: c.transfer_cuit,
           cbu: c.transfer_cbu,
+          monto_noche: (c.custom_data && c.custom_data.monto_noche) ? c.custom_data.monto_noche : (c.transfer_dias_reservados ? Math.round((c.transfer_monto_ars || 0) / c.transfer_dias_reservados) : (c.transfer_monto_ars || 0)),
           monto_ars: c.transfer_monto_ars,
           fecha_desde: c.transfer_fecha_desde ? c.transfer_fecha_desde.toISOString().split('T')[0] : '',
           fecha_hasta: c.transfer_fecha_hasta ? c.transfer_fecha_hasta.toISOString().split('T')[0] : '',
@@ -239,6 +240,7 @@ app.post('/api/cards', async (req, res) => {
       JSON.stringify({
         ...(customFields || {}),
         is_indefinite: !!t.is_indefinite,
+        monto_noche: t.monto_noche || 0,
         paymentTranches: t.paymentTranches || []
       })
     ]);
@@ -334,6 +336,10 @@ app.put('/api/cards/:id', async (req, res) => {
       if (transferData.monto_ars !== undefined) {
         updates.push(`transfer_monto_ars = $${idx++}`);
         values.push(transferData.monto_ars ? Number(transferData.monto_ars) : null);
+      }
+      if (transferData.monto_noche !== undefined) {
+        updates.push(`custom_data = jsonb_set(COALESCE(custom_data, '{}'::jsonb), '{monto_noche}', $${idx++}::jsonb)`);
+        values.push(JSON.stringify(Number(transferData.monto_noche) || 0));
       }
       if (transferData.dias_reservados !== undefined) {
         updates.push(`transfer_dias_reservados = $${idx++}`);
