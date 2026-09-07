@@ -987,6 +987,30 @@
       color: #15803D;
     }
 
+    .btn-card-add-night {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #1D4ED8;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-card-add-night:hover {
+      background: #DBEAFE;
+      border-color: #3B82F6;
+      color: #1E40AF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
     .tranche-item {
       display: flex;
       align-items: center;
@@ -3620,9 +3644,16 @@ CREATE TABLE card_attachments (
         ${tranchesProgressHtml}
         <div class="card-footer-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1px solid #F1F5F9;">
           <span style="font-size:0.62rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">#${esc(String(card.id).slice(0, 8))}</span>
-          <button type="button" class="btn-card-save" onclick="event.stopPropagation(); manualSaveCard('${card.id}', '${board.id}', this)" title="Guardar cambios de esta tarjeta en la Base de Datos">
-            💾 Guardar
-          </button>
+          <div style="display:flex; align-items:center; gap:5px;">
+            ${(card.transferData && (card.transferData.is_indefinite || !card.transferData.fecha_hasta || (card.transferData.paymentTranches && card.transferData.paymentTranches.length > 0))) ? `
+              <button type="button" class="btn-card-add-night" onclick="event.stopPropagation(); quickAddNightToCard('${card.id}', '${board.id}')" title="Agregar 1 noche a esta estadía abierta">
+                ➕ Noche
+              </button>
+            ` : ''}
+            <button type="button" class="btn-card-save" onclick="event.stopPropagation(); manualSaveCard('${card.id}', '${board.id}', this)" title="Guardar cambios de esta tarjeta en la Base de Datos">
+              💾 Guardar
+            </button>
+          </div>
         </div>
       `;
 
@@ -3767,6 +3798,31 @@ CREATE TABLE card_attachments (
       }
     }
     window.manualSaveCard = manualSaveCard;
+
+    function quickAddNightToCard(cardId, boardId) {
+      addOneNightToStay(cardId, boardId);
+    }
+    window.quickAddNightToCard = quickAddNightToCard;
+
+    function adjustNewCardIndefNights(delta) {
+      const inp = document.getElementById('inpIndefNightsCount');
+      if (!inp) return;
+      let val = parseInt(inp.value, 10) || 1;
+      val = Math.max(1, Math.min(99, val + delta));
+      inp.value = val;
+      calculateReservationDays();
+      updatePaymentTranchesPreview();
+    }
+    window.adjustNewCardIndefNights = adjustNewCardIndefNights;
+
+    function adjustEditStayNights(delta) {
+      const inp = document.getElementById('edtStayNochesCount');
+      if (!inp) return;
+      let val = parseInt(inp.value, 10) || 1;
+      val = Math.max(1, Math.min(99, val + delta));
+      inp.value = val;
+    }
+    window.adjustEditStayNights = adjustEditStayNights;
 
     function toggleCardPayment(cardId, boardId, explicitState = null, fromDetail = false) {
       const board = boards.find(b => b.id === boardId);
@@ -4472,7 +4528,7 @@ CREATE TABLE card_attachments (
       }).join(' ');
 
       let transferHtml = '';
-      if (card.transferData && card.transferData.titular) {
+      if (card.transferData && (card.transferData.titular || card.transferData.fecha_desde || card.transferData.is_indefinite || (card.transferData.paymentTranches && card.transferData.paymentTranches.length > 0) || card.transferData.monto_ars || card.transferData.monto_noche)) {
         const t = card.transferData;
         const tranches = t.paymentTranches || [];
         const paidCount = tranches.filter(x => x.isPaid).length;
@@ -4487,13 +4543,13 @@ CREATE TABLE card_attachments (
             <div style="margin-top:12px; padding-top:10px; border-top:1px solid #86EFAC;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
                 <span style="font-size:0.8rem; font-weight:800; color:#14532D;">
-                  🏨 Desglose Noche por Noche (${paidCount}/${totalCount} pagadas - ${percent}%):
+                  🏨 ${isIndef ? 'Estadía Indefinida / Abierta' : 'Desglose Noche por Noche'} (${paidCount}/${totalCount} pagadas - ${percent}%):
                 </span>
                 <div style="display:flex; align-items:center; gap:6px;">
-                  <button type="button" class="btn btn-outline" style="font-size:0.7rem; padding:3px 7px; background:#FFFFFF;" onclick="addOneNightToStay('${card.id}', '${board.id}')" title="Agregar 1 noche más a la estadía">
+                  <button type="button" class="btn btn-outline" style="font-size:0.75rem; padding:4px 10px; background:#EFF6FF; border-color:#93C5FD; color:#1D4ED8; font-weight:700;" onclick="addOneNightToStay('${card.id}', '${board.id}')" title="Agregar 1 noche más a la estadía">
                     ➕ Agregar Noche
                   </button>
-                  <button type="button" class="btn btn-outline" style="font-size:0.7rem; padding:3px 7px; background:#FFFFFF; color:#DC2626; border-color:#FECACA;" onclick="removeLastNightFromStay('${card.id}', '${board.id}')" title="Quitar última noche (si la obra finalizó antes)">
+                  <button type="button" class="btn btn-outline" style="font-size:0.75rem; padding:4px 10px; background:#FFFFFF; color:#DC2626; border-color:#FECACA; font-weight:700;" onclick="removeLastNightFromStay('${card.id}', '${board.id}')" title="Quitar última noche (si la obra finalizó antes)">
                     ➖ Acortar Noche
                   </button>
                 </div>
@@ -4513,7 +4569,7 @@ CREATE TABLE card_attachments (
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.8rem; color:${tr.isPaid ? '#15803D' : '#1E293B'};">
-                        ${Number(tr.amount).toLocaleString('es-AR')}
+                        $${Number(tr.amount).toLocaleString('es-AR')}
                       </span>
                       <span class="card-pay-badge ${tr.isPaid ? 'is-paid' : 'is-pending'}" style="font-size:0.65rem; padding:1px 6px;">
                         ${tr.isPaid ? '✓ Pagado' : 'Pendiente'}
@@ -4521,6 +4577,22 @@ CREATE TABLE card_attachments (
                     </div>
                   </div>
                 `).join('')}
+              </div>
+            </div>
+          `;
+        } else {
+          tranchesSectionHtml = `
+            <div style="margin-top:12px; padding-top:10px; border-top:1px solid #86EFAC;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:0.8rem; font-weight:800; color:#14532D;">
+                  🏨 ${isIndef ? 'Estadía Indefinida / Abierta' : 'Desglose Noche por Noche'}:
+                </span>
+                <button type="button" class="btn btn-outline" style="font-size:0.75rem; padding:4px 10px; background:#EFF6FF; border-color:#93C5FD; color:#1D4ED8; font-weight:700;" onclick="addOneNightToStay('${card.id}', '${board.id}')" title="Agregar primera noche">
+                  ➕ Agregar Noche
+                </button>
+              </div>
+              <div style="padding:10px; background:#F8FAFC; border:1px dashed #CBD5E1; border-radius:6px; font-size:0.78rem; color:var(--text-muted); text-align:center;">
+                No hay noches registradas aún. Haz clic en "➕ Agregar Noche" para comenzar.
               </div>
             </div>
           `;
@@ -4553,9 +4625,19 @@ CREATE TABLE card_attachments (
                   <label class="form-label" style="font-size:0.7rem;">Fecha Hasta</label>
                   <input type="date" id="edtStayHasta" class="form-input" value="${esc(t.fecha_hasta || '')}" ${isIndef ? 'disabled' : ''} style="padding:4px 8px; font-size:0.78rem;" />
                   <label style="font-size:0.7rem; color:#475569; font-weight:700; display:flex; align-items:center; gap:5px; margin-top:4px; cursor:pointer;">
-                    <input type="checkbox" id="edtStayIndef" ${isIndef ? 'checked' : ''} onchange="document.getElementById('edtStayHasta').disabled = this.checked; if(this.checked) document.getElementById('edtStayHasta').value='';" style="accent-color:var(--primary);" />
+                    <input type="checkbox" id="edtStayIndef" ${isIndef ? 'checked' : ''} onchange="document.getElementById('edtStayHasta').disabled = this.checked; if(this.checked) document.getElementById('edtStayHasta').value=''; const w = document.getElementById('wrapEditStayNights'); if(w) w.style.display = this.checked ? 'block' : 'none';" style="accent-color:var(--primary);" />
                     <span>Estadía Indefinida</span>
                   </label>
+                </div>
+              </div>
+              <div id="wrapEditStayNights" style="display:${isIndef ? 'block' : 'none'}; margin-top:8px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px; padding:6px 10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:0.74rem; font-weight:700; color:#1E40AF;">Cantidad de Noches (Indefinido):</span>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <button type="button" class="btn btn-outline" style="padding:1px 6px; font-size:0.75rem; font-weight:800; background:#FFF;" onclick="adjustEditStayNights(-1)">➖</button>
+                    <input type="number" id="edtStayNochesCount" value="${totalCount || 1}" min="1" max="99" style="width:48px; text-align:center; font-weight:800; font-size:0.8rem; padding:2px;" />
+                    <button type="button" class="btn btn-outline" style="padding:1px 6px; font-size:0.75rem; font-weight:800; background:#FFF;" onclick="adjustEditStayNights(1)">➕</button>
+                  </div>
                 </div>
               </div>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
@@ -4760,7 +4842,8 @@ CREATE TABLE card_attachments (
       }
 
       const prevTranches = card.transferData.paymentTranches || [];
-      const newTranches = generatePaymentTranches(fDesde, fHasta, monto, prevTranches, isIndef, prevTranches.length || 1);
+      const nightsCount = isIndef ? (parseInt(document.getElementById('edtStayNochesCount')?.value, 10) || prevTranches.length || 1) : (prevTranches.length || 1);
+      const newTranches = generatePaymentTranches(fDesde, fHasta, monto, prevTranches, isIndef, nightsCount);
       const totalSaldo = monto * newTranches.length;
 
       card.transferData.fecha_desde = fDesde;
@@ -4848,8 +4931,11 @@ CREATE TABLE card_attachments (
         renderDetailContent();
       }
       renderBoard(boardId);
-      showToast(`Se agregó la Noche ${newId} a la estadía.`);
-      syncCardToDb(card.id, boardId, { showToast: false });
+      showToast(`Se agregó la Noche ${newId} a la estadía. Saldo: $${Number(t.monto_ars).toLocaleString('es-AR')}`);
+      syncCardToDb(card.id, boardId, {
+        showToast: true,
+        toastMsg: `✓ Se agregó la Noche ${newId} a "${card.name}" ($${Number(t.monto_ars).toLocaleString('es-AR')} ARS) y se guardó en BD.`
+      });
     }
     window.addOneNightToStay = addOneNightToStay;
 
@@ -5274,6 +5360,16 @@ CREATE TABLE card_attachments (
                   <input type="checkbox" id="chkTransfIndefinido" style="accent-color:var(--primary);" />
                   <span>Estadía / Trabajo Indefinido (fecha fin abierta)</span>
                 </label>
+                <div id="wrapIndefNights" style="display:none; margin-top:8px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px; padding:6px 10px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.74rem; font-weight:700; color:#1E40AF;">Noches iniciales a cargar (Indefinido):</span>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <button type="button" class="btn btn-outline" style="padding:1px 6px; font-size:0.75rem; font-weight:800; background:#FFF;" onclick="adjustNewCardIndefNights(-1)">➖</button>
+                      <input type="number" id="inpIndefNightsCount" value="1" min="1" max="99" style="width:48px; text-align:center; font-weight:800; font-size:0.8rem; padding:2px;" onchange="calculateReservationDays(); updatePaymentTranchesPreview();" />
+                      <button type="button" class="btn btn-outline" style="padding:1px 6px; font-size:0.75rem; font-weight:800; background:#FFF;" onclick="adjustNewCardIndefNights(1)">➕</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div id="lblDiasCalculados" style="font-size:0.75rem; color:#15803D; font-weight:700; display:none;">
@@ -5349,6 +5445,8 @@ CREATE TABLE card_attachments (
             fldHasta.disabled = chkIndef.checked;
             if (chkIndef.checked) fldHasta.value = '';
           }
+          const wrapIndef = document.getElementById('wrapIndefNights');
+          if (wrapIndef) wrapIndef.style.display = chkIndef.checked ? 'block' : 'none';
           calculateReservationDays();
           updatePaymentTranchesPreview();
           validateModalRules();
@@ -5836,10 +5934,13 @@ CREATE TABLE card_attachments (
 
       if (chkIndef && chkIndef.checked) {
         if (desdeVal.value) {
-          valSpan.innerText = 'Indefinido / Abierto (1 noche inicial)';
+          const indefNights = Math.max(1, parseInt(document.getElementById('inpIndefNightsCount')?.value, 10) || 1);
+          const rateVal = parseFloat(document.getElementById('fldTransfMonto')?.value) || 0;
+          const totalSaldo = indefNights * rateVal;
+          valSpan.innerText = indefNights + ' noche(s) (Indefinido / Abierto)' + (rateVal > 0 ? (' — Saldo Total: $' + Number(totalSaldo).toLocaleString('es-AR') + ' ($' + Number(rateVal).toLocaleString('es-AR') + '/noche)') : '');
           lbl.style.display = 'block';
           lbl.style.color = '#2563EB';
-          return 1;
+          return indefNights;
         } else {
           lbl.style.display = 'none';
           return 0;
@@ -5885,7 +5986,8 @@ CREATE TABLE card_attachments (
         return;
       }
 
-      const tranches = generatePaymentTranches(desdeVal, hastaVal, montoVal, [], isIndef, 1);
+      const diasCount = calculateReservationDays();
+      const tranches = generatePaymentTranches(desdeVal, hastaVal, montoVal, [], isIndef, diasCount > 0 ? diasCount : 1);
       if (!tranches || tranches.length === 0) {
         wrap.style.display = 'none';
         wrap.innerHTML = '';
