@@ -55,6 +55,7 @@ app.get('/health', (req, res) => {
 
 // Obtener todos los tableros con sus listas, tarjetas y etiquetas
 app.get('/api/boards', async (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   if (!db.isConnected) {
     const datasetPath = path.join(__dirname, 'celltrex_dataset.json');
     if (fs.existsSync(datasetPath)) {
@@ -103,6 +104,8 @@ app.get('/api/boards', async (req, res) => {
         name: c.title,
         desc: c.description,
         isPaid: c.is_paid,
+        createdAt: c.created_at ? (c.created_at.toISOString ? c.created_at.toISOString() : c.created_at) : null,
+        updatedAt: c.updated_at ? (c.updated_at.toISOString ? c.updated_at.toISOString() : c.updated_at) : null,
         labels: c.labels || [],
         sitios: c.sitios || [],
         attachments: (c.attachments || []).map(a => ({
@@ -505,6 +508,93 @@ app.post('/api/cards/:id/attachments', upload.single('file'), async (req, res) =
   } catch (err) {
     console.error('Error saving attachment:', err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+// ==========================================
+// API REST: SUGERENCIAS Y MEJORAS CONTINUAS
+// ==========================================
+app.get('/api/improvements', async (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  if (!db.isConnected) {
+    const fallbackPath = path.join(__dirname, 'improvements.json');
+    if (fs.existsSync(fallbackPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+        return res.json({ success: true, source: 'standalone', data });
+      } catch (e) {}
+    }
+    return res.json({ success: true, source: 'empty', data: [] });
+  }
+
+  try {
+    const r = await db.query('SELECT * FROM improvements ORDER BY created_at DESC');
+    res.json({ success: true, source: 'postgresql', data: r.rows });
+  } catch (err) {
+    console.error('Error fetching improvements:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/improvements', async (req, res) => {
+  const { title, description, author_name, author_email } = req.body;
+  if (!title || !description) {
+    return res.status(400).json({ success: false, error: 'Título y detalle requeridos' });
+  }
+
+  if (!db.isConnected) {
+    const fallbackPath = path.join(__dirname, 'improvements.json');
+    let data = [];
+    if (fs.existsSync(fallbackPath)) {
+      try { data = JSON.parse(fs.readFileSync(fallbackPath, 'utf8')); } catch(e) {}
+    }
+    const item = {
+      id: 'imp_' + Date.now(),
+      title: title.trim(),
+      description: description.trim(),
+      author_name: (author_name || 'Operador').trim(),
+      author_email: (author_email || '').trim(),
+      status: 'propuesta',
+      created_at: new Date().toISOString()
+    };
+    data.unshift(item);
+    fs.writeFileSync(fallbackPath, JSON.stringify(data, null, 2), 'utf8');
+    return res.json({ success: true, source: 'standalone', data: item });
+  }
+
+  try {
+    const r = await db.query(
+      `INSERT INTO improvements (title, description, author_name, author_email, status)
+       VALUES ($1, $2, $3, $4, 'propuesta') RETURNING *`,
+      [title.trim(), description.trim(), (author_name || 'Operador').trim(), (author_email || '').trim()]
+    );
+    res.json({ success: true, source: 'postgresql', data: r.rows[0] });
+  } catch (err) {
+    console.error('Error creating improvement:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.delete('/api/improvements/:id', async (req, res) => {
+  const id = req.params.id;
+  if (!db.isConnected) {
+    const fallbackPath = path.join(__dirname, 'improvements.json');
+    if (fs.existsSync(fallbackPath)) {
+      try {
+        let data = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+        data = data.filter(i => i.id !== id);
+        fs.writeFileSync(fallbackPath, JSON.stringify(data, null, 2), 'utf8');
+      } catch(e) {}
+    }
+    return res.json({ success: true });
+  }
+
+  try {
+    await db.query('DELETE FROM improvements WHERE id = $1', [id]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting improvement:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

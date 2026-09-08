@@ -147,3 +147,21 @@ CREATE TRIGGER set_timestamp_cards
 BEFORE UPDATE ON cards
 FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
 
+-- 10. Sugerencias y Mejoras Continuas (Improvements)
+CREATE TABLE IF NOT EXISTS improvements (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    author_name VARCHAR(150) DEFAULT 'Operador',
+    author_email VARCHAR(150) DEFAULT '',
+    status VARCHAR(50) DEFAULT 'propuesta',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+DROP TRIGGER IF EXISTS set_timestamp_improvements ON improvements;
+CREATE TRIGGER set_timestamp_improvements
+BEFORE UPDATE ON improvements
+FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
+
+
