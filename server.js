@@ -49,6 +49,59 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Función auxiliar para persistir tarjetas en celltrex_dataset.json en modo standalone
+function updateStandaloneDataset(cardId, data, isNew = false, listId = null) {
+  try {
+    const datasetPath = path.join(__dirname, 'celltrex_dataset.json');
+    if (!fs.existsSync(datasetPath)) return;
+    const boards = JSON.parse(fs.readFileSync(datasetPath, 'utf8'));
+    let modified = false;
+
+    if (isNew && listId) {
+      for (const b of boards) {
+        if (b.lists && b.lists.some(l => l.id === listId)) {
+          if (!b.cards) b.cards = [];
+          b.cards.unshift(data);
+          modified = true;
+          break;
+        }
+      }
+    } else {
+      for (const b of boards) {
+        if (!b.cards) continue;
+        const idx = b.cards.findIndex(c => c.id === cardId);
+        if (idx !== -1) {
+          const prev = b.cards[idx];
+          b.cards[idx] = {
+            ...prev,
+            ...(data.title !== undefined ? { name: data.title } : {}),
+            ...(data.name !== undefined ? { name: data.name } : {}),
+            ...(data.desc !== undefined ? { desc: data.desc } : {}),
+            ...(data.isPaid !== undefined ? { isPaid: !!data.isPaid } : {}),
+            ...(data.listId !== undefined ? { idList: data.listId } : {}),
+            ...(data.labels !== undefined ? { labels: data.labels } : {}),
+            ...(data.sitios !== undefined ? { sitios: data.sitios } : {}),
+            ...(data.transferData !== undefined ? { transferData: data.transferData } : {}),
+            customFields: {
+              ...(prev.customFields || {}),
+              ...(data.customFields || {})
+            }
+          };
+          modified = true;
+          break;
+        }
+      }
+    }
+
+    if (modified) {
+      fs.writeFileSync(datasetPath, JSON.stringify(boards, null, 2), 'utf8');
+      console.log(`[Dataset] Actualizada tarjeta ${cardId} en celltrex_dataset.json`);
+    }
+  } catch (err) {
+    console.error('Error guardando en celltrex_dataset.json:', err);
+  }
+}
+
 // ==========================================
 // API REST: TABLEROS
 // ==========================================
@@ -212,7 +265,23 @@ app.put('/api/boards/:id/config', async (req, res) => {
 
 // Crear tarjeta
 app.post('/api/cards', async (req, res) => {
-  if (!db.isConnected) return res.json({ success: true, cardId: 'c_' + Date.now() });
+  if (!db.isConnected) {
+    const cardId = 'c_' + Date.now();
+    const { listId, title, desc, isPaid, transferData, customFields, labels, sitios } = req.body;
+    updateStandaloneDataset(cardId, {
+      id: cardId,
+      name: title,
+      desc: desc || '',
+      idList: listId,
+      isPaid: !!isPaid,
+      labels: labels || [],
+      sitios: sitios || [],
+      transferData: transferData || null,
+      customFields: customFields || {},
+      attachments: []
+    }, true, listId);
+    return res.json({ success: true, cardId });
+  }
 
   const { listId, title, desc, isPaid, transferData, customFields, labels, sitios } = req.body;
   if (!listId || !title) return res.status(400).json({ error: 'listId y title son obligatorios' });
@@ -297,7 +366,14 @@ app.post('/api/cards', async (req, res) => {
 
 // Actualizar tarjeta (mover columna, estado pago, notas, campos)
 app.put('/api/cards/:id', async (req, res) => {
-  if (!db.isConnected) return res.json({ success: true });
+  if (!db.isConnected) {
+    const { id } = req.params;
+    const { listId, position, isPaid, title, desc, paymentTranches, transferData, customFields, labels, sitios } = req.body;
+    updateStandaloneDataset(id, {
+      listId, position, isPaid, title, desc, paymentTranches, transferData, customFields, labels, sitios
+    }, false);
+    return res.json({ success: true });
+  }
 
   const { id } = req.params;
   const { listId, position, isPaid, title, desc, paymentTranches, transferData, customFields, labels, sitios } = req.body;
