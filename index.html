@@ -3563,24 +3563,69 @@ CREATE TABLE card_attachments (
         const acordado = t.monto_acordado || t.monto_ars || 0;
         const pct = t.porcentaje_anticipo || (t.paymentTranches && t.paymentTranches[0] ? t.paymentTranches[0].percentage : 30);
         const anticipoMonto = t.monto_anticipo || (t.paymentTranches && t.paymentTranches[0] ? t.paymentTranches[0].amount : Math.round(acordado * (pct / 100)));
-        const mainVal = anticipoMonto || acordado;
-        let sub = 'Anticipo de Obra';
-        if (anticipoMonto && acordado && anticipoMonto !== acordado) {
-          sub = `Anticipo ${pct}% · Total: $${Number(acordado).toLocaleString('es-AR')}`;
+        const saldoMonto = t.saldo_restante !== undefined ? t.saldo_restante : (acordado - anticipoMonto);
+        const tranches = t.paymentTranches || [];
+        const trAnticipo = tranches[0];
+        const trSaldo = tranches[1];
+
+        if (trAnticipo && trSaldo && trAnticipo.isPaid && !trSaldo.isPaid) {
+          // Anticipo ya abonado, saldo restante pendiente
+          return {
+            amount: saldoMonto,
+            sub: `⏳ Saldo pendiente (${100 - pct}% de $${Number(acordado).toLocaleString('es-AR')} total · Anticipo abonado)`,
+            total: acordado,
+            isAnticipo: true
+          };
+        } else if (trAnticipo && trSaldo && trAnticipo.isPaid && trSaldo.isPaid) {
+          // Obra 100% liquidada
+          return {
+            amount: acordado,
+            sub: `✓ Obra liquidada 100% (Total: $${Number(acordado).toLocaleString('es-AR')})`,
+            total: acordado,
+            isAnticipo: true
+          };
+        } else {
+          // Anticipo pendiente
+          let sub = 'Anticipo de Obra';
+          if (anticipoMonto && acordado && anticipoMonto !== acordado) {
+            sub = `Anticipo ${pct}% a pagar · Total: $${Number(acordado).toLocaleString('es-AR')}`;
+          }
+          return { amount: anticipoMonto || acordado, sub: sub, total: acordado, isAnticipo: true };
         }
-        return { amount: mainVal, sub: sub, total: acordado, isAnticipo: true };
       }
 
       // 2. TransferData con monto_ars (Viáticos, Hoteles, etc.)
       if (t.monto_ars !== undefined && t.monto_ars !== null && t.monto_ars !== '') {
         const val = parseAmountValue(t.monto_ars);
         if (val !== null && val > 0) {
-          const ratePerN = t.monto_noche || (t.paymentTranches && t.paymentTranches.length ? Math.round(t.monto_ars / t.paymentTranches.length) : null);
-          const count = t.paymentTranches ? t.paymentTranches.length : (t.dias_reservados || 1);
-          const unit = isViaticos ? (count > 1 ? 'días' : 'día') : (count > 1 ? 'noches' : 'noche');
+          const tranches = t.paymentTranches || [];
+          const ratePerN = t.monto_noche || (tranches.length ? Math.round(t.monto_ars / tranches.length) : null);
+          const count = tranches.length > 0 ? tranches.length : (t.dias_reservados || 1);
+          const unitSing = isViaticos ? 'día' : 'noche';
+          const unitPlur = isViaticos ? 'días' : 'noches';
+          const unitWord = count > 1 ? unitPlur : unitSing;
+
           let sub = isViaticos ? 'Total Viáticos' : (isHoteles ? 'Total Estadía' : 'Monto');
-          if (ratePerN && count > 1) {
-            sub = `$${Number(ratePerN).toLocaleString('es-AR')}/${isViaticos ? 'día' : 'noche'} (${count} ${unit})`;
+
+          if (tranches.length > 0) {
+            const paidTranches = tranches.filter(x => x.isPaid);
+            const paidCount = paidTranches.length;
+            const totalCount = tranches.length;
+
+            if (paidCount > 0 && paidCount < totalCount) {
+              const paidAmount = paidTranches.reduce((sum, tr) => sum + (Number(tr.amount) || ratePerN || 0), 0);
+              const pendingAmount = Math.max(0, val - paidAmount);
+              const pendingCount = totalCount - paidCount;
+              sub = `⏳ Parcial: $${paidAmount.toLocaleString('es-AR')} pagado · Saldo: $${pendingAmount.toLocaleString('es-AR')} (${pendingCount} ${pendingCount > 1 ? unitPlur : unitSing} pend.)`;
+            } else if (paidCount === totalCount) {
+              sub = `✓ ${isViaticos ? 'Realizado' : 'Liquidado'} 100% (${count} ${unitWord} de $${Number(ratePerN).toLocaleString('es-AR')})`;
+            } else {
+              if (ratePerN && count > 1) {
+                sub = `Total (${count} ${unitWord} a $${Number(ratePerN).toLocaleString('es-AR')}/${unitSing})`;
+              }
+            }
+          } else if (ratePerN && count > 1) {
+            sub = `$${Number(ratePerN).toLocaleString('es-AR')}/${unitSing} (${count} ${unitWord})`;
           }
           return { amount: val, sub: sub };
         }
