@@ -3630,6 +3630,64 @@
     "key": "viaticos",
     "name": "VIATICOS",
     "desc": "",
+    "formConfig": [
+      {
+        "id": "recursos",
+        "label": "Recursos / Técnico Solicitante",
+        "type": "recursos",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "sitios",
+        "label": "Sitios / Destino de Viaje",
+        "type": "sitios",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "fecha_ejecucion_pago",
+        "label": "Fecha de Ejecución de Pago",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "beneficiario",
+        "label": "Beneficiario",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "transferData",
+        "label": "Datos para Transferir y Viáticos Diarios (Titular, CUIT, CBU, Monto Diario, Días)",
+        "type": "transfer",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "motivo_tarea",
+        "label": "Descripción / Motivo de Viático",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "factura_num",
+        "label": "N° Factura / Comprobante",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      }
+    ],
     "lists": [
       {
         "id": "64bfd81547aceb02164bd207",
@@ -5385,6 +5443,64 @@
     "key": "anticipos",
     "name": "ANTICIPOS DE OBRA",
     "desc": "",
+    "formConfig": [
+      {
+        "id": "recursos",
+        "label": "Recursos / PM Solicitante",
+        "type": "recursos",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "sitios",
+        "label": "Sitios / Código de Obra",
+        "type": "sitios",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "fecha_ejecucion_pago",
+        "label": "Fecha de Ejecución de Pago",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "beneficiario",
+        "label": "Beneficiario / Contratista",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "transferData",
+        "label": "Datos para Transferir y Anticipo de Obra (Monto Acordado, % Anticipo, CBU/Alias)",
+        "type": "transfer",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "motivo_tarea",
+        "label": "Descripción / Tarea de Obra",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "factura_num",
+        "label": "N° Factura / Recibo / Comprobante",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      }
+    ],
     "lists": [
       {
         "id": "5ed56e05c5a313624c71cf6f",
@@ -9064,6 +9180,922 @@
         "id": "st_1788668471683_229",
         "name": "A33-O073 Mendoza Aeropuerto",
         "color": "red_dark"
+      }
+    ],
+    "formConfig": [
+      {
+        "id": "recursos",
+        "label": "Recursos / Huéspedes",
+        "type": "recursos",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "sitios",
+        "label": "Sitios / Localidad",
+        "type": "sitios",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "fecha_ejecucion_pago",
+        "label": "Fecha de Ejecución de Pago",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "fecha_reserva",
+        "label": "Fecha de Reserva",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "beneficiario",
+        "label": "Beneficiario",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "referencia",
+        "label": "Referencia",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "proyecto",
+        "label": "Proyecto",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "transferData",
+        "label": "Datos para Transferir (Titular, CUIT, CBU, Monto por Noche, Fechas A-B, Vencimiento)",
+        "type": "transfer",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "tipo_hospedaje",
+        "label": "Tipo de Hospedaje / Cochera / Depósito",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "factura_num",
+        "label": "N° Factura / Comprobante",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "5e2898ac0299704bb5c2d6a7",
+    "key": "transporte",
+    "name": "TRANSPORTE",
+    "emoji": "🚚",
+    "desc": "Gestión operativa y logística de transportes, fletes, despachos y grúas.",
+    "lists": [
+      {
+        "id": "lst_transporte_1",
+        "name": "SOLICITUD COMPRAS",
+        "pos": 16383.75
+      },
+      {
+        "id": "lst_transporte_2",
+        "name": "PRESUPUESTO DEMORADO (CLIENTE)",
+        "pos": 21055.6787109375
+      },
+      {
+        "id": "lst_transporte_3",
+        "name": "DESCONTAR A CONTRATISTAS",
+        "pos": 21119.677734375
+      },
+      {
+        "id": "lst_transporte_4",
+        "name": "PRESUPUESTO Ok",
+        "pos": 21183.6767578125
+      },
+      {
+        "id": "lst_transporte_5",
+        "name": "Control OK del PM",
+        "pos": 21247.67578125
+      },
+      {
+        "id": "lst_transporte_6",
+        "name": "OK ADMINISTRACION",
+        "pos": 21311.6748046875
+      },
+      {
+        "id": "lst_transporte_7",
+        "name": "FACTURADO",
+        "pos": 21375.673828125
+      },
+      {
+        "id": "lst_transporte_8",
+        "name": "CARGADO (Multisoft y Cash)",
+        "pos": 23551.640625
+      },
+      {
+        "id": "lst_transporte_9",
+        "name": "PAGADO (con pendientes)",
+        "pos": 24575.625
+      },
+      {
+        "id": "lst_transporte_10",
+        "name": "FINALIZADO",
+        "pos": 278527
+      },
+      {
+        "id": "lst_transporte_11",
+        "name": "PARA ASIGNAR",
+        "pos": 344063
+      },
+      {
+        "id": "lst_transporte_12",
+        "name": "ELIMINADO",
+        "pos": 360447
+      }
+    ],
+    "labels": [
+      {
+        "id": "63c19479109546010bcb0f3d",
+        "name": "RICHETTA Y CIA S.A",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63ea3341afeeea8484bb8eb9",
+        "name": "BULONERA ALFA",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63ef84474afc4dbb87dd1adf",
+        "name": "SITIOS",
+        "color": "pink_dark"
+      },
+      {
+        "id": "6389891036ce2e0111d796a1",
+        "name": "PINTURERIA REX S.A",
+        "color": "yellow"
+      },
+      {
+        "id": "637255c1c37b8e00bbe2ee63",
+        "name": "LUCIANO MARTINEZ",
+        "color": "sky_dark"
+      },
+      {
+        "id": "663cddc56bea5dc9ac4555d5",
+        "name": "ASIGNACION HERRAMIENTAS",
+        "color": "blue"
+      },
+      {
+        "id": "63b5a422cbff56001d9727f8",
+        "name": "GUADALUPE ISOLA",
+        "color": "yellow_light"
+      },
+      {
+        "id": "63d7be8e280c33f3905e8c58",
+        "name": "GUERRERO ARGENIS",
+        "color": "green"
+      },
+      {
+        "id": "637cd3af694772008240b349",
+        "name": "TELECOM S.A.",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63739e60a2d62800dd578d44",
+        "name": "HIPERMAQ S.R.L.",
+        "color": "yellow"
+      },
+      {
+        "id": "6650be63dcae050ac84bfdb8",
+        "name": "Gonzalo Rámirez",
+        "color": "green_dark"
+      },
+      {
+        "id": "66423157d850ff0a6b753193",
+        "name": "Santiago Kremer",
+        "color": "green_dark"
+      },
+      {
+        "id": "63897a39ba7df70201f26fd3",
+        "name": "SETIN S.A.S",
+        "color": "blue_dark"
+      },
+      {
+        "id": "639cdd8e6fcb7e028725bf74",
+        "name": "PROTIND SRL",
+        "color": "yellow"
+      },
+      {
+        "id": "68efb0d298a62ac6b508ac54",
+        "name": "SUMBAY",
+        "color": "green_light"
+      },
+      {
+        "id": "637cd4a54d3632029458d02f",
+        "name": "ELECTRO ALEM S.A",
+        "color": "blue_dark"
+      },
+      {
+        "id": "66572bc7acc18c288b5917f9",
+        "name": "Nataniel Cáceres",
+        "color": "sky_dark"
+      },
+      {
+        "id": "6642314266103273467d57fd",
+        "name": "Oscar Bordón",
+        "color": "green_dark"
+      },
+      {
+        "id": "68516ec4673df320ae1e4608",
+        "name": "MASEFER",
+        "color": "yellow_light"
+      },
+      {
+        "id": "668fda6fabbaa41662e0d438",
+        "name": "Mario Cáceres",
+        "color": "sky_dark"
+      },
+      {
+        "id": "66572bd924ff162384a3cbd1",
+        "name": "Fernando Aguilar",
+        "color": "sky_dark"
+      },
+      {
+        "id": "636b9f505d4ed600df2c9162",
+        "name": "CECAM",
+        "color": "yellow"
+      },
+      {
+        "id": "66c5e4870ba4ace9bc1f357e",
+        "name": "Lucas Kremer",
+        "color": "green_dark"
+      },
+      {
+        "id": "66423127f61f6e62fc3a22c1",
+        "name": "Bueno María Andrea",
+        "color": "red"
+      },
+      {
+        "id": "64be7d03be2c746d7f444fd7",
+        "name": "Martinez Nancy Cristina",
+        "color": "green_dark"
+      },
+      {
+        "id": "6602e5e3c6e721f1b6a8eae0",
+        "name": "INVAP",
+        "color": "green"
+      },
+      {
+        "id": "647f8e92ef81f120e5addcb0",
+        "name": "RICARDO KREMER",
+        "color": "yellow"
+      },
+      {
+        "id": "679a29c4e3ff95c23a7e3bfc",
+        "name": "GUADA",
+        "color": "pink_dark"
+      },
+      {
+        "id": "63d808feb5145bbd2e716dbc",
+        "name": "REVILLA ROBERTO",
+        "color": "sky_dark"
+      },
+      {
+        "id": "66310248be2f69d200db444e",
+        "name": "Ernesto Maris",
+        "color": "red_dark"
+      },
+      {
+        "id": "639750c22bcc150023c16959",
+        "name": "ISOLA LUCRECIA",
+        "color": "yellow"
+      },
+      {
+        "id": "66e85360328933e3807cbbfc",
+        "name": "ROLDAN ARIEL",
+        "color": "yellow"
+      },
+      {
+        "id": "63cebcdf825bb702cb44f54b",
+        "name": "PERO JAIME AGUSTIN LUCIANO",
+        "color": "yellow"
+      },
+      {
+        "id": "67041cc7e6577bd6b49bed5f",
+        "name": "TELEFONICA HUAWEI",
+        "color": "blue_dark"
+      }
+    ],
+    "sitios": [
+      {
+        "id": "st_1788668471680_362",
+        "name": "DEPOSITO",
+        "color": "sky"
+      },
+      {
+        "id": "st_1788668471680_938",
+        "name": "Deposito Buenos Aires",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_212",
+        "name": "ADS ESTUDIOS MEDICOS",
+        "color": "orange"
+      },
+      {
+        "id": "st_1788668471680_507",
+        "name": "CLC CÓRDOBA",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_639",
+        "name": "Stock Deposito a asignar",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_42",
+        "name": "PISO 2 (DEPOSITO)",
+        "color": "sky_dark"
+      },
+      {
+        "id": "st_1788668471680_6",
+        "name": "SF01001 CENTRAL OFFICE",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_628",
+        "name": "CAC CÓRDOBA PEATONAL",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_504",
+        "name": "Oasis Cordillerano Village",
+        "color": "red_light"
+      },
+      {
+        "id": "st_1788668471680_463",
+        "name": "Life Apart Mendoza",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471680_750",
+        "name": "CAC GODOY CRUZ",
+        "color": "red"
+      },
+      {
+        "id": "st_1788668471680_582",
+        "name": "JC005 SAN JUAN TASA",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_846",
+        "name": "A09-S116 Bañado de los Pantanos",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_728",
+        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_667",
+        "name": "JC341",
+        "color": "red_dark"
+      }
+    ],
+    "cards": [],
+    "formConfig": [
+      {
+        "id": "recursos",
+        "label": "Recursos / Proveedor de Transporte",
+        "type": "recursos",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "sitios",
+        "label": "Sitios / Origen - Destino",
+        "type": "sitios",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "tipo_tarea",
+        "label": "Tipo de Tarea",
+        "type": "select",
+        "options": [
+          "Directa",
+          "Inversa",
+          "Despacho",
+          "Grúa"
+        ],
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "fecha_ejecucion_pago",
+        "label": "Fecha de Ejecución de Pago",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "beneficiario",
+        "label": "Beneficiario / Chofer",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "referencia",
+        "label": "Referencia",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "proyecto",
+        "label": "Proyecto",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "transferData",
+        "label": "Datos para Transferir (CBU/Alias)",
+        "type": "transfer",
+        "enabled": false,
+        "required": false
+      },
+      {
+        "id": "monto_cotizado",
+        "label": "Monto Cotizado / Estimado ($)",
+        "type": "number",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "aprobacion_pm",
+        "label": "Aprobación de PM (> .000)",
+        "type": "checkbox_pm",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "orden_compra",
+        "label": "N° Guía / Remito / Orden",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "fecha_necesidad",
+        "label": "Fecha Necesidad de Transporte",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "factura_num",
+        "label": "N° Factura (si está facturado)",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      }
+    ]
+  },
+  {
+    "id": "5e2898ac0299704bb5c2d6a9",
+    "key": "autos",
+    "name": "AUTOS",
+    "emoji": "🚙",
+    "desc": "Control y mantenimiento de flota de vehículos, combustible y talleres.",
+    "lists": [
+      {
+        "id": "lst_autos_1",
+        "name": "SOLICITUD COMPRAS",
+        "pos": 16383.75
+      },
+      {
+        "id": "lst_autos_2",
+        "name": "PRESUPUESTO DEMORADO (CLIENTE)",
+        "pos": 21055.6787109375
+      },
+      {
+        "id": "lst_autos_3",
+        "name": "DESCONTAR A CONTRATISTAS",
+        "pos": 21119.677734375
+      },
+      {
+        "id": "lst_autos_4",
+        "name": "PRESUPUESTO Ok",
+        "pos": 21183.6767578125
+      },
+      {
+        "id": "lst_autos_5",
+        "name": "Control OK del PM",
+        "pos": 21247.67578125
+      },
+      {
+        "id": "lst_autos_6",
+        "name": "OK ADMINISTRACION",
+        "pos": 21311.6748046875
+      },
+      {
+        "id": "lst_autos_7",
+        "name": "FACTURADO",
+        "pos": 21375.673828125
+      },
+      {
+        "id": "lst_autos_8",
+        "name": "CARGADO (Multisoft y Cash)",
+        "pos": 23551.640625
+      },
+      {
+        "id": "lst_autos_9",
+        "name": "PAGADO (con pendientes)",
+        "pos": 24575.625
+      },
+      {
+        "id": "lst_autos_10",
+        "name": "FINALIZADO",
+        "pos": 278527
+      },
+      {
+        "id": "lst_autos_11",
+        "name": "PARA ASIGNAR",
+        "pos": 344063
+      },
+      {
+        "id": "lst_autos_12",
+        "name": "ELIMINADO",
+        "pos": 360447
+      }
+    ],
+    "labels": [
+      {
+        "id": "63c19479109546010bcb0f3d",
+        "name": "RICHETTA Y CIA S.A",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63ea3341afeeea8484bb8eb9",
+        "name": "BULONERA ALFA",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63ef84474afc4dbb87dd1adf",
+        "name": "SITIOS",
+        "color": "pink_dark"
+      },
+      {
+        "id": "6389891036ce2e0111d796a1",
+        "name": "PINTURERIA REX S.A",
+        "color": "yellow"
+      },
+      {
+        "id": "637255c1c37b8e00bbe2ee63",
+        "name": "LUCIANO MARTINEZ",
+        "color": "sky_dark"
+      },
+      {
+        "id": "663cddc56bea5dc9ac4555d5",
+        "name": "ASIGNACION HERRAMIENTAS",
+        "color": "blue"
+      },
+      {
+        "id": "63b5a422cbff56001d9727f8",
+        "name": "GUADALUPE ISOLA",
+        "color": "yellow_light"
+      },
+      {
+        "id": "63d7be8e280c33f3905e8c58",
+        "name": "GUERRERO ARGENIS",
+        "color": "green"
+      },
+      {
+        "id": "637cd3af694772008240b349",
+        "name": "TELECOM S.A.",
+        "color": "blue_dark"
+      },
+      {
+        "id": "63739e60a2d62800dd578d44",
+        "name": "HIPERMAQ S.R.L.",
+        "color": "yellow"
+      },
+      {
+        "id": "6650be63dcae050ac84bfdb8",
+        "name": "Gonzalo Rámirez",
+        "color": "green_dark"
+      },
+      {
+        "id": "66423157d850ff0a6b753193",
+        "name": "Santiago Kremer",
+        "color": "green_dark"
+      },
+      {
+        "id": "63897a39ba7df70201f26fd3",
+        "name": "SETIN S.A.S",
+        "color": "blue_dark"
+      },
+      {
+        "id": "639cdd8e6fcb7e028725bf74",
+        "name": "PROTIND SRL",
+        "color": "yellow"
+      },
+      {
+        "id": "68efb0d298a62ac6b508ac54",
+        "name": "SUMBAY",
+        "color": "green_light"
+      },
+      {
+        "id": "637cd4a54d3632029458d02f",
+        "name": "ELECTRO ALEM S.A",
+        "color": "blue_dark"
+      },
+      {
+        "id": "66572bc7acc18c288b5917f9",
+        "name": "Nataniel Cáceres",
+        "color": "sky_dark"
+      },
+      {
+        "id": "6642314266103273467d57fd",
+        "name": "Oscar Bordón",
+        "color": "green_dark"
+      },
+      {
+        "id": "68516ec4673df320ae1e4608",
+        "name": "MASEFER",
+        "color": "yellow_light"
+      },
+      {
+        "id": "668fda6fabbaa41662e0d438",
+        "name": "Mario Cáceres",
+        "color": "sky_dark"
+      },
+      {
+        "id": "66572bd924ff162384a3cbd1",
+        "name": "Fernando Aguilar",
+        "color": "sky_dark"
+      },
+      {
+        "id": "636b9f505d4ed600df2c9162",
+        "name": "CECAM",
+        "color": "yellow"
+      },
+      {
+        "id": "66c5e4870ba4ace9bc1f357e",
+        "name": "Lucas Kremer",
+        "color": "green_dark"
+      },
+      {
+        "id": "66423127f61f6e62fc3a22c1",
+        "name": "Bueno María Andrea",
+        "color": "red"
+      },
+      {
+        "id": "64be7d03be2c746d7f444fd7",
+        "name": "Martinez Nancy Cristina",
+        "color": "green_dark"
+      },
+      {
+        "id": "6602e5e3c6e721f1b6a8eae0",
+        "name": "INVAP",
+        "color": "green"
+      },
+      {
+        "id": "647f8e92ef81f120e5addcb0",
+        "name": "RICARDO KREMER",
+        "color": "yellow"
+      },
+      {
+        "id": "679a29c4e3ff95c23a7e3bfc",
+        "name": "GUADA",
+        "color": "pink_dark"
+      },
+      {
+        "id": "63d808feb5145bbd2e716dbc",
+        "name": "REVILLA ROBERTO",
+        "color": "sky_dark"
+      },
+      {
+        "id": "66310248be2f69d200db444e",
+        "name": "Ernesto Maris",
+        "color": "red_dark"
+      },
+      {
+        "id": "639750c22bcc150023c16959",
+        "name": "ISOLA LUCRECIA",
+        "color": "yellow"
+      },
+      {
+        "id": "66e85360328933e3807cbbfc",
+        "name": "ROLDAN ARIEL",
+        "color": "yellow"
+      },
+      {
+        "id": "63cebcdf825bb702cb44f54b",
+        "name": "PERO JAIME AGUSTIN LUCIANO",
+        "color": "yellow"
+      },
+      {
+        "id": "67041cc7e6577bd6b49bed5f",
+        "name": "TELEFONICA HUAWEI",
+        "color": "blue_dark"
+      }
+    ],
+    "sitios": [
+      {
+        "id": "st_1788668471680_362",
+        "name": "DEPOSITO",
+        "color": "sky"
+      },
+      {
+        "id": "st_1788668471680_938",
+        "name": "Deposito Buenos Aires",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_212",
+        "name": "ADS ESTUDIOS MEDICOS",
+        "color": "orange"
+      },
+      {
+        "id": "st_1788668471680_507",
+        "name": "CLC CÓRDOBA",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_639",
+        "name": "Stock Deposito a asignar",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_42",
+        "name": "PISO 2 (DEPOSITO)",
+        "color": "sky_dark"
+      },
+      {
+        "id": "st_1788668471680_6",
+        "name": "SF01001 CENTRAL OFFICE",
+        "color": "purple_dark"
+      },
+      {
+        "id": "st_1788668471680_628",
+        "name": "CAC CÓRDOBA PEATONAL",
+        "color": "blue_dark"
+      },
+      {
+        "id": "st_1788668471680_504",
+        "name": "Oasis Cordillerano Village",
+        "color": "red_light"
+      },
+      {
+        "id": "st_1788668471680_463",
+        "name": "Life Apart Mendoza",
+        "color": "yellow"
+      },
+      {
+        "id": "st_1788668471680_750",
+        "name": "CAC GODOY CRUZ",
+        "color": "red"
+      },
+      {
+        "id": "st_1788668471680_582",
+        "name": "JC005 SAN JUAN TASA",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_846",
+        "name": "A09-S116 Bañado de los Pantanos",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_728",
+        "name": "A33-O737 Mendoza Garage Sardi Mudanza",
+        "color": "red_dark"
+      },
+      {
+        "id": "st_1788668471680_667",
+        "name": "JC341",
+        "color": "red_dark"
+      }
+    ],
+    "cards": [],
+    "formConfig": [
+      {
+        "id": "recursos",
+        "label": "Recursos / Responsable",
+        "type": "recursos",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "sitios",
+        "label": "Sitios / Destino",
+        "type": "sitios",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "fecha_ejecucion_pago",
+        "label": "Fecha de Ejecución de Pago",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "beneficiario",
+        "label": "Beneficiario",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "referencia",
+        "label": "Referencia / Vehículo (Patente)",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "proyecto",
+        "label": "Proyecto",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "transferData",
+        "label": "Datos para Transferir (CBU/Alias)",
+        "type": "transfer",
+        "enabled": false,
+        "required": false
+      },
+      {
+        "id": "monto_cotizado",
+        "label": "Monto Cotizado / Estimado ($)",
+        "type": "number",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "aprobacion_pm",
+        "label": "Aprobación de PM (> .000)",
+        "type": "checkbox_pm",
+        "enabled": true,
+        "required": true
+      },
+      {
+        "id": "orden_compra",
+        "label": "N° Orden de Compra / Taller",
+        "type": "text",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "fecha_necesidad",
+        "label": "Fecha Necesidad de Servicio",
+        "type": "date",
+        "enabled": true,
+        "required": false
+      },
+      {
+        "id": "factura_num",
+        "label": "N° Factura (si está facturado)",
+        "type": "text",
+        "enabled": true,
+        "required": false
       }
     ]
   }
