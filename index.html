@@ -861,6 +861,59 @@
       border-bottom: 1px solid #E2E8F0;
     }
 
+    /* Monto en Grande como primer dato de la tarjeta */
+    .card-amount-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+
+    .card-amount-box {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .card-amount-primary {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      word-break: break-word;
+    }
+
+    .card-amount-primary .card-currency-sym {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0E4D5D;
+      margin-right: 1px;
+      user-select: none;
+    }
+
+    .card-amount-primary .card-amount-val {
+      color: #0F172A;
+    }
+
+    .card-amount-sub {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #64748B;
+      margin-top: 2px;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .card-top-row {
       display: flex;
       align-items: flex-start;
@@ -3423,6 +3476,161 @@ CREATE TABLE card_attachments (
       return dateStr;
     }
 
+    function parseAmountValue(val) {
+      if (val === null || val === undefined || val === '') return null;
+      if (typeof val === 'number') return isNaN(val) ? null : val;
+      const s = String(val).trim().replace(/^\$\s*/, '').trim();
+      if (!s) return null;
+      // Formato con punto como separador de miles: 1.037.400 o 25.000 o 290.037
+      if (/^\d{1,3}(\.\d{3})+$/.test(s)) {
+        const num = parseFloat(s.replace(/\./g, ''));
+        return isNaN(num) ? null : num;
+      }
+      // Formato con punto miles y coma decimal: 1.037.400,50
+      if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) {
+        const num = parseFloat(s.replace(/\./g, '').replace(',', '.'));
+        return isNaN(num) ? null : num;
+      }
+      // Formato 25.000 o 180.000 (típico argentino)
+      if (/^\d+\.\d{3}$/.test(s)) {
+        return parseFloat(s.replace('.', ''));
+      }
+      const clean = s.replace(/[^0-9.,]/g, '');
+      if (!clean) return null;
+      const n = parseFloat(clean.replace(',', '.'));
+      return isNaN(n) ? null : n;
+    }
+
+    function extractMontoFromDesc(desc) {
+      if (!desc) return null;
+      // 1. TOTAL / ABONAR: ej. 'ABONAR 3 NOCHES: $180.000' o 'TOTALES: $140.000' o 'El valor a abonar es de $199.500'
+      let m = desc.match(/(?:totales?|total|finales?|valor a abonar es de|abonar[^\n:]{0,25}[:])\s*\$?\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,})/i);
+      if (m) {
+        const v = parseAmountValue(m[1]);
+        if (v && v >= 100) return { val: v, sub: 'Total a abonar' };
+      }
+      // 2. ANTICIPO DE OBRA / ADELANTO: ej. 'ANTICIPO DE OBRA (50%): $ 300.000'
+      m = desc.match(/(?:anticipo|adelanto)[^\$\n]{0,25}\$\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,})/i);
+      if (m) {
+        const v = parseAmountValue(m[1]);
+        if (v && v >= 100) return { val: v, sub: 'Anticipo' };
+      }
+      // 3. Línea con fecha y monto: ej. '2/9 - $100.000' o '31/8 - $25.000'
+      m = desc.match(/\b\d{1,2}\/\d{1,2}\s*[-–:]\s*\$?\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,})/i);
+      if (m) {
+        const v = parseAmountValue(m[1]);
+        if (v && v >= 100) return { val: v, sub: 'Monto' };
+      }
+      // 4. Tarifa unitaria por noche / día: '$75.000 por noche' o '$60.000/noche' o '$25.000 c/u'
+      m = desc.match(/\$\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,})\s*(?:por noche|\/noche|cada noche|c\/u|cada d[ií]a)/i);
+      if (m) {
+        const v = parseAmountValue(m[1]);
+        if (v && v >= 100) return { val: v, sub: 'Tarifa unitaria' };
+      }
+      // 5. Patrón general de pesos: '$120.000' o '$ 80.000'
+      m = desc.match(/\$\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{5,})/);
+      if (m) {
+        const v = parseAmountValue(m[1]);
+        if (v && v >= 100) return { val: v, sub: 'Monto' };
+      }
+      return null;
+    }
+
+    function getCardMontoInfo(card, board) {
+      if (!card) return null;
+      const bKey = board ? board.key : '';
+      const isViaticos = (bKey === 'viaticos');
+      const isAnticipos = (bKey === 'anticipos');
+      const isHoteles = (bKey === 'hoteles');
+      const isTransporte = (bKey === 'transporte');
+      const isAutos = (bKey === 'autos');
+
+      const t = card.transferData || {};
+      const cf = card.customFields || {};
+
+      // Propiedades directas de tarjeta si existen
+      if (card.monto_ars !== undefined && card.monto_ars !== null && card.monto_ars !== '') {
+        const val = parseAmountValue(card.monto_ars);
+        if (val !== null && val > 0) return { amount: val, sub: 'Monto' };
+      }
+      if (card.monto_cotizado !== undefined && card.monto_cotizado !== null && card.monto_cotizado !== '') {
+        const val = parseAmountValue(card.monto_cotizado);
+        if (val !== null && val > 0) return { amount: val, sub: isTransporte ? 'Flete / Transporte' : (isAutos ? 'Taller / Flota' : 'Cotizado') };
+      }
+
+      // 1. Anticipos de Obra con transferData
+      if (isAnticipos && (t.monto_acordado || t.monto_ars || t.monto_anticipo)) {
+        const acordado = t.monto_acordado || t.monto_ars || 0;
+        const pct = t.porcentaje_anticipo || (t.paymentTranches && t.paymentTranches[0] ? t.paymentTranches[0].percentage : 30);
+        const anticipoMonto = t.monto_anticipo || (t.paymentTranches && t.paymentTranches[0] ? t.paymentTranches[0].amount : Math.round(acordado * (pct / 100)));
+        const mainVal = anticipoMonto || acordado;
+        let sub = 'Anticipo de Obra';
+        if (anticipoMonto && acordado && anticipoMonto !== acordado) {
+          sub = `Anticipo ${pct}% · Total: $${Number(acordado).toLocaleString('es-AR')}`;
+        }
+        return { amount: mainVal, sub: sub, total: acordado, isAnticipo: true };
+      }
+
+      // 2. TransferData con monto_ars (Viáticos, Hoteles, etc.)
+      if (t.monto_ars !== undefined && t.monto_ars !== null && t.monto_ars !== '') {
+        const val = parseAmountValue(t.monto_ars);
+        if (val !== null && val > 0) {
+          const ratePerN = t.monto_noche || (t.paymentTranches && t.paymentTranches.length ? Math.round(t.monto_ars / t.paymentTranches.length) : null);
+          const count = t.paymentTranches ? t.paymentTranches.length : (t.dias_reservados || 1);
+          const unit = isViaticos ? (count > 1 ? 'días' : 'día') : (count > 1 ? 'noches' : 'noche');
+          let sub = isViaticos ? 'Total Viáticos' : (isHoteles ? 'Total Estadía' : 'Monto');
+          if (ratePerN && count > 1) {
+            sub = `$${Number(ratePerN).toLocaleString('es-AR')}/${isViaticos ? 'día' : 'noche'} (${count} ${unit})`;
+          }
+          return { amount: val, sub: sub };
+        }
+      }
+
+      // 3. Campos personalizados priorizados
+      const cfPriorities = [
+        { k: 'MONTO Final a PAGAR', sub: 'Final a Pagar' },
+        { k: 'MONTO ADELANTO DE OBRA $', sub: 'Adelanto de Obra' },
+        { k: 'Monto Anticipo', sub: 'Anticipo a Pagar' },
+        { k: 'monto_anticipo', sub: 'Anticipo a Pagar' },
+        { k: 'MONTO Solicitado', sub: isViaticos ? 'Viático Solicitado' : 'Monto Solicitado' },
+        { k: 'MONTO COTIZADO', sub: isTransporte ? 'Cotizado Flete' : (isAutos ? 'Cotizado Taller' : 'Cotizado') },
+        { k: 'monto_cotizado', sub: isTransporte ? 'Cotizado Flete' : (isAutos ? 'Cotizado Taller' : 'Cotizado') },
+        { k: 'monto_acordado', sub: 'Monto Acordado' },
+        { k: 'Monto Acordado Total', sub: 'Monto Acordado Total' },
+        { k: 'Monto Total', sub: 'Monto Total' },
+        { k: 'Monto', sub: 'Monto' },
+        { k: 'MONTO MÁX. A COTIZAR', sub: 'Máx. a Cotizar' }
+      ];
+
+      for (const item of cfPriorities) {
+        if (cf[item.k] !== undefined && cf[item.k] !== null && cf[item.k] !== '') {
+          const val = parseAmountValue(cf[item.k]);
+          if (val !== null && val > 0) {
+            return { amount: val, sub: item.sub };
+          }
+        }
+      }
+
+      // Otros campos personalizados coincidentes con monto / cotizado
+      for (const [k, v] of Object.entries(cf)) {
+        if (/monto|cotiz|precio|importe/i.test(k) && v !== undefined && v !== null && v !== '') {
+          const val = parseAmountValue(v);
+          if (val !== null && val > 0) {
+            return { amount: val, sub: 'Monto' };
+          }
+        }
+      }
+
+      // 4. Extracción inteligente desde descripción
+      const fromDesc = extractMontoFromDesc(card.desc);
+      if (fromDesc) {
+        return { amount: fromDesc.val, sub: fromDesc.sub };
+      }
+
+      return null;
+    }
+
+
     function generatePaymentTranches(fechaDesde, fechaHasta, montoPorNoche, existingTranches = [], isIndefinite = false, nightsCount = 0, unitLabel = null) {
       if (!fechaDesde) return [];
       const dStart = new Date(fechaDesde + 'T00:00:00');
@@ -4423,7 +4631,13 @@ CREATE TABLE card_attachments (
               (c.customFields['Tipo de Tarea'] && c.customFields['Tipo de Tarea'].toLowerCase().includes(q))
             )) ||
             (c.fecha_ejecucion_pago && c.fecha_ejecucion_pago.includes(q)) ||
-            (c.fecha_reserva && c.fecha_reserva.includes(q))
+            (c.fecha_reserva && c.fecha_reserva.includes(q)) ||
+            (() => {
+              const m = getCardMontoInfo(c, board);
+              if (!m) return false;
+              const cleanQ = q.replace(/[\$\.\,\s]/g, '');
+              return (cleanQ && String(m.amount).includes(cleanQ)) || (m.sub && m.sub.toLowerCase().includes(q));
+            })()
           );
         }
 
@@ -4493,6 +4707,9 @@ CREATE TABLE card_attachments (
       const unitPer = isViaticos ? '/día' : '/noche';
       const unitTitle = isViaticos ? 'Viático por día' : 'Monto por noche';
 
+      // Detección del monto principal para exhibición destacada en cabecera
+      const montoInfo = getCardMontoInfo(card, board);
+
       let tagsHtml = '';
 
       if (isAnticipos && card.transferData && (card.transferData.monto_acordado || card.transferData.monto_ars)) {
@@ -4502,7 +4719,7 @@ CREATE TABLE card_attachments (
         const anticipoMonto = t.monto_anticipo || (t.paymentTranches && t.paymentTranches[0] ? t.paymentTranches[0].amount : Math.round(acordado * (pct / 100)));
         const saldoMonto = t.saldo_restante !== undefined ? t.saldo_restante : (acordado - anticipoMonto);
 
-        tagsHtml += `<span class="tag-meta money" style="background:#FFFBEB; color:#B45309; border:1px solid #FCD34D;" title="Anticipo acordado a pagar (${pct}%)">🏗️ Anticipo ${pct}%: $${Number(anticipoMonto).toLocaleString('es-AR')}</span>`;
+        // El anticipo ya se muestra arriba en grande; mantenemos saldo restante y total
         tagsHtml += `<span class="tag-meta" style="background:#F8FAFC; color:#475569; border:1px solid #CBD5E1;" title="Saldo restante tras abonar anticipo">⚖️ Saldo: $${Number(saldoMonto).toLocaleString('es-AR')}</span>`;
         tagsHtml += `<span class="tag-meta" style="background:#F1F5F9; color:#1E293B; border:1px solid #E2E8F0;" title="Monto total contratado">💼 Total: $${Number(acordado).toLocaleString('es-AR')}</span>`;
 
@@ -4513,8 +4730,6 @@ CREATE TABLE card_attachments (
           tagsHtml += `<span class="tag-meta due">⏳ Vence: ${esc(t.vencimiento)}</span>`;
         }
       } else if (card.transferData && card.transferData.monto_ars) {
-        const ratePerN = card.transferData.monto_noche || (card.transferData.paymentTranches?.length ? Math.round(card.transferData.monto_ars / card.transferData.paymentTranches.length) : card.transferData.monto_ars);
-        tagsHtml += `<span class="tag-meta money" title="${unitTitle}: $${Number(ratePerN).toLocaleString('es-AR')}${unitPer}">💵 ${isViaticos ? 'Viáticos' : 'Monto'}: $${esc(Number(card.transferData.monto_ars).toLocaleString('es-AR'))} ($${esc(Number(ratePerN).toLocaleString('es-AR'))}${unitPer})</span>`;
         if (card.transferData.is_indefinite || !card.transferData.fecha_hasta) {
           tagsHtml += `<span class="tag-meta date-range">📅 Desde: ${esc(card.transferData.fecha_desde || '')} (${isViaticos ? 'Abierto' : 'Indefinido'})</span>`;
         } else if (card.transferData.fecha_desde && card.transferData.fecha_hasta) {
@@ -4526,15 +4741,6 @@ CREATE TABLE card_attachments (
         }
         if (card.transferData.vencimiento) {
           tagsHtml += `<span class="tag-meta due">⏳ Vence: ${esc(card.transferData.vencimiento)}</span>`;
-        }
-      } else if (card.customFields) {
-        const monto = card.customFields['MONTO Solicitado'] || 
-                      card.customFields['MONTO Final a PAGAR'] || 
-                      card.customFields['MONTO COTIZADO'] || 
-                      card.customFields['MONTO ADELANTO DE OBRA $'] ||
-                      card.customFields['monto_cotizado'];
-        if (monto) {
-          tagsHtml += `<span class="tag-meta money">$${esc(String(monto))}</span>`;
         }
       }
 
@@ -4705,10 +4911,14 @@ CREATE TABLE card_attachments (
         isCardChecked = isPaid;
       }
 
-      el.innerHTML = `
-        ${coverImgHtml}
-        <div class="card-top-row">
-          <div class="card-labels-wrap">${labelsHtml}${sitiosHtml}</div>
+      const amountHeaderHtml = montoInfo ? `
+        <div class="card-amount-header">
+          <div class="card-amount-box">
+            <div class="card-amount-primary" title="${esc(montoInfo.sub || 'Monto')}">
+              <span class="card-currency-sym">$</span><span class="card-amount-val">${typeof montoInfo.amount === 'number' ? montoInfo.amount.toLocaleString('es-AR') : esc(String(montoInfo.amount))}</span>
+            </div>
+            ${montoInfo.sub ? `<div class="card-amount-sub" title="${esc(montoInfo.sub)}">${esc(montoInfo.sub)}</div>` : ''}
+          </div>
           <label class="card-pay-badge ${payBadgeClass}" 
                  title="${payBadgeTitle}"
                  onclick="event.stopPropagation();">
@@ -4716,6 +4926,24 @@ CREATE TABLE card_attachments (
             <span class="card-pay-text">${payBadgeText}</span>
           </label>
         </div>
+      ` : '';
+
+      el.innerHTML = `
+        ${coverImgHtml}
+        ${amountHeaderHtml ? amountHeaderHtml : `
+          <div class="card-top-row">
+            <div class="card-labels-wrap">${sitiosHtml}${labelsHtml}</div>
+            <label class="card-pay-badge ${payBadgeClass}" 
+                   title="${payBadgeTitle}"
+                   onclick="event.stopPropagation();">
+              <input type="checkbox" class="card-pay-check" ${isCardChecked ? 'checked' : ''} onchange="toggleCardPayment('${card.id}', '${board.id}', this.checked)" />
+              <span class="card-pay-text">${payBadgeText}</span>
+            </label>
+          </div>
+        `}
+        ${amountHeaderHtml && (sitiosHtml || labelsHtml) ? `
+          <div class="card-labels-wrap" style="margin-top:2px;">${sitiosHtml}${labelsHtml}</div>
+        ` : ''}
         <div class="card-name">${esc(card.name)}</div>
         ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
         ${tranchesProgressHtml}
@@ -6674,6 +6902,8 @@ CREATE TABLE card_attachments (
         detailPayChecked = isPaid;
       }
 
+      const detailMontoInfo = getCardMontoInfo(card, board);
+
       document.getElementById('bodyCardDetail').innerHTML = `
         <div style="display:flex; flex-direction:column; gap:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; background:#F8FAFC; padding:8px 12px; border-radius:8px; border:1px solid #E2E8F0;">
@@ -6689,6 +6919,18 @@ CREATE TABLE card_attachments (
               </label>
             </div>
           </div>
+
+          ${detailMontoInfo ? `
+            <div style="background:linear-gradient(135deg, #F0FDFA 0%, #E6FFFA 100%); border:1px solid #99F6E4; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-size:0.7rem; color:#0F766E; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Monto Principal:</span>
+                <div style="font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:800; color:#0F172A; line-height:1.2;">
+                  <span style="color:#0E4D5D; font-size:1.1rem; margin-right:2px;">$</span>${typeof detailMontoInfo.amount === 'number' ? detailMontoInfo.amount.toLocaleString('es-AR') : esc(String(detailMontoInfo.amount))}
+                </div>
+              </div>
+              ${detailMontoInfo.sub ? `<span style="font-size:0.75rem; color:#0D9488; font-weight:700; background:#CCFBF1; padding:4px 10px; border-radius:999px; border:1px solid #99F6E4;">${esc(detailMontoInfo.sub)}</span>` : ''}
+            </div>
+          ` : ''}
 
           ${labelsHtml ? `<div><span style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; display:block; margin-bottom:4px;">Recursos:</span> ${labelsHtml}</div>` : ''}
           <!-- SECCIÓN SITIOS CON DESPLEGABLE INTERACTIVO -->
